@@ -449,7 +449,16 @@ img { max-width: 100%; display: block; }
 
 /* ---------- Lista (carrito) ---------- */
 .list-title { padding: 18px 20px 0; font-size: 1.8rem; clear: both; }
-.list-hint { padding: 4px 20px 10px; color: var(--muted); font-size: 0.85rem; }
+.list-hint {
+  margin: 8px 20px 14px;
+  padding: 10px 14px;
+  background: color-mix(in srgb, var(--gold) 15%, transparent);
+  border: 1px solid color-mix(in srgb, var(--gold) 35%, transparent);
+  border-radius: 10px;
+  color: var(--text);
+  font-weight: 600;
+  font-size: 0.88rem;
+}
 
 .list-items { padding: 0 20px; display: flex; flex-direction: column; gap: 10px; }
 
