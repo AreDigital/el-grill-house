@@ -1,107 +1,240 @@
 // ============================================
-// EL GRILL HOUSE — Render del menú
-// No necesitas tocar este archivo para cambiar
-// productos, precios o fotos: todo eso vive en
-// products.js
+// EL GRILL HOUSE — Menú de escaneo QR / toma de pedidos
+// No se envía nada por WhatsApp: el cliente arma una
+// lista en pantalla y se la muestra a quien le toma el pedido.
+// Para cambiar productos/fotos: editar js/products.js
 // ============================================
 
+const state = {
+  categoria: Object.keys(MENU)[0],
+  lista: [],
+  detalleActual: null,
+  detalleQty: 1,
+};
+
+// ---------- utilidades ----------
 function formatoPrecio(valor) {
   return "$" + valor.toLocaleString("es-CO");
 }
 
-function linkWhatsapp(nombre, precio) {
-  const mensaje = `Hola ${NEGOCIO.nombre}, quiero pedir: ${nombre} (${formatoPrecio(precio)})`;
-  return `https://wa.me/${NEGOCIO.whatsapp}?text=${encodeURIComponent(mensaje)}`;
+function corta(texto, n = 58) {
+  if (!texto) return "";
+  return texto.length > n ? texto.slice(0, n).trim() + "…" : texto;
 }
 
-function iconoWhatsapp() {
-  return `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.6-.8-1.9-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.5.1-.3-.1-1.1-.4-2.1-1.3-.8-.7-1.3-1.6-1.5-1.8-.2-.3 0-.4.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.2-.5.1-.2 0-.3 0-.5-.1-.1-.6-1.5-.8-2-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-1 1-1 2.4s1 2.8 1.1 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.6-.7 1.9-1.3.2-.6.2-1.1.1-1.3-.1-.1-.2-.2-.5-.3z"/><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2zm5.9 14.2c-.5 1.3-2.6 2.4-3.4 2.5-.9.1-1.7.3-3.6-.5-3-1.3-4.9-4.3-5-4.5-.2-.2-1.2-1.6-1.2-3s.8-2.2 1-2.5c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .6.5.3.6.9 2.1 1 2.3.1.2.2.4 0 .6-.1.2-.1.3-.3.5-.2.2-.3.4-.5.6-.2.2-.3.4-.1.7.1.3 1 1.6 2.1 2.6 1.4 1.3 2.6 1.7 2.9 1.9.3.2.5.1.6-.1.2-.2.8-.9 1-1.2.2-.3.4-.2.6-.1.2.1 1.6.7 1.9.9.3.1.5.2.5.3.1.2.1.6-.1 1.1z"/></svg>`;
+function guardarLista() {
+  try {
+    sessionStorage.setItem("grillhouse_lista", JSON.stringify(state.lista));
+  } catch (e) {}
 }
 
-function cardProducto(item) {
-  const imagen = item.img
-    ? `<img src="${item.img}" alt="${item.nombre}" loading="lazy">`
-    : `<div class="card-img placeholder">${item.nombre}<br><small>foto próximamente</small></div>`;
+function cargarLista() {
+  try {
+    const guardada = sessionStorage.getItem("grillhouse_lista");
+    if (guardada) state.lista = JSON.parse(guardada);
+  } catch (e) {}
+}
 
-  return `
-    <article class="card">
-      <div class="card-img">
-        ${item.nuevo ? '<span class="badge-new">Nuevo</span>' : ''}
-        ${imagen}
+// ---------- render: banner promo ----------
+function renderPromo() {
+  document.getElementById("promo-img").src = PRODUCTO_DEL_MES.img;
+  document.getElementById("promo-nombre").textContent = PRODUCTO_DEL_MES.nombre;
+  document.getElementById("promo-precio").textContent = formatoPrecio(PRODUCTO_DEL_MES.precio);
+}
+
+// ---------- render: chips de categoría ----------
+function renderChips() {
+  const cont = document.getElementById("chip-row");
+  cont.innerHTML = Object.entries(MENU).map(([clave, cat]) => `
+    <button class="chip ${clave === state.categoria ? "active" : ""}" data-cat="${clave}">
+      ${cat.titulo}
+    </button>
+  `).join("");
+
+  cont.querySelectorAll(".chip").forEach(btn => {
+    btn.addEventListener("click", () => {
+      state.categoria = btn.dataset.cat;
+      renderChips();
+      renderLista();
+    });
+  });
+}
+
+// ---------- render: filas de producto ----------
+function renderLista() {
+  const cont = document.getElementById("product-list");
+  const items = MENU[state.categoria].items;
+
+  cont.innerHTML = items.map((item, i) => `
+    <button class="row-item" data-idx="${i}">
+      <div class="row-img ${item.img ? "" : "placeholder"}">
+        ${item.nuevo ? '<span class="badge-new">Nuevo</span>' : ""}
+        ${item.img ? `<img src="${item.img}" alt="${item.nombre}">` : ""}
       </div>
-      <div class="card-body">
+      <div class="row-text">
         <h3>${item.nombre}</h3>
-        ${item.descripcion ? `<p>${item.descripcion}</p>` : '<p></p>'}
-        <div class="card-footer">
-          <span class="price">${formatoPrecio(item.precio)}</span>
-          <a class="btn-wsp small" href="${linkWhatsapp(item.nombre, item.precio)}" target="_blank" rel="noopener">
-            ${iconoWhatsapp()} Pedir
-          </a>
+        <p>${corta(item.descripcion)}</p>
+      </div>
+      <div class="row-price">${formatoPrecio(item.precio)}</div>
+    </button>
+  `).join("");
+
+  cont.querySelectorAll(".row-item").forEach(row => {
+    row.addEventListener("click", () => {
+      const item = items[row.dataset.idx];
+      abrirDetalle(item);
+    });
+  });
+}
+
+// ---------- sheet de detalle ----------
+function abrirDetalle(item) {
+  state.detalleActual = item;
+  state.detalleQty = 1;
+
+  document.getElementById("detail-img").src = item.img || "assets/logo.png";
+  document.getElementById("detail-nombre").textContent = item.nombre;
+  document.getElementById("detail-desc").textContent = item.descripcion || "";
+  document.getElementById("detail-precio").textContent = formatoPrecio(item.precio);
+  document.getElementById("qty-value").textContent = "1";
+
+  abrirSheet("detail-sheet", "detail-backdrop");
+}
+
+function abrirSheet(sheetId, backdropId) {
+  document.getElementById(sheetId).classList.add("open");
+  document.getElementById(backdropId).classList.add("open");
+}
+
+function cerrarSheet(sheetId, backdropId) {
+  document.getElementById(sheetId).classList.remove("open");
+  document.getElementById(backdropId).classList.remove("open");
+}
+
+// ---------- carrito / lista ----------
+function agregarALista() {
+  const item = state.detalleActual;
+  const qty = state.detalleQty;
+  const existente = state.lista.find(l => l.nombre === item.nombre);
+
+  if (existente) {
+    existente.cantidad += qty;
+  } else {
+    state.lista.push({ nombre: item.nombre, precio: item.precio, cantidad: qty });
+  }
+
+  guardarLista();
+  renderCartBar();
+  cerrarSheet("detail-sheet", "detail-backdrop");
+}
+
+function quitarDeLista(nombre) {
+  state.lista = state.lista.filter(l => l.nombre !== nombre);
+  guardarLista();
+  renderCartBar();
+  renderListSheet();
+}
+
+function vaciarLista() {
+  state.lista = [];
+  guardarLista();
+  renderCartBar();
+  cerrarSheet("list-sheet", "list-backdrop");
+}
+
+function totalLista() {
+  return state.lista.reduce((acc, l) => acc + l.precio * l.cantidad, 0);
+}
+
+function renderCartBar() {
+  const bar = document.getElementById("cart-bar");
+  const count = state.lista.reduce((acc, l) => acc + l.cantidad, 0);
+
+  if (count === 0) {
+    bar.hidden = true;
+    return;
+  }
+
+  bar.hidden = false;
+  document.getElementById("cart-count").textContent = count;
+  document.getElementById("cart-total").textContent = formatoPrecio(totalLista());
+}
+
+function renderListSheet() {
+  const cont = document.getElementById("list-items");
+
+  if (state.lista.length === 0) {
+    cont.innerHTML = `<p style="color:var(--muted); padding: 10px 0;">Tu lista está vacía.</p>`;
+  } else {
+    cont.innerHTML = state.lista.map(l => `
+      <div class="list-item">
+        <div class="list-item-info">
+          <h4>${l.nombre}</h4>
+          <span>x${l.cantidad}</span>
+        </div>
+        <div class="list-item-right">
+          <span class="list-item-price">${formatoPrecio(l.precio * l.cantidad)}</span>
+          <button class="remove-item" data-nombre="${l.nombre}" aria-label="Quitar">&times;</button>
         </div>
       </div>
-    </article>
-  `;
-}
+    `).join("");
 
-function renderMenu() {
-  const contenedor = document.getElementById("menu-sections");
-  let html = "";
-
-  for (const [clave, categoria] of Object.entries(MENU)) {
-    html += `
-      <section class="menu-section" id="${clave}">
-        <h2>${categoria.titulo}</h2>
-        ${categoria.subtitulo ? `<p class="subtitulo">${categoria.subtitulo}</p>` : ""}
-        <div class="menu-grid">
-          ${categoria.items.map(cardProducto).join("")}
-        </div>
-      </section>
-    `;
+    cont.querySelectorAll(".remove-item").forEach(btn => {
+      btn.addEventListener("click", () => quitarDeLista(btn.dataset.nombre));
+    });
   }
 
-  contenedor.innerHTML = html;
+  document.getElementById("list-total").innerHTML = `<span>Total</span><span>${formatoPrecio(totalLista())}</span>`;
 }
 
-function renderHero() {
-  document.getElementById("hero-img").src = PRODUCTO_DEL_MES.img;
-  document.getElementById("hero-nombre").textContent = PRODUCTO_DEL_MES.nombre;
-  document.getElementById("hero-desc").textContent = PRODUCTO_DEL_MES.descripcion;
-  document.getElementById("hero-wsp").href = linkWhatsapp(PRODUCTO_DEL_MES.nombre, PRODUCTO_DEL_MES.precio);
-}
-
-function renderRecomendada() {
-  const img = document.getElementById("recomendada-img");
-  if (RECOMENDADA.img) {
-    img.innerHTML = `<img src="${RECOMENDADA.img}" alt="${RECOMENDADA.nombre}">`;
-  } else {
-    img.innerHTML = `<div class="card-img placeholder" style="height:100%">${RECOMENDADA.nombre}<br><small>foto próximamente</small></div>`;
-  }
-  document.getElementById("recomendada-nombre").textContent = RECOMENDADA.nombre;
-  document.getElementById("recomendada-desc").textContent = RECOMENDADA.descripcion;
-  document.getElementById("recomendada-precio").textContent = formatoPrecio(RECOMENDADA.precio);
-  document.getElementById("recomendada-wsp").href = linkWhatsapp(RECOMENDADA.nombre, RECOMENDADA.precio);
-}
-
+// ---------- footer ----------
 function renderFooter() {
   document.getElementById("footer-direccion").textContent = NEGOCIO.direccion;
   document.getElementById("footer-domicilios").textContent = NEGOCIO.domicilios;
-  document.getElementById("footer-wsp").href = `https://wa.me/${NEGOCIO.whatsapp}`;
 }
 
-function toggleNav() {
-  document.getElementById("main-nav").classList.toggle("open");
-}
-
+// ---------- eventos generales ----------
 document.addEventListener("DOMContentLoaded", () => {
-  renderHero();
-  renderRecomendada();
-  renderMenu();
+  cargarLista();
+  renderPromo();
+  renderChips();
+  renderLista();
   renderFooter();
+  renderCartBar();
 
-  document.getElementById("nav-toggle").addEventListener("click", toggleNav);
-  document.querySelectorAll("#main-nav a, .cat-nav a").forEach(link => {
-    link.addEventListener("click", () => {
-      document.getElementById("main-nav").classList.remove("open");
-    });
+  document.getElementById("promo-card").addEventListener("click", () => {
+    abrirDetalle(PRODUCTO_DEL_MES);
   });
+
+  document.getElementById("detail-close").addEventListener("click", () => {
+    cerrarSheet("detail-sheet", "detail-backdrop");
+  });
+  document.getElementById("detail-backdrop").addEventListener("click", () => {
+    cerrarSheet("detail-sheet", "detail-backdrop");
+  });
+
+  document.getElementById("qty-minus").addEventListener("click", () => {
+    state.detalleQty = Math.max(1, state.detalleQty - 1);
+    document.getElementById("qty-value").textContent = state.detalleQty;
+  });
+  document.getElementById("qty-plus").addEventListener("click", () => {
+    state.detalleQty += 1;
+    document.getElementById("qty-value").textContent = state.detalleQty;
+  });
+
+  document.getElementById("detail-add").addEventListener("click", agregarALista);
+
+  document.getElementById("cart-bar").addEventListener("click", () => {
+    renderListSheet();
+    abrirSheet("list-sheet", "list-backdrop");
+  });
+
+  document.getElementById("list-close").addEventListener("click", () => {
+    cerrarSheet("list-sheet", "list-backdrop");
+  });
+  document.getElementById("list-backdrop").addEventListener("click", () => {
+    cerrarSheet("list-sheet", "list-backdrop");
+  });
+
+  document.getElementById("list-clear").addEventListener("click", vaciarLista);
 });

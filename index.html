@@ -2,89 +2,79 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>El Grill House | Menú</title>
-<meta name="description" content="Parrilla & Burgers en Itagüí. Pide directo por WhatsApp.">
+<meta name="description" content="Menú de El Grill House — arma tu pedido desde la mesa.">
 <link rel="icon" href="assets/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Caveat:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
-<header>
-  <div class="header-inner">
-    <div class="logo-wrap">
-      <img src="assets/logo.png" alt="El Grill House">
-    </div>
-    <nav id="main-nav">
-      <a href="#hamburguesas">Hamburguesas</a>
-      <a href="#parrilla">Parrilla</a>
-      <a href="#entradas">Entradas</a>
-      <a href="#bebidas">Bebidas</a>
-      <a href="#contacto">Ubicación</a>
-    </nav>
-    <button class="nav-toggle" id="nav-toggle" aria-label="Menú">&#9776;</button>
-  </div>
+<header class="topbar">
+  <img src="assets/logo.png" alt="El Grill House" class="topbar-logo">
+  <span class="topbar-title">EL GRILL HOUSE</span>
 </header>
 
-<section class="hero">
-  <img class="hero-bg" id="hero-img" src="" alt="Producto del mes">
-  <div class="hero-content">
-    <span class="hero-eyebrow">Recomendada del mes</span>
-    <h1 id="hero-nombre"></h1>
-    <p id="hero-desc"></p>
-    <div class="hero-cta">
-      <a class="btn-wsp" id="hero-wsp" href="#" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M17.5 14.4c-.3-.1-1.6-.8-1.9-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.5.1-.3-.1-1.1-.4-2.1-1.3-.8-.7-1.3-1.6-1.5-1.8-.2-.3 0-.4.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.2-.5.1-.2 0-.3 0-.5-.1-.1-.6-1.5-.8-2-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-1 1-1 2.4s1 2.8 1.1 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.6-.7 1.9-1.3.2-.6.2-1.1.1-1.3-.1-.1-.2-.2-.5-.3z"/><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2zm5.9 14.2c-.5 1.3-2.6 2.4-3.4 2.5-.9.1-1.7.3-3.6-.5-3-1.3-4.9-4.3-5-4.5-.2-.2-1.2-1.6-1.2-3s.8-2.2 1-2.5c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .6.5.3.6.9 2.1 1 2.3.1.2.2.4 0 .6-.1.2-.1.3-.3.5-.2.2-.3.4-.5.6-.2.2-.3.4-.1.7.1.3 1 1.6 2.1 2.6 1.4 1.3 2.6 1.7 2.9 1.9.3.2.5.1.6-.1.2-.2.8-.9 1-1.2.2-.3.4-.2.6-.1.2.1 1.6.7 1.9.9.3.1.5.2.5.3.1.2.1.6-.1 1.1z"/></svg>
-        Pedir por WhatsApp
-      </a>
+<section class="promo-wrap">
+  <button class="promo-card" id="promo-card">
+    <img id="promo-img" alt="">
+    <div class="promo-overlay">
+      <span class="promo-eyebrow">Recomendada del mes</span>
+      <h2 id="promo-nombre"></h2>
+      <span class="promo-price" id="promo-precio"></span>
     </div>
-  </div>
+  </button>
 </section>
 
-<nav class="cat-nav">
-  <div class="cat-nav-inner">
-    <a href="#hamburguesas">Hamburguesas</a>
-    <a href="#parrilla">Parrilla</a>
-    <a href="#entradas">Entradas</a>
-    <a href="#bebidas">Bebidas</a>
-  </div>
-</nav>
+<nav class="chip-row" id="chip-row"></nav>
 
-<section class="recomendada">
-  <div class="recomendada-card">
-    <div class="recomendada-img" id="recomendada-img"></div>
-    <div class="recomendada-text">
-      <span class="tag-pill">Recomendada</span>
-      <h2 id="recomendada-nombre"></h2>
-      <p id="recomendada-desc"></p>
-      <span class="price" id="recomendada-precio"></span>
-      <div>
-        <a class="btn-wsp" id="recomendada-wsp" href="#" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M17.5 14.4c-.3-.1-1.6-.8-1.9-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.5.1-.3-.1-1.1-.4-2.1-1.3-.8-.7-1.3-1.6-1.5-1.8-.2-.3 0-.4.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.2-.5.1-.2 0-.3 0-.5-.1-.1-.6-1.5-.8-2-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-1 1-1 2.4s1 2.8 1.1 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.6-.7 1.9-1.3.2-.6.2-1.1.1-1.3-.1-.1-.2-.2-.5-.3z"/><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2zm5.9 14.2c-.5 1.3-2.6 2.4-3.4 2.5-.9.1-1.7.3-3.6-.5-3-1.3-4.9-4.3-5-4.5-.2-.2-1.2-1.6-1.2-3s.8-2.2 1-2.5c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .6.5.3.6.9 2.1 1 2.3.1.2.2.4 0 .6-.1.2-.1.3-.3.5-.2.2-.3.4-.5.6-.2.2-.3.4-.1.7.1.3 1 1.6 2.1 2.6 1.4 1.3 2.6 1.7 2.9 1.9.3.2.5.1.6-.1.2-.2.8-.9 1-1.2.2-.3.4-.2.6-.1.2.1 1.6.7 1.9.9.3.1.5.2.5.3.1.2.1.6-.1 1.1z"/></svg>
-          Pedir por WhatsApp
-        </a>
+<main id="product-list" class="product-list"></main>
+
+<!-- Detalle de producto -->
+<div class="sheet-backdrop" id="detail-backdrop"></div>
+<div class="sheet" id="detail-sheet">
+  <button class="sheet-close" id="detail-close" aria-label="Cerrar">&times;</button>
+  <div class="sheet-img-wrap">
+    <img id="detail-img" alt="">
+  </div>
+  <div class="sheet-body">
+    <h2 id="detail-nombre"></h2>
+    <p id="detail-desc"></p>
+    <div class="sheet-price" id="detail-precio"></div>
+    <div class="qty-row">
+      <div class="qty-control">
+        <button id="qty-minus" aria-label="Menos">&minus;</button>
+        <span id="qty-value">1</span>
+        <button id="qty-plus" aria-label="Más">&plus;</button>
       </div>
+      <button class="btn-add" id="detail-add">Añadir a mi lista</button>
     </div>
   </div>
-</section>
+</div>
 
-<div id="menu-sections"></div>
+<!-- Barra flotante de lista -->
+<button class="cart-bar" id="cart-bar" hidden>
+  <span class="cart-bar-count" id="cart-count">0</span>
+  <span class="cart-bar-label">Ver mi lista</span>
+  <span class="cart-bar-total" id="cart-total"></span>
+</button>
 
-<footer id="contacto">
-  <div class="footer-inner">
-    <div class="footer-info">
-      <h3>El Grill House</h3>
-      <p id="footer-direccion"></p>
-      <p id="footer-domicilios"></p>
-    </div>
-    <a class="btn-wsp" id="footer-wsp" href="#" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M17.5 14.4c-.3-.1-1.6-.8-1.9-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.5.1-.3-.1-1.1-.4-2.1-1.3-.8-.7-1.3-1.6-1.5-1.8-.2-.3 0-.4.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.2-.5.1-.2 0-.3 0-.5-.1-.1-.6-1.5-.8-2-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-1 1-1 2.4s1 2.8 1.1 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.6-.7 1.9-1.3.2-.6.2-1.1.1-1.3-.1-.1-.2-.2-.5-.3z"/><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2zm5.9 14.2c-.5 1.3-2.6 2.4-3.4 2.5-.9.1-1.7.3-3.6-.5-3-1.3-4.9-4.3-5-4.5-.2-.2-1.2-1.6-1.2-3s.8-2.2 1-2.5c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .6.5.3.6.9 2.1 1 2.3.1.2.2.4 0 .6-.1.2-.1.3-.3.5-.2.2-.3.4-.5.6-.2.2-.3.4-.1.7.1.3 1 1.6 2.1 2.6 1.4 1.3 2.6 1.7 2.9 1.9.3.2.5.1.6-.1.2-.2.8-.9 1-1.2.2-.3.4-.2.6-.1.2.1 1.6.7 1.9.9.3.1.5.2.5.3.1.2.1.6-.1 1.1z"/></svg>
-      Hablar por WhatsApp
-    </a>
-  </div>
-  <p class="footer-note">&copy; 2026 El Grill House — Hecho por Área Digital</p>
+<!-- Mi lista -->
+<div class="sheet-backdrop" id="list-backdrop"></div>
+<div class="sheet" id="list-sheet">
+  <button class="sheet-close" id="list-close" aria-label="Cerrar">&times;</button>
+  <h2 class="list-title">Mi lista</h2>
+  <p class="list-hint">Muéstrale esta pantalla a quien te va a tomar el pedido.</p>
+  <div id="list-items" class="list-items"></div>
+  <div class="list-total" id="list-total"></div>
+  <button class="btn-clear" id="list-clear">Vaciar lista</button>
+</div>
+
+<footer class="site-footer">
+  <p id="footer-direccion"></p>
+  <p id="footer-domicilios"></p>
 </footer>
 
 <script src="js/products.js"></script>
