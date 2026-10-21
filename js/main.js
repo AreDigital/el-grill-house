@@ -11,6 +11,8 @@ const state = {
   lista: [],
   detalleActual: null,
   detalleQty: 1,
+  detalleSalsas: [],
+  detallePermiteSalsas: false,
 };
 
 // ---------- utilidades ----------
@@ -96,10 +98,11 @@ function renderLista() {
   }
 
   const selector = state.vista === "grid" ? ".grid-item" : ".row-item";
+  const permiteSalsas = !!MENU[state.categoria].permiteSalsas;
   cont.querySelectorAll(selector).forEach(el => {
     el.addEventListener("click", () => {
       const item = items[el.dataset.idx];
-      abrirDetalle(item);
+      abrirDetalle(item, permiteSalsas);
     });
   });
 }
@@ -117,9 +120,11 @@ function actualizarBotonVista() {
 }
 
 // ---------- sheet de detalle ----------
-function abrirDetalle(item) {
+function abrirDetalle(item, permiteSalsas = false) {
   state.detalleActual = item;
   state.detalleQty = 1;
+  state.detalleSalsas = [];
+  state.detallePermiteSalsas = permiteSalsas;
 
   document.getElementById("detail-img").src = item.img || "assets/logo.png";
   document.getElementById("detail-nombre").textContent = item.nombre;
@@ -127,7 +132,36 @@ function abrirDetalle(item) {
   document.getElementById("detail-precio").textContent = formatoPrecio(item.precio);
   document.getElementById("qty-value").textContent = "1";
 
+  const seccionSalsa = document.getElementById("salsa-section");
+  seccionSalsa.hidden = !permiteSalsas;
+  if (permiteSalsas) renderSalsaGrid();
+
   abrirSheet("detail-sheet", "detail-backdrop");
+}
+
+function renderSalsaGrid() {
+  const cont = document.getElementById("salsa-grid");
+  const limite = state.detalleSalsas.length >= MAX_SALSAS;
+
+  cont.innerHTML = SALSAS.map(s => {
+    const seleccionada = state.detalleSalsas.includes(s);
+    const bloqueada = limite && !seleccionada;
+    return `<button type="button" class="salsa-chip ${seleccionada ? "selected" : ""} ${bloqueada ? "disabled" : ""}" data-salsa="${s}">${s}</button>`;
+  }).join("");
+
+  cont.querySelectorAll(".salsa-chip").forEach(btn => {
+    btn.addEventListener("click", () => toggleSalsa(btn.dataset.salsa));
+  });
+}
+
+function toggleSalsa(nombre) {
+  const idx = state.detalleSalsas.indexOf(nombre);
+  if (idx > -1) {
+    state.detalleSalsas.splice(idx, 1);
+  } else if (state.detalleSalsas.length < MAX_SALSAS) {
+    state.detalleSalsas.push(nombre);
+  }
+  renderSalsaGrid();
 }
 
 function abrirSheet(sheetId, backdropId) {
@@ -144,12 +178,14 @@ function cerrarSheet(sheetId, backdropId) {
 function agregarALista() {
   const item = state.detalleActual;
   const qty = state.detalleQty;
-  const existente = state.lista.find(l => l.nombre === item.nombre);
+  const salsas = [...state.detalleSalsas].sort();
+  const mismasSalsas = (a) => JSON.stringify((a || []).slice().sort()) === JSON.stringify(salsas);
+  const existente = state.lista.find(l => l.nombre === item.nombre && mismasSalsas(l.salsas));
 
   if (existente) {
     existente.cantidad += qty;
   } else {
-    state.lista.push({ nombre: item.nombre, precio: item.precio, cantidad: qty });
+    state.lista.push({ nombre: item.nombre, precio: item.precio, cantidad: qty, salsas });
   }
 
   guardarLista();
@@ -157,8 +193,8 @@ function agregarALista() {
   cerrarSheet("detail-sheet", "detail-backdrop");
 }
 
-function quitarDeLista(nombre) {
-  state.lista = state.lista.filter(l => l.nombre !== nombre);
+function quitarDeLista(indice) {
+  state.lista.splice(indice, 1);
   guardarLista();
   renderCartBar();
   renderListSheet();
@@ -195,21 +231,21 @@ function renderListSheet() {
   if (state.lista.length === 0) {
     cont.innerHTML = `<p style="color:var(--muted); padding: 10px 0;">Tu lista está vacía.</p>`;
   } else {
-    cont.innerHTML = state.lista.map(l => `
+    cont.innerHTML = state.lista.map((l, i) => `
       <div class="list-item">
         <div class="list-item-info">
           <h4>${l.nombre}</h4>
-          <span>x${l.cantidad}</span>
+          <span>x${l.cantidad}${l.salsas && l.salsas.length ? " · " + l.salsas.join(", ") : ""}</span>
         </div>
         <div class="list-item-right">
           <span class="list-item-price">${formatoPrecio(l.precio * l.cantidad)}</span>
-          <button class="remove-item" data-nombre="${l.nombre}" aria-label="Quitar">&times;</button>
+          <button class="remove-item" data-idx="${i}" aria-label="Quitar">&times;</button>
         </div>
       </div>
     `).join("");
 
     cont.querySelectorAll(".remove-item").forEach(btn => {
-      btn.addEventListener("click", () => quitarDeLista(btn.dataset.nombre));
+      btn.addEventListener("click", () => quitarDeLista(Number(btn.dataset.idx)));
     });
   }
 
@@ -239,7 +275,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   document.getElementById("promo-card").addEventListener("click", () => {
-    abrirDetalle(PRODUCTO_DEL_MES);
+    abrirDetalle(PRODUCTO_DEL_MES, true);
   });
 
   document.getElementById("detail-close").addEventListener("click", () => {
