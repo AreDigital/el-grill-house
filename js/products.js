@@ -26,6 +26,7 @@ const RECOMENDADA = {
 const MENU = {
   hamburguesas: {
     titulo: "Hamburguesas",
+    chipLabel: "Burguer",
     items: [
       { nombre: "Costillera", precio: 40000, descripcion: "Pan brioche, carne de hamburguesa, costilla desmechada, salsa BBQ de la casa, queso mozzarella, cebolla crispy y lechuga.", img: null },
       { nombre: "Argentina", precio: 38000, descripcion: "Pan brioche con orégano y parmesano, carne de hamburguesa, chorizo, queso mozzarella, cebolla grillada, chimichurri y rúcula.", img: null },

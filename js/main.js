@@ -47,7 +47,7 @@ function renderChips() {
   const cont = document.getElementById("chip-row");
   cont.innerHTML = Object.entries(MENU).map(([clave, cat]) => `
     <button class="chip ${clave === state.categoria ? "active" : ""}" data-cat="${clave}">
-      ${cat.titulo}
+      ${cat.chipLabel || cat.titulo}
     </button>
   `).join("");
 
