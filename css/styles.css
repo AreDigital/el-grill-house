@@ -405,6 +405,45 @@ img { max-width: 100%; display: block; }
   margin-bottom: 16px;
 }
 
+.salsa-section { margin-bottom: 16px; }
+
+.salsa-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.salsa-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.salsa-chip {
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.salsa-chip.selected {
+  background: var(--red);
+  border-color: var(--red);
+  color: #fff;
+}
+
+.salsa-chip.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
 .qty-row {
   display: flex;
   align-items: center;

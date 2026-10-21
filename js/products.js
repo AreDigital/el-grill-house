@@ -8,6 +8,16 @@
 // un marcador de posición automático con el nombre del plato.
 // ============================================
 
+const SALSAS = [
+  "Ajo cremoso",
+  "Trozos de tocineta",
+  "Bbq grill",
+  "Bbq grill picante",
+  "Ranch",
+  "Chimichurri"
+];
+const MAX_SALSAS = 2;
+
 const PRODUCTO_DEL_MES = {
   nombre: "Hamburguesa Americana",
   descripcion: "Pan brioche, carne de hamburguesa, tocineta crocante, doble queso cheddar, cebolla caramelizada, pepinillos y sour cream.",
@@ -27,6 +37,7 @@ const MENU = {
   hamburguesas: {
     titulo: "Hamburguesas",
     chipLabel: "Burguer",
+    permiteSalsas: true,
     items: [
       { nombre: "Costillera", precio: 40000, descripcion: "Pan brioche, carne de hamburguesa, costilla desmechada, salsa BBQ de la casa, queso mozzarella, cebolla crispy y lechuga.", img: null },
       { nombre: "Argentina", precio: 38000, descripcion: "Pan brioche con orégano y parmesano, carne de hamburguesa, chorizo, queso mozzarella, cebolla grillada, chimichurri y rúcula.", img: null },
@@ -41,6 +52,7 @@ const MENU = {
   parrilla: {
     titulo: "Parrilla",
     subtitulo: "Cortes certified Angus Beef. Incluyen ensalada de temporada, arepa con queso y papas a la francesa.",
+    permiteSalsas: true,
     items: [
       { nombre: "Punta de Anca", precio: 40000, descripcion: "Delicioso corte fino de picaña.", img: null },
       { nombre: "Churrasco", precio: 40000, descripcion: "Delicioso corte de res, jugoso y tierno.", img: null },
