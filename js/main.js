@@ -7,6 +7,7 @@
 
 const state = {
   categoria: Object.keys(MENU)[0],
+  vista: "lista", // "lista" o "grid"
   lista: [],
   detalleActual: null,
   detalleQty: 1,
@@ -60,31 +61,59 @@ function renderChips() {
   });
 }
 
-// ---------- render: filas de producto ----------
+// ---------- render: filas o cuadrícula de producto ----------
 function renderLista() {
   const cont = document.getElementById("product-list");
   const items = MENU[state.categoria].items;
 
-  cont.innerHTML = items.map((item, i) => `
-    <button class="row-item" data-idx="${i}">
-      <div class="row-img ${item.img ? "" : "placeholder"}">
-        ${item.nuevo ? '<span class="badge-new">Nuevo</span>' : ""}
-        ${item.img ? `<img src="${item.img}" alt="${item.nombre}">` : ""}
-      </div>
-      <div class="row-text">
+  if (state.vista === "grid") {
+    cont.classList.add("grid-view");
+    cont.innerHTML = items.map((item, i) => `
+      <button class="grid-item" data-idx="${i}">
+        <div class="grid-img ${item.img ? "" : "placeholder"}">
+          ${item.nuevo ? '<span class="badge-new">Nuevo</span>' : ""}
+          ${item.img ? `<img src="${item.img}" alt="${item.nombre}">` : ""}
+        </div>
         <h3>${item.nombre}</h3>
-        <p>${corta(item.descripcion)}</p>
-      </div>
-      <div class="row-price">${formatoPrecio(item.precio)}</div>
-    </button>
-  `).join("");
+        <div class="grid-price">${formatoPrecio(item.precio)}</div>
+      </button>
+    `).join("");
+  } else {
+    cont.classList.remove("grid-view");
+    cont.innerHTML = items.map((item, i) => `
+      <button class="row-item" data-idx="${i}">
+        <div class="row-img ${item.img ? "" : "placeholder"}">
+          ${item.nuevo ? '<span class="badge-new">Nuevo</span>' : ""}
+          ${item.img ? `<img src="${item.img}" alt="${item.nombre}">` : ""}
+        </div>
+        <div class="row-text">
+          <h3>${item.nombre}</h3>
+          <p>${corta(item.descripcion)}</p>
+        </div>
+        <div class="row-price">${formatoPrecio(item.precio)}</div>
+      </button>
+    `).join("");
+  }
 
-  cont.querySelectorAll(".row-item").forEach(row => {
-    row.addEventListener("click", () => {
-      const item = items[row.dataset.idx];
+  const selector = state.vista === "grid" ? ".grid-item" : ".row-item";
+  cont.querySelectorAll(selector).forEach(el => {
+    el.addEventListener("click", () => {
+      const item = items[el.dataset.idx];
       abrirDetalle(item);
     });
   });
+}
+
+function actualizarBotonVista() {
+  const label = document.getElementById("view-toggle-label");
+  const icon = document.getElementById("view-toggle-icon");
+  if (state.vista === "lista") {
+    label.textContent = "Ver en cuadrícula";
+    icon.innerHTML = "&#9638;";
+  } else {
+    label.textContent = "Ver en lista";
+    icon.innerHTML = "&#9776;";
+  }
 }
 
 // ---------- sheet de detalle ----------
@@ -198,9 +227,16 @@ document.addEventListener("DOMContentLoaded", () => {
   cargarLista();
   renderPromo();
   renderChips();
+  actualizarBotonVista();
   renderLista();
   renderFooter();
   renderCartBar();
+
+  document.getElementById("view-toggle").addEventListener("click", () => {
+    state.vista = state.vista === "lista" ? "grid" : "lista";
+    actualizarBotonVista();
+    renderLista();
+  });
 
   document.getElementById("promo-card").addEventListener("click", () => {
     abrirDetalle(PRODUCTO_DEL_MES);
