@@ -7,7 +7,7 @@
 
 const state = {
   categoria: Object.keys(MENU)[0],
-  vista: "lista", // "lista" o "grid"
+  vista: "grid", // "lista" o "grid"
   lista: [],
   detalleActual: null,
   detalleQty: 1,

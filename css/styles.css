@@ -574,6 +574,10 @@ img { max-width: 100%; display: block; }
   z-index: 60;
 }
 
+.cart-bar[hidden] {
+  display: none;
+}
+
 .cart-bar-count {
   background: rgba(255,255,255,0.25);
   border-radius: 999px;
