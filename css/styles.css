@@ -311,6 +311,23 @@ img { max-width: 100%; display: block; }
 
 .row-text { flex: 1; min-width: 0; }
 
+.group-header {
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 0.06em;
+  font-size: 0.95rem;
+  color: var(--gold);
+  text-transform: uppercase;
+  padding: 16px 2px 4px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 2px;
+}
+
+.product-list > .group-header:first-child { padding-top: 0; }
+
+.product-list.grid-view .group-header {
+  grid-column: 1 / -1;
+}
+
 .row-text h3 {
   font-size: 1rem;
   font-weight: 700;

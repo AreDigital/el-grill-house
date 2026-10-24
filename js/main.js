@@ -67,10 +67,14 @@ function renderChips() {
 function renderLista() {
   const cont = document.getElementById("product-list");
   const items = MENU[state.categoria].items;
+  let grupoActual = null;
 
   if (state.vista === "grid") {
     cont.classList.add("grid-view");
-    cont.innerHTML = items.map((item, i) => `
+    cont.innerHTML = items.map((item, i) => {
+      const header = item.grupo && item.grupo !== grupoActual
+        ? `<div class="group-header">${(grupoActual = item.grupo)}</div>` : "";
+      return `${header}
       <button class="grid-item" data-idx="${i}">
         <div class="grid-img ${item.img ? "" : "placeholder"}">
           ${item.nuevo ? '<span class="badge-new">Nuevo</span>' : ""}
@@ -79,10 +83,14 @@ function renderLista() {
         <h3>${item.nombre}</h3>
         <div class="grid-price">${formatoPrecio(item.precio)}</div>
       </button>
-    `).join("");
+    `;
+    }).join("");
   } else {
     cont.classList.remove("grid-view");
-    cont.innerHTML = items.map((item, i) => `
+    cont.innerHTML = items.map((item, i) => {
+      const header = item.grupo && item.grupo !== grupoActual
+        ? `<div class="group-header">${(grupoActual = item.grupo)}</div>` : "";
+      return `${header}
       <button class="row-item" data-idx="${i}">
         <div class="row-img ${item.img ? "" : "placeholder"}">
           ${item.nuevo ? '<span class="badge-new">Nuevo</span>' : ""}
@@ -94,7 +102,8 @@ function renderLista() {
         </div>
         <div class="row-price">${formatoPrecio(item.precio)}</div>
       </button>
-    `).join("");
+    `;
+    }).join("");
   }
 
   const selector = state.vista === "grid" ? ".grid-item" : ".row-item";

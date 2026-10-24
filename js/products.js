@@ -77,11 +77,22 @@ const MENU = {
     titulo: "Bebidas",
     subtitulo: "Para acompañar grandes momentos.",
     items: [
-      { nombre: "Gaseosa", precio: 5000, img: null },
-      { nombre: "Agua", precio: 4000, img: null },
-      { nombre: "Soda Hatsu", precio: 6000, img: null },
-      { nombre: "Cerveza Águila", precio: 5000, img: null },
-      { nombre: "Agua Saborizada Cool Drink", precio: 6000, img: null }
+      { nombre: "Coca-Cola", precio: 5000, descripcion: "400 ml", grupo: "Gaseosas", img: null },
+      { nombre: "Coca-Cola Zero", precio: 5000, descripcion: "400 ml", grupo: "Gaseosas", img: null },
+      { nombre: "Quatro", precio: 5000, descripcion: "400 ml", grupo: "Gaseosas", img: null },
+      { nombre: "Manzana Postobón", precio: 5000, descripcion: "400 ml", grupo: "Gaseosas", img: null },
+      { nombre: "Colombiana", precio: 5000, descripcion: "400 ml", grupo: "Gaseosas", img: null },
+      { nombre: "Agua Cristal", precio: 4000, descripcion: "400 ml", grupo: "Agua", img: null },
+      { nombre: "Hatsu Sandía", precio: 6000, descripcion: "300 ml", grupo: "Soda Hatsu", img: null },
+      { nombre: "Hatsu Frambuesa", precio: 6000, descripcion: "300 ml", grupo: "Soda Hatsu", img: null },
+      { nombre: "Cool Drink Kiwi", precio: 6000, descripcion: "340 ml", grupo: "Cool Drink", img: null },
+      { nombre: "Cool Drink Manzana Verde", precio: 6000, descripcion: "340 ml", grupo: "Cool Drink", img: null },
+      { nombre: "Cool Drink Maracuyá", precio: 6000, descripcion: "340 ml", grupo: "Cool Drink", img: null },
+      { nombre: "Cool Drink Mangostino", precio: 6000, descripcion: "340 ml", grupo: "Cool Drink", img: null },
+      { nombre: "Cool Drink Granada", precio: 6000, descripcion: "340 ml", grupo: "Cool Drink", img: null },
+      { nombre: "Cerveza Costeñita", precio: 5000, descripcion: "175 ml", grupo: "Cerveza", img: null },
+      { nombre: "Tequila Rose Strawberry Cream", precio: 20000, descripcion: "330 ml", grupo: "Cócteles", img: null },
+      { nombre: "Buchanan's Coconut Cream", precio: 20000, descripcion: "330 ml", grupo: "Cócteles", img: null }
     ]
   }
 };
