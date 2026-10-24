@@ -97,18 +97,24 @@ function configurarArrastrePromo() {
   let inicioY = 0;
   let desplazamiento = 0;
   let arrastrando = false;
-  let esArrastre = false;
-  let direccion = null; // "horizontal" | "vertical" | null
+  let esArrastre = false; // true solo cuando se confirma que el gesto es horizontal
 
   function inicio(x, y) {
     arrastrando = true;
     esArrastre = false;
-    direccion = null;
     desplazamiento = 0;
     inicioX = x;
     inicioY = y;
+    clearInterval(state.promoTimer); // pausa el autoplay mientras el usuario toca el banner
     track.classList.add("dragging");
     track.style.transition = "none";
+  }
+
+  function soltarSinArrastrar() {
+    arrastrando = false;
+    track.classList.remove("dragging");
+    track.style.transition = "";
+    iniciarAutoplayPromo();
   }
 
   function mover(x, y, e) {
@@ -116,14 +122,19 @@ function configurarArrastrePromo() {
     const deltaX = x - inicioX;
     const deltaY = y - inicioY;
 
-    if (!direccion && (Math.abs(deltaX) > 6 || Math.abs(deltaY) > 6)) {
-      direccion = Math.abs(deltaX) > Math.abs(deltaY) ? "horizontal" : "vertical";
+    if (!esArrastre) {
+      // aún no hay movimiento suficiente para saber si es horizontal o vertical
+      if (Math.abs(deltaX) < 10 && Math.abs(deltaY) < 10) return;
+      if (Math.abs(deltaY) > Math.abs(deltaX)) {
+        // es scroll vertical de la página: soltamos el banner y no interferimos
+        soltarSinArrastrar();
+        return;
+      }
+      esArrastre = true; // confirmado: el usuario está deslizando el banner
     }
-    if (direccion === "vertical") return; // deja que la página haga scroll normal
 
     if (e && e.cancelable) e.preventDefault();
     desplazamiento = deltaX;
-    if (Math.abs(desplazamiento) > 8) esArrastre = true;
     const base = -state.promoIndex * track.clientWidth;
     track.style.transform = `translateX(${base + desplazamiento}px)`;
   }
@@ -134,7 +145,7 @@ function configurarArrastrePromo() {
     track.classList.remove("dragging");
     track.style.transition = "";
 
-    if (direccion === "horizontal") {
+    if (esArrastre) {
       const umbral = track.clientWidth * 0.18;
       if (desplazamiento > umbral) {
         irASlide(state.promoIndex - 1);
@@ -143,20 +154,16 @@ function configurarArrastrePromo() {
       } else {
         irASlide(state.promoIndex);
       }
-    } else {
-      irASlide(state.promoIndex);
-    }
-
-    desplazamiento = 0;
-    iniciarAutoplayPromo();
-
-    if (!esArrastre && target) {
+    } else if (target) {
+      // fue un toque corto (tap), no un arrastre
       const slide = target.closest(".promo-slide");
       if (slide && slide.dataset.tipo === "producto") {
         abrirDetalle(PRODUCTO_DEL_MES, true);
       }
     }
-    direccion = null;
+
+    desplazamiento = 0;
+    iniciarAutoplayPromo();
   }
 
   // Táctil (celular)
