@@ -13,6 +13,8 @@ const state = {
   detalleQty: 1,
   detalleSalsas: [],
   detallePermiteSalsas: false,
+  promoIndex: 0,
+  promoTimer: null,
 };
 
 // ---------- utilidades ----------
@@ -38,11 +40,103 @@ function cargarLista() {
   } catch (e) {}
 }
 
-// ---------- render: banner promo ----------
+// ---------- render: banner promo (carrusel) ----------
 function renderPromo() {
-  document.getElementById("promo-img").src = PRODUCTO_DEL_MES.img;
-  document.getElementById("promo-nombre").textContent = PRODUCTO_DEL_MES.nombre;
-  document.getElementById("promo-precio").textContent = formatoPrecio(PRODUCTO_DEL_MES.precio);
+  const track = document.getElementById("promo-track");
+  const dots = document.getElementById("promo-dots");
+
+  track.innerHTML = BANNERS.map(b => {
+    const overlay = b.tipo === "producto" ? `
+      <div class="promo-overlay">
+        <span class="promo-eyebrow">Recomendada del mes</span>
+        <h2>${PRODUCTO_DEL_MES.nombre}</h2>
+        <span class="promo-price">${formatoPrecio(PRODUCTO_DEL_MES.precio)}</span>
+      </div>` : "";
+    return `
+      <div class="promo-slide" data-tipo="${b.tipo}">
+        <img src="${b.img}" alt="">
+        ${overlay}
+      </div>`;
+  }).join("");
+
+  dots.innerHTML = BANNERS.map((_, i) => `<span class="promo-dot"></span>`).join("");
+
+  configurarArrastrePromo();
+  irASlide(0, false);
+  iniciarAutoplayPromo();
+}
+
+function irASlide(indice, animar = true) {
+  const total = BANNERS.length;
+  state.promoIndex = ((indice % total) + total) % total;
+
+  const track = document.getElementById("promo-track");
+  track.style.transition = animar ? "" : "none";
+  track.style.transform = `translateX(-${state.promoIndex * 100}%)`;
+  if (!animar) track.offsetHeight; // fuerza reflow antes de reactivar transición
+
+  document.querySelectorAll(".promo-dot").forEach((dot, i) => {
+    dot.classList.toggle("active", i === state.promoIndex);
+  });
+}
+
+function iniciarAutoplayPromo() {
+  clearInterval(state.promoTimer);
+  if (BANNERS.length <= 1) return;
+  state.promoTimer = setInterval(() => irASlide(state.promoIndex + 1), 5000);
+}
+
+function configurarArrastrePromo() {
+  const track = document.getElementById("promo-track");
+  let inicioX = 0;
+  let desplazamiento = 0;
+  let arrastrando = false;
+  let esArrastre = false;
+
+  track.addEventListener("pointerdown", (e) => {
+    arrastrando = true;
+    esArrastre = false;
+    inicioX = e.clientX;
+    track.classList.add("dragging");
+    track.style.transition = "none";
+    track.setPointerCapture(e.pointerId);
+  });
+
+  track.addEventListener("pointermove", (e) => {
+    if (!arrastrando) return;
+    desplazamiento = e.clientX - inicioX;
+    if (Math.abs(desplazamiento) > 8) esArrastre = true;
+    const base = -state.promoIndex * track.clientWidth;
+    track.style.transform = `translateX(${base + desplazamiento}px)`;
+  });
+
+  const soltar = (e) => {
+    if (!arrastrando) return;
+    arrastrando = false;
+    track.classList.remove("dragging");
+    track.style.transition = "";
+
+    const umbral = track.clientWidth * 0.18;
+    if (desplazamiento > umbral) {
+      irASlide(state.promoIndex - 1);
+    } else if (desplazamiento < -umbral) {
+      irASlide(state.promoIndex + 1);
+    } else {
+      irASlide(state.promoIndex);
+    }
+    desplazamiento = 0;
+    iniciarAutoplayPromo();
+
+    if (!esArrastre) {
+      const slide = e.target.closest(".promo-slide");
+      if (slide && slide.dataset.tipo === "producto") {
+        abrirDetalle(PRODUCTO_DEL_MES, true);
+      }
+    }
+  };
+
+  track.addEventListener("pointerup", soltar);
+  track.addEventListener("pointercancel", soltar);
 }
 
 // ---------- render: chips de categoría ----------
@@ -281,10 +375,6 @@ document.addEventListener("DOMContentLoaded", () => {
     state.vista = state.vista === "lista" ? "grid" : "lista";
     actualizarBotonVista();
     renderLista();
-  });
-
-  document.getElementById("promo-card").addEventListener("click", () => {
-    abrirDetalle(PRODUCTO_DEL_MES, true);
   });
 
   document.getElementById("detail-close").addEventListener("click", () => {

@@ -25,6 +25,15 @@ const PRODUCTO_DEL_MES = {
   img: "assets/05 Hamburguesa Americana.jpg" // cambiar cada mes por la foto del producto destacado
 };
 
+// Imágenes del banner principal (carrusel). Para agregar/quitar una,
+// edita este arreglo. tipo "producto" muestra el overlay (nombre/precio)
+// y abre la ficha de PRODUCTO_DEL_MES al tocarla; tipo "imagen" es un
+// banner libre (branding, promos de temporada) sin overlay ni acción.
+const BANNERS = [
+  { tipo: "producto", img: PRODUCTO_DEL_MES.img },
+  { tipo: "imagen", img: "assets/banner-halloween.jpg" }
+];
+
 const RECOMENDADA = {
   nombre: "La del Chirry",
   tag: "Recomendada",
