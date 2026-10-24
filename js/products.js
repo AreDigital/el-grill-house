@@ -77,22 +77,22 @@ const MENU = {
     titulo: "Bebidas",
     subtitulo: "Para acompañar grandes momentos.",
     items: [
-      { nombre: "Coca-Cola", precio: 5000, descripcion: "400 ml", grupo: "Gaseosas", img: null },
-      { nombre: "Coca-Cola Zero", precio: 5000, descripcion: "400 ml", grupo: "Gaseosas", img: null },
-      { nombre: "Quatro", precio: 5000, descripcion: "400 ml", grupo: "Gaseosas", img: null },
-      { nombre: "Manzana Postobón", precio: 5000, descripcion: "400 ml", grupo: "Gaseosas", img: null },
-      { nombre: "Colombiana", precio: 5000, descripcion: "400 ml", grupo: "Gaseosas", img: null },
-      { nombre: "Agua Cristal", precio: 4000, descripcion: "400 ml", grupo: "Agua", img: null },
-      { nombre: "Hatsu Sandía", precio: 6000, descripcion: "300 ml", grupo: "Soda Hatsu", img: null },
-      { nombre: "Hatsu Frambuesa", precio: 6000, descripcion: "300 ml", grupo: "Soda Hatsu", img: null },
-      { nombre: "Cool Drink Kiwi", precio: 6000, descripcion: "340 ml", grupo: "Cool Drink", img: null },
-      { nombre: "Cool Drink Manzana Verde", precio: 6000, descripcion: "340 ml", grupo: "Cool Drink", img: null },
-      { nombre: "Cool Drink Maracuyá", precio: 6000, descripcion: "340 ml", grupo: "Cool Drink", img: null },
-      { nombre: "Cool Drink Mangostino", precio: 6000, descripcion: "340 ml", grupo: "Cool Drink", img: null },
-      { nombre: "Cool Drink Granada", precio: 6000, descripcion: "340 ml", grupo: "Cool Drink", img: null },
-      { nombre: "Cerveza Costeñita", precio: 5000, descripcion: "175 ml", grupo: "Cerveza", img: null },
-      { nombre: "Tequila Rose Strawberry Cream", precio: 20000, descripcion: "330 ml", grupo: "Cócteles", img: null },
-      { nombre: "Buchanan's Coconut Cream", precio: 20000, descripcion: "330 ml", grupo: "Cócteles", img: null }
+      { nombre: "Coca-Cola", precio: 5000, descripcion: "400 ml", grupo: "Gaseosas", img: "assets/20 Coca-Cola.jpg" },
+      { nombre: "Coca-Cola Zero", precio: 5000, descripcion: "400 ml", grupo: "Gaseosas", img: "assets/21 Coca-Cola Zero.jpg" },
+      { nombre: "Quatro", precio: 5000, descripcion: "400 ml", grupo: "Gaseosas", img: "assets/22 Quatro.jpg" },
+      { nombre: "Manzana Postobón", precio: 5000, descripcion: "400 ml", grupo: "Gaseosas", img: "assets/23 Manzana Postobon.jpg" },
+      { nombre: "Colombiana", precio: 5000, descripcion: "400 ml", grupo: "Gaseosas", img: "assets/24 Colombiana.jpg" },
+      { nombre: "Agua Cristal", precio: 4000, descripcion: "400 ml", grupo: "Agua", img: "assets/25 Agua Cristal.jpg" },
+      { nombre: "Hatsu Sandía", precio: 6000, descripcion: "300 ml", grupo: "Soda Hatsu", img: "assets/26 Hatsu Sandia.jpg" },
+      { nombre: "Hatsu Frambuesa", precio: 6000, descripcion: "300 ml", grupo: "Soda Hatsu", img: "assets/27 Hatsu Frambuesa.jpg" },
+      { nombre: "Cool Drink Kiwi", precio: 6000, descripcion: "340 ml", grupo: "Cool Drink", img: "assets/28 Cool Drink Kiwi.jpg" },
+      { nombre: "Cool Drink Manzana Verde", precio: 6000, descripcion: "340 ml", grupo: "Cool Drink", img: "assets/29 Cool Drink Manzana Verde.jpg" },
+      { nombre: "Cool Drink Maracuyá", precio: 6000, descripcion: "340 ml", grupo: "Cool Drink", img: "assets/30 Cool Drink Maracuya.jpg" },
+      { nombre: "Cool Drink Mangostino", precio: 6000, descripcion: "340 ml", grupo: "Cool Drink", img: "assets/31 Cool Drink Mangostino.jpg" },
+      { nombre: "Cool Drink Granada", precio: 6000, descripcion: "340 ml", grupo: "Cool Drink", img: "assets/32 Cool Drink Granada.jpg" },
+      { nombre: "Cerveza Costeñita", precio: 5000, descripcion: "175 ml", grupo: "Cerveza", img: "assets/33 Cerveza Costenita.jpg" },
+      { nombre: "Tequila Rose Strawberry Cream", precio: 20000, descripcion: "330 ml", grupo: "Cócteles", img: "assets/34 Tequila Rose Strawberry Cream.jpg" },
+      { nombre: "Buchanan's Coconut Cream", precio: 20000, descripcion: "330 ml", grupo: "Cócteles", img: "assets/35 Buchanans Coconut Cream.jpg" }
     ]
   }
 };
