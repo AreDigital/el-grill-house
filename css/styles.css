@@ -468,6 +468,9 @@ img { max-width: 100%; display: block; }
   border-radius: 50%;
   font-size: 1.6rem;
   line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   z-index: 2;
   float: right;
