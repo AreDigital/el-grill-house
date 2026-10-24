@@ -33,6 +33,15 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
+button {
+  font-family: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
 body {
   background: var(--bg);
   color: var(--text);
