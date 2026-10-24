@@ -21,7 +21,7 @@ const MAX_SALSAS = 2;
 const PRODUCTO_DEL_MES = {
   nombre: "Hamburguesa Americana",
   descripcion: "Pan brioche, carne de hamburguesa, tocineta crocante, doble queso cheddar, cebolla caramelizada, pepinillos y sour cream.",
-  precio: 38000,
+  precio: 32000,
   img: "assets/05 Hamburguesa Americana.jpg" // cambiar cada mes por la foto del producto destacado
 };
 
@@ -39,14 +39,14 @@ const MENU = {
     chipLabel: "Burguer",
     permiteSalsas: true,
     items: [
-      { nombre: "Costillera", precio: 40000, descripcion: "Pan brioche, carne de hamburguesa, costilla desmechada, salsa BBQ de la casa, queso mozzarella, cebolla crispy y lechuga.", img: "assets/01 Hamburguesa Costillera.jpg" },
-      { nombre: "Argentina", precio: 38000, descripcion: "Pan brioche con orégano y parmesano, carne de hamburguesa, chorizo, queso mozzarella, cebolla grillada, chimichurri y rúcula.", img: "assets/02 Hamburguesa Argentina.jpg" },
-      { nombre: "Italiana", precio: 38000, descripcion: "Pan brioche con orégano y parmesano, carne de hamburguesa, pesto de albahaca, queso mozzarella, queso provolone, tomate confitado, rúcula, aceite de oliva, bañado en reducción de vino tinto.", img: "assets/03 Hamburguesa Italiana.jpg" },
-      { nombre: "Mediterránea", precio: 45000, descripcion: "Pan brioche, carne de hamburguesa, camarón apanado, queso mozzarella, salsa alioli, cebolla morada, lechuga, tomate y miel picante.", img: "assets/04 Hamburguesa Mediterranea.jpg" },
-      { nombre: "Americana", precio: 38000, descripcion: "Pan brioche, carne de hamburguesa, tocineta crocante, doble queso cheddar, cebolla caramelizada, pepinillos y sour cream.", img: "assets/05 Hamburguesa Americana.jpg" },
-      { nombre: "Paisa", precio: 42000, descripcion: "Pan brioche, carne de hamburguesa, chicharrón, aguacate, hogao, maicitos, salsa BBQ y queso mozzarella.", img: "assets/06 Hamburguesa Paisa.jpg" },
-      { nombre: "Cheseburguer", precio: 35000, descripcion: "Pan brioche con orégano y parmesano, carne de hamburguesa, doble queso cheddar y mozzarella, cebolla caramelizada, pepinillos y salsa Grill House.", img: "assets/07 Cheseburguer.jpg" },
-      { nombre: "La de Pollo", precio: 35000, descripcion: "Pan brioche, pechuga de pollo a la parrilla, tocineta, queso mozzarella, cebolla caramelizada, miel mostaza, lechuga y tomate.", img: "assets/08 La de Pollo.jpg" }
+      { nombre: "Costillera", precio: 35000, descripcion: "Pan brioche, carne de hamburguesa, costilla desmechada, salsa BBQ de la casa, queso mozzarella, cebolla crispy y lechuga.", img: "assets/01 Hamburguesa Costillera.jpg" },
+      { nombre: "Argentina", precio: 34000, descripcion: "Pan brioche con orégano y parmesano, carne de hamburguesa, chorizo, queso mozzarella, cebolla grillada, chimichurri y rúcula.", img: "assets/02 Hamburguesa Argentina.jpg" },
+      { nombre: "Italiana", precio: 35000, descripcion: "Pan brioche con orégano y parmesano, carne de hamburguesa, pesto de albahaca, queso mozzarella, queso provolone, tomate confitado, rúcula, aceite de oliva, bañado en reducción de vino tinto.", img: "assets/03 Hamburguesa Italiana.jpg" },
+      { nombre: "Mediterránea", precio: 40000, descripcion: "Pan brioche, carne de hamburguesa, camarón apanado, queso mozzarella, salsa alioli, cebolla morada, lechuga, tomate y miel picante.", img: "assets/04 Hamburguesa Mediterranea.jpg" },
+      { nombre: "Americana", precio: 32000, descripcion: "Pan brioche, carne de hamburguesa, tocineta crocante, doble queso cheddar, cebolla caramelizada, pepinillos y sour cream.", img: "assets/05 Hamburguesa Americana.jpg" },
+      { nombre: "Paisa", precio: 38000, descripcion: "Pan brioche, carne de hamburguesa, chicharrón, aguacate, hogao, maicitos, salsa BBQ y queso mozzarella.", img: "assets/06 Hamburguesa Paisa.jpg" },
+      { nombre: "Cheseburguer", precio: 30000, descripcion: "Pan brioche con orégano y parmesano, carne de hamburguesa, doble queso cheddar y mozzarella, cebolla caramelizada, pepinillos y salsa Grill House.", img: "assets/07 Cheseburguer.jpg" },
+      { nombre: "La de Pollo", precio: 30000, descripcion: "Pan brioche, pechuga de pollo a la parrilla, tocineta, queso mozzarella, cebolla caramelizada, miel mostaza, lechuga y tomate.", img: "assets/08 La de Pollo.jpg" }
     ]
   },
   parrilla: {
