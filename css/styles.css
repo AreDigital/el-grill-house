@@ -87,6 +87,7 @@ img { max-width: 100%; display: block; }
   height: 100%;
   touch-action: pan-y;
   cursor: grab;
+  transition: transform 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 .promo-track.dragging { cursor: grabbing; }
