@@ -457,33 +457,53 @@ img { max-width: 100%; display: block; }
 
 .sheet-close {
   position: sticky;
-  top: 10px;
+  top: 12px;
   left: 100%;
+  margin-top: 12px;
   margin-right: 14px;
   background: rgba(0,0,0,0.55);
-  color: #fff;
+  color: transparent;
   border: none;
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  font-size: 1.6rem;
-  line-height: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  font-size: 0;
   cursor: pointer;
   z-index: 2;
   float: right;
 }
 
+/* La X se dibuja con CSS para que quede siempre centrada en el círculo */
+.sheet-close::before,
+.sheet-close::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 2px;
+  background: #fff;
+  border-radius: 2px;
+}
+
+.sheet-close::before { transform: translate(-50%, -50%) rotate(45deg); }
+.sheet-close::after { transform: translate(-50%, -50%) rotate(-45deg); }
+
 .sheet-img-wrap {
   width: 100%;
   aspect-ratio: 4/3;
   background: linear-gradient(135deg, var(--card), var(--bg-alt));
-  margin-top: -32px;
+  position: relative;
 }
 
-.sheet-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+.sheet-img-wrap img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 
 .sheet-body { padding: 18px 20px 6px; clear: both; }
 
