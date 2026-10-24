@@ -46,12 +46,17 @@ function renderPromo() {
   const dots = document.getElementById("promo-dots");
 
   track.innerHTML = BANNERS.map(b => {
-    const overlay = b.tipo === "producto" ? `
+    let overlay = "";
+    if (b.tipo === "producto") {
+      overlay = `
       <div class="promo-overlay">
         <span class="promo-eyebrow">Recomendada del mes</span>
         <h2>${PRODUCTO_DEL_MES.nombre}</h2>
         <span class="promo-price">${formatoPrecio(PRODUCTO_DEL_MES.precio)}</span>
-      </div>` : "";
+      </div>`;
+    } else if (b.frase) {
+      overlay = `<div class="promo-phrase">${b.frase}</div>`;
+    }
     return `
       <div class="promo-slide" data-tipo="${b.tipo}">
         <img src="${b.img}" alt="">
@@ -89,54 +94,89 @@ function iniciarAutoplayPromo() {
 function configurarArrastrePromo() {
   const track = document.getElementById("promo-track");
   let inicioX = 0;
+  let inicioY = 0;
   let desplazamiento = 0;
   let arrastrando = false;
   let esArrastre = false;
+  let direccion = null; // "horizontal" | "vertical" | null
 
-  track.addEventListener("pointerdown", (e) => {
+  function inicio(x, y) {
     arrastrando = true;
     esArrastre = false;
-    inicioX = e.clientX;
+    direccion = null;
+    desplazamiento = 0;
+    inicioX = x;
+    inicioY = y;
     track.classList.add("dragging");
     track.style.transition = "none";
-    track.setPointerCapture(e.pointerId);
-  });
+  }
 
-  track.addEventListener("pointermove", (e) => {
+  function mover(x, y, e) {
     if (!arrastrando) return;
-    desplazamiento = e.clientX - inicioX;
+    const deltaX = x - inicioX;
+    const deltaY = y - inicioY;
+
+    if (!direccion && (Math.abs(deltaX) > 6 || Math.abs(deltaY) > 6)) {
+      direccion = Math.abs(deltaX) > Math.abs(deltaY) ? "horizontal" : "vertical";
+    }
+    if (direccion === "vertical") return; // deja que la página haga scroll normal
+
+    if (e && e.cancelable) e.preventDefault();
+    desplazamiento = deltaX;
     if (Math.abs(desplazamiento) > 8) esArrastre = true;
     const base = -state.promoIndex * track.clientWidth;
     track.style.transform = `translateX(${base + desplazamiento}px)`;
-  });
+  }
 
-  const soltar = (e) => {
+  function fin(target) {
     if (!arrastrando) return;
     arrastrando = false;
     track.classList.remove("dragging");
     track.style.transition = "";
 
-    const umbral = track.clientWidth * 0.18;
-    if (desplazamiento > umbral) {
-      irASlide(state.promoIndex - 1);
-    } else if (desplazamiento < -umbral) {
-      irASlide(state.promoIndex + 1);
+    if (direccion === "horizontal") {
+      const umbral = track.clientWidth * 0.18;
+      if (desplazamiento > umbral) {
+        irASlide(state.promoIndex - 1);
+      } else if (desplazamiento < -umbral) {
+        irASlide(state.promoIndex + 1);
+      } else {
+        irASlide(state.promoIndex);
+      }
     } else {
       irASlide(state.promoIndex);
     }
+
     desplazamiento = 0;
     iniciarAutoplayPromo();
 
-    if (!esArrastre) {
-      const slide = e.target.closest(".promo-slide");
+    if (!esArrastre && target) {
+      const slide = target.closest(".promo-slide");
       if (slide && slide.dataset.tipo === "producto") {
         abrirDetalle(PRODUCTO_DEL_MES, true);
       }
     }
-  };
+    direccion = null;
+  }
 
-  track.addEventListener("pointerup", soltar);
-  track.addEventListener("pointercancel", soltar);
+  // Táctil (celular)
+  track.addEventListener("touchstart", (e) => {
+    const t = e.touches[0];
+    inicio(t.clientX, t.clientY);
+  }, { passive: true });
+
+  track.addEventListener("touchmove", (e) => {
+    const t = e.touches[0];
+    mover(t.clientX, t.clientY, e);
+  }, { passive: false });
+
+  track.addEventListener("touchend", (e) => fin(e.target));
+  track.addEventListener("touchcancel", (e) => fin(e.target));
+
+  // Mouse (para poder probar arrastrando en PC)
+  track.addEventListener("mousedown", (e) => inicio(e.clientX, e.clientY));
+  track.addEventListener("mousemove", (e) => mover(e.clientX, e.clientY, e));
+  window.addEventListener("mouseup", (e) => fin(e.target));
 }
 
 // ---------- render: chips de categoría ----------
