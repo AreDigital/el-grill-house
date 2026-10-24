@@ -66,20 +66,24 @@ function renderPromo() {
 
   dots.innerHTML = BANNERS.map((_, i) => `<span class="promo-dot"></span>`).join("");
 
-  configurarArrastrePromo();
+  configurarPromo();
   irASlide(0, false);
   iniciarAutoplayPromo();
 }
 
 function irASlide(indice, animar = true) {
   const total = BANNERS.length;
+  const track = document.getElementById("promo-track");
   state.promoIndex = ((indice % total) + total) % total;
 
-  const track = document.getElementById("promo-track");
-  track.style.transition = animar ? "" : "none";
-  track.style.transform = `translateX(-${state.promoIndex * 100}%)`;
-  if (!animar) track.offsetHeight; // fuerza reflow antes de reactivar transición
+  track.scrollTo({
+    left: state.promoIndex * track.clientWidth,
+    behavior: animar ? "smooth" : "auto"
+  });
+  actualizarPuntos();
+}
 
+function actualizarPuntos() {
   document.querySelectorAll(".promo-dot").forEach((dot, i) => {
     dot.classList.toggle("active", i === state.promoIndex);
   });
@@ -91,99 +95,47 @@ function iniciarAutoplayPromo() {
   state.promoTimer = setInterval(() => irASlide(state.promoIndex + 1), 5000);
 }
 
-function configurarArrastrePromo() {
+// El deslizamiento con el dedo lo maneja el navegador (CSS scroll-snap).
+// Aquí solo sincronizamos los puntos, pausamos el autoplay mientras el
+// usuario toca el banner, y abrimos la ficha del producto al tocarlo.
+function configurarPromo() {
   const track = document.getElementById("promo-track");
-  let inicioX = 0;
-  let inicioY = 0;
-  let desplazamiento = 0;
-  let arrastrando = false;
-  let esArrastre = false; // true solo cuando se confirma que el gesto es horizontal
+  let tocando = false;
+  let reinicio;
 
-  function inicio(x, y) {
-    arrastrando = true;
-    esArrastre = false;
-    desplazamiento = 0;
-    inicioX = x;
-    inicioY = y;
-    clearInterval(state.promoTimer); // pausa el autoplay mientras el usuario toca el banner
-    track.classList.add("dragging");
-    track.style.transition = "none";
+  function programarReinicioAutoplay() {
+    clearTimeout(reinicio);
+    reinicio = setTimeout(() => { if (!tocando) iniciarAutoplayPromo(); }, 1200);
   }
 
-  function soltarSinArrastrar() {
-    arrastrando = false;
-    track.classList.remove("dragging");
-    track.style.transition = "";
-    iniciarAutoplayPromo();
-  }
-
-  function mover(x, y, e) {
-    if (!arrastrando) return;
-    const deltaX = x - inicioX;
-    const deltaY = y - inicioY;
-
-    if (!esArrastre) {
-      // aún no hay movimiento suficiente para saber si es horizontal o vertical
-      if (Math.abs(deltaX) < 10 && Math.abs(deltaY) < 10) return;
-      if (Math.abs(deltaY) > Math.abs(deltaX)) {
-        // es scroll vertical de la página: soltamos el banner y no interferimos
-        soltarSinArrastrar();
-        return;
-      }
-      esArrastre = true; // confirmado: el usuario está deslizando el banner
+  track.addEventListener("scroll", () => {
+    const i = Math.round(track.scrollLeft / track.clientWidth);
+    if (i !== state.promoIndex && i >= 0 && i < BANNERS.length) {
+      state.promoIndex = i;
+      actualizarPuntos();
     }
-
-    if (e && e.cancelable) e.preventDefault();
-    desplazamiento = deltaX;
-    const base = -state.promoIndex * track.clientWidth;
-    track.style.transform = `translateX(${base + desplazamiento}px)`;
-  }
-
-  function fin(target) {
-    if (!arrastrando) return;
-    arrastrando = false;
-    track.classList.remove("dragging");
-    track.style.transition = "";
-
-    if (esArrastre) {
-      const umbral = track.clientWidth * 0.18;
-      if (desplazamiento > umbral) {
-        irASlide(state.promoIndex - 1);
-      } else if (desplazamiento < -umbral) {
-        irASlide(state.promoIndex + 1);
-      } else {
-        irASlide(state.promoIndex);
-      }
-    } else if (target) {
-      // fue un toque corto (tap), no un arrastre
-      const slide = target.closest(".promo-slide");
-      if (slide && slide.dataset.tipo === "producto") {
-        abrirDetalle(PRODUCTO_DEL_MES, true);
-      }
-    }
-
-    desplazamiento = 0;
-    iniciarAutoplayPromo();
-  }
-
-  // Táctil (celular)
-  track.addEventListener("touchstart", (e) => {
-    const t = e.touches[0];
-    inicio(t.clientX, t.clientY);
   }, { passive: true });
 
-  track.addEventListener("touchmove", (e) => {
-    const t = e.touches[0];
-    mover(t.clientX, t.clientY, e);
-  }, { passive: false });
+  track.addEventListener("touchstart", () => {
+    tocando = true;
+    clearInterval(state.promoTimer);
+  }, { passive: true });
 
-  track.addEventListener("touchend", (e) => fin(e.target));
-  track.addEventListener("touchcancel", (e) => fin(e.target));
+  ["touchend", "touchcancel"].forEach(evento => {
+    track.addEventListener(evento, () => {
+      tocando = false;
+      programarReinicioAutoplay();
+    }, { passive: true });
+  });
 
-  // Mouse (para poder probar arrastrando en PC)
-  track.addEventListener("mousedown", (e) => inicio(e.clientX, e.clientY));
-  track.addEventListener("mousemove", (e) => mover(e.clientX, e.clientY, e));
-  window.addEventListener("mouseup", (e) => fin(e.target));
+  // El navegador no dispara "click" después de un deslizamiento,
+  // así que no hay que distinguir entre tocar y arrastrar.
+  track.addEventListener("click", (e) => {
+    const slide = e.target.closest(".promo-slide");
+    if (slide && slide.dataset.tipo === "producto") {
+      abrirDetalle(PRODUCTO_DEL_MES, true);
+    }
+  });
 }
 
 // ---------- render: chips de categoría ----------
