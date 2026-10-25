@@ -40,6 +40,8 @@ button {
   border: none;
   -webkit-appearance: none;
   appearance: none;
+  touch-action: manipulation; /* quita la espera del doble toque en iOS */
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
