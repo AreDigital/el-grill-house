@@ -86,8 +86,14 @@
     <label>A nombre de
       <input id="entrega-nombre" type="text" autocomplete="name" placeholder="Nombre de quien recibe">
     </label>
-    <label>Teléfono de contacto
-      <input id="entrega-telefono" type="tel" inputmode="tel" autocomplete="tel" placeholder="Ej: 300 123 4567">
+    <div class="entrega-telefono-wrap" id="entrega-telefono-wrap">
+      <label>Teléfono de contacto
+        <input id="entrega-telefono" type="tel" inputmode="tel" autocomplete="tel" placeholder="Ej: 300 123 4567">
+      </label>
+    </div>
+    <label class="entrega-check">
+      <input id="entrega-mismo-wa" type="checkbox">
+      <span>Usar el mismo número de este WhatsApp</span>
     </label>
     <label>Municipio
       <select id="entrega-municipio">

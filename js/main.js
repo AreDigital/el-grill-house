@@ -525,7 +525,17 @@ function leerDatosEntrega() {
   if (!hayFormularioEntrega()) return null;
   const d = {};
   CAMPOS_ENTREGA.forEach(c => { d[c.clave] = valorCampo(c); });
+  if (mismoWhatsApp()) d.telefono = "el mismo de este WhatsApp";
   return d;
+}
+
+function mismoWhatsApp() {
+  const el = document.getElementById("entrega-mismo-wa");
+  return !!el && el.checked;
+}
+
+function actualizarTelefonoVisible() {
+  document.getElementById("entrega-telefono-wrap").hidden = mismoWhatsApp();
 }
 
 const MENSAJE_FUERA_DE_ZONA = "Por ahora no llegamos a ese municipio. Domicilios solo en Itagüí, La Estrella, Envigado y Sabaneta.";
@@ -544,7 +554,7 @@ function validarEntrega() {
   const faltan = CAMPOS_ENTREGA.filter(c => {
     if (!c.obligatorio) return false;
     const v = valorCampo(c);
-    if (c.clave === "telefono") return v.replace(/\D/g, "").length < 7;
+    if (c.clave === "telefono") return !mismoWhatsApp() && v.replace(/\D/g, "").length < 7;
     return !v;
   });
   CAMPOS_ENTREGA.forEach(c => document.getElementById(c.id).classList.toggle("invalid", faltan.includes(c)));
@@ -564,6 +574,7 @@ function guardarDatosEntrega() {
   try {
     const d = {};
     CAMPOS_ENTREGA.forEach(c => { d[c.clave] = valorCampo(c); });
+    d.mismoWa = mismoWhatsApp();
     localStorage.setItem(CLAVE_DATOS_ENTREGA, JSON.stringify(d));
   } catch (e) {}
 }
@@ -573,12 +584,19 @@ function restaurarDatosEntrega() {
     const d = JSON.parse(localStorage.getItem(CLAVE_DATOS_ENTREGA) || "null");
     if (!d) return;
     CAMPOS_ENTREGA.forEach(c => { if (d[c.clave]) document.getElementById(c.id).value = d[c.clave]; });
+    document.getElementById("entrega-mismo-wa").checked = !!d.mismoWa;
   } catch (e) {}
 }
 
 function configurarFormularioEntrega() {
   if (!hayFormularioEntrega()) return;
   restaurarDatosEntrega();
+  actualizarTelefonoVisible();
+  document.getElementById("entrega-mismo-wa").addEventListener("change", () => {
+    actualizarTelefonoVisible();
+    document.getElementById("entrega-telefono").classList.remove("invalid");
+    guardarDatosEntrega();
+  });
   CAMPOS_ENTREGA.forEach(c => {
     const el = document.getElementById(c.id);
     el.addEventListener("input", () => { el.classList.remove("invalid"); guardarDatosEntrega(); });
