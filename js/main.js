@@ -512,7 +512,7 @@ async function copiarPedido(btn) {
 
 function pedirPorWhatsApp() {
   const url = `https://wa.me/${NEGOCIO.whatsapp}?text=${encodeURIComponent(textoPedido())}`;
-  window.open(url, "_blank");
+  window.location.href = url; // misma pestaña: iOS/Chrome abren mejor la app así
 }
 
 function configurarModoWeb() {
