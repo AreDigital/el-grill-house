@@ -560,6 +560,15 @@ img { max-width: 100%; display: block; }
   color: #fff;
 }
 
+.sheet-body .sheet-price-extra {
+  margin: -8px 0 14px;
+  font-size: 0.82rem;
+  color: var(--gold);
+  font-weight: 600;
+}
+
+.sheet-body .sheet-price-extra[hidden] { display: none; }
+
 .salsa-extra {
   position: absolute;
   top: -7px;

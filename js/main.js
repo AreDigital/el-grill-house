@@ -310,10 +310,14 @@ function actualizarPrecioDetalle() {
   const item = state.detalleActual;
   if (!item) return;
   const extras = salsasAdicionales();
-  const unitario = item.precio + extras * PRECIO_SALSA_EXTRA;
-  document.getElementById("detail-precio").textContent = formatoPrecio(unitario);
-  document.getElementById("detail-add").textContent =
-    extras ? `Añadir · ${formatoPrecio(unitario * state.detalleQty)}` : "Añadir a mi lista";
+  const costoExtra = extras * PRECIO_SALSA_EXTRA;
+  document.getElementById("detail-precio").textContent = formatoPrecio(item.precio + costoExtra);
+
+  const detalle = document.getElementById("detail-precio-extra");
+  detalle.hidden = !extras;
+  if (extras) {
+    detalle.textContent = `${formatoPrecio(item.precio)} + ${formatoPrecio(costoExtra)} por ${extras} ${extras > 1 ? "salsas adicionales" : "salsa adicional"}`;
+  }
 }
 
 function abrirSheet(sheetId, backdropId) {
