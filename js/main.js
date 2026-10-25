@@ -382,11 +382,28 @@ function agregarALista() {
 function cerrarDetalle() {
   const editaba = state.editandoIndice !== null;
   state.editandoIndice = null;
+  if (editaba) {
+    unirIguales();
+    guardarLista();
+    renderCartBar();
+  }
   cerrarSheet("detail-sheet", "detail-backdrop");
   if (editaba) {
     renderListSheet();
     abrirSheet("list-sheet", "list-backdrop");
   }
+}
+
+// Junta las líneas idénticas (mismo producto y mismas salsas) sumando cantidades
+function unirIguales() {
+  const llave = (l) => JSON.stringify([l.nombre, (l.salsas || []).slice().sort(), !!l.sinSalsa, l.adicionales || 0]);
+  const resultado = [];
+  state.lista.forEach(l => {
+    const igual = resultado.find(r => llave(r) === llave(l));
+    if (igual) igual.cantidad += l.cantidad;
+    else resultado.push(l);
+  });
+  state.lista = resultado;
 }
 
 function buscarProducto(nombre) {
@@ -398,9 +415,17 @@ function buscarProducto(nombre) {
 }
 
 function modificarEnLista(indice) {
-  const linea = state.lista[indice];
+  let linea = state.lista[indice];
   const prod = buscarProducto(linea.nombre);
   if (!prod) return;
+
+  // Una línea con varias unidades se separa en líneas de 1, para editar cada una por su cuenta
+  if (linea.cantidad > 1) {
+    const unidades = Array.from({ length: linea.cantidad }, () => ({ ...linea, salsas: [...(linea.salsas || [])], cantidad: 1 }));
+    state.lista.splice(indice, 1, ...unidades);
+    linea = state.lista[indice];
+  }
+
   cerrarSheet("list-sheet", "list-backdrop");
   abrirDetalle(prod.item, prod.permiteSalsas, prod.salsasExtra, { indice, linea });
 }
