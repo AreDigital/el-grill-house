@@ -686,7 +686,7 @@ img { max-width: 100%; display: block; }
 
 .list-item-info { flex: 1; min-width: 0; }
 .list-item-info h4 { font-size: 0.95rem; }
-.list-item-info span { color: var(--muted); font-size: 0.8rem; }
+.list-item-info span { display: block; color: var(--muted); font-size: 0.8rem; }
 
 .list-item-right { display: flex; align-items: center; gap: 10px; }
 

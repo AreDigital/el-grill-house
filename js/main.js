@@ -358,12 +358,12 @@ function agregarALista() {
   const item = state.detalleActual;
   const qty = state.detalleQty;
   const sinSalsa = state.detalleSinSalsa;
-  const salsas = [...state.detalleSalsas].sort();
+  const salsas = [...state.detalleSalsas]; // en el orden elegido: las primeras son las incluidas
   const adicionales = salsasAdicionales();
-  const mismasSalsas = (a) => JSON.stringify((a || []).slice().sort()) === JSON.stringify(salsas);
+  const claveNueva = claveSalsas({ salsas, adicionales, sinSalsa });
   const indiceEdicion = state.editandoIndice;
   if (indiceEdicion !== null) state.lista.splice(indiceEdicion, 1);
-  const existente = state.lista.find(l => l.nombre === item.nombre && mismasSalsas(l.salsas));
+  const existente = state.lista.find(l => l.nombre === item.nombre && claveSalsas(l) === claveNueva);
 
   if (existente) {
     existente.cantidad += qty;
@@ -395,8 +395,14 @@ function cerrarDetalle() {
 }
 
 // Junta las líneas idénticas (mismo producto y mismas salsas) sumando cantidades
+function claveSalsas(l) {
+  const s = l.salsas || [];
+  const corte = s.length - (l.adicionales || 0);
+  return JSON.stringify([s.slice(0, corte).sort(), s.slice(corte).sort(), !!l.sinSalsa]);
+}
+
 function unirIguales() {
-  const llave = (l) => JSON.stringify([l.nombre, (l.salsas || []).slice().sort(), !!l.sinSalsa, l.adicionales || 0]);
+  const llave = (l) => JSON.stringify([l.nombre, claveSalsas(l)]);
   const resultado = [];
   state.lista.forEach(l => {
     const igual = resultado.find(r => llave(r) === llave(l));
@@ -474,11 +480,15 @@ function titulosLista() {
   });
 }
 
-function detalleSalsasTexto(l) {
-  if (l.salsas && l.salsas.length) {
-    return l.salsas.join(", ") + (l.adicionales ? ` (+${l.adicionales} adicional${l.adicionales > 1 ? "es" : ""})` : "");
-  }
-  return l.sinSalsa ? "Sin salsas" : "";
+// Devuelve hasta dos líneas: las salsas incluidas y, aparte, las adicionales con su costo
+function lineasSalsas(l) {
+  const s = l.salsas || [];
+  if (!s.length) return l.sinSalsa ? ["Sin salsas"] : [];
+  const extra = l.adicionales || 0;
+  const corte = s.length - extra;
+  const lineas = [`Salsas: ${s.slice(0, corte).join(", ")}`];
+  if (extra) lineas.push(`Adicionales: ${s.slice(corte).join(", ")} (+${formatoPrecio(extra * PRECIO_SALSA_EXTRA)})`);
+  return lineas;
 }
 
 // ---------- modo web: copiar pedido / pedir por WhatsApp ----------
@@ -486,8 +496,8 @@ function textoPedido() {
   const titulos = titulosLista();
   const divisor = "━━━━━━━━━━━━━━";
   const bloques = state.lista.map((l, i) => {
-    const salsas = detalleSalsasTexto(l);
-    return `*${i + 1}. ${titulos[i]}*  x${l.cantidad}\n` + (salsas ? `${salsas}\n` : "") + `${formatoPrecio(l.precio * l.cantidad)}\n${divisor}`;
+    const lineas = lineasSalsas(l);
+    return `*${i + 1}. ${titulos[i]}*  x${l.cantidad}\n` + (lineas.length ? `${lineas.join("\n")}\n` : "") + `${formatoPrecio(l.precio * l.cantidad)}\n${divisor}`;
   });
   const d = leerDatosEntrega();
   const datos = d
@@ -683,7 +693,8 @@ function renderListSheet() {
         <img class="list-item-img" src="${(buscarProducto(l.nombre) || {}).item?.img || "assets/logo.png"}" alt="">
         <div class="list-item-info">
           <h4>${titulos[i]}</h4>
-          <span>x${l.cantidad}${detalleSalsasTexto(l) ? " · " + detalleSalsasTexto(l) : ""}</span>
+          <span>x${l.cantidad}${lineasSalsas(l)[0] ? " · " + lineasSalsas(l)[0] : ""}</span>
+          ${lineasSalsas(l)[1] ? `<span>${lineasSalsas(l)[1]}</span>` : ""}
           <button class="edit-item" data-idx="${i}">Modificar</button>
         </div>
         <div class="list-item-right">
