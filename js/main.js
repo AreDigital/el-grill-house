@@ -443,11 +443,21 @@ function renderListSheet() {
   if (state.lista.length === 0) {
     cont.innerHTML = `<p style="color:var(--muted); padding: 10px 0;">Tu lista está vacía.</p>`;
   } else {
+    // Si un mismo producto aparece en varias líneas (salsas distintas), se numera: "Costillera 1", "Costillera 2"
+    const totalPorNombre = {};
+    state.lista.forEach(l => { totalPorNombre[l.nombre] = (totalPorNombre[l.nombre] || 0) + 1; });
+    const contador = {};
+    const tituloLinea = (l) => {
+      if (totalPorNombre[l.nombre] < 2) return l.nombre;
+      contador[l.nombre] = (contador[l.nombre] || 0) + 1;
+      return `${l.nombre} ${contador[l.nombre]}`;
+    };
+
     cont.innerHTML = state.lista.map((l, i) => `
       <div class="list-item">
         <img class="list-item-img" src="${(buscarProducto(l.nombre) || {}).item?.img || "assets/logo.png"}" alt="">
         <div class="list-item-info">
-          <h4>${l.nombre}</h4>
+          <h4>${tituloLinea(l)}</h4>
           <span>x${l.cantidad}${l.salsas && l.salsas.length ? " · " + l.salsas.join(", ") + (l.adicionales ? ` (+${l.adicionales} adicional${l.adicionales > 1 ? "es" : ""})` : "") : (l.sinSalsa ? " · Sin salsas" : "")}</span>
           <button class="edit-item" data-idx="${i}">Modificar</button>
         </div>
