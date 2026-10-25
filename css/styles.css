@@ -723,6 +723,27 @@ img { max-width: 100%; display: block; }
   margin-top: 16px;
 }
 
+.list-total.con-domicilio {
+  flex-direction: column;
+  gap: 4px;
+}
+
+.list-total .total-fila {
+  display: flex;
+  justify-content: space-between;
+}
+
+.list-total .total-fila:not(.total-final) {
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.list-total .total-final {
+  font-size: 1.3rem;
+  margin-top: 4px;
+}
+
 .datos-entrega {
   padding: 14px 20px 0;
   display: flex;

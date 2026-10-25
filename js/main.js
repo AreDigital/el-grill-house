@@ -493,7 +493,11 @@ function textoPedido() {
   const datos = d
     ? `\n\n*Datos de entrega*\nNombre: ${d.nombre}\nTeléfono: ${d.telefono}\nDirección: ${d.direccion}\nBarrio: ${d.barrio}, ${d.municipio}` + (d.referencia ? `\nReferencia: ${d.referencia}` : "")
     : "";
-  return `Hola, ${saludoSegunHora()} 👋\nQuiero hacer este pedido:\n\n${divisor}\n${bloques.join("\n")}\n\n*TOTAL: ${formatoPrecio(totalLista())}*${datos}`;
+  const envio = d ? costoDomicilio() : 0;
+  const totales = envio > 0
+    ? `Subtotal: ${formatoPrecio(totalLista())}\nDomicilio (${d.municipio}): ${formatoPrecio(envio)}\n*TOTAL: ${formatoPrecio(totalLista() + envio)}*`
+    : `*TOTAL: ${formatoPrecio(totalLista())}*`;
+  return `Hola, ${saludoSegunHora()} 👋\nQuiero hacer este pedido:\n\n${divisor}\n${bloques.join("\n")}\n\n${totales}${datos}`;
 }
 
 function saludoSegunHora() {
@@ -582,7 +586,15 @@ function restaurarDatosEntrega() {
 
 function configurarFormularioEntrega() {
   if (!hayFormularioEntrega()) return;
+  const selectMunicipio = document.getElementById("entrega-municipio");
+  Object.keys(TARIFA_DOMICILIO).forEach(m => {
+    const op = document.createElement("option");
+    op.value = m;
+    op.textContent = `${m} · domicilio ${formatoPrecio(TARIFA_DOMICILIO[m])}`;
+    selectMunicipio.appendChild(op);
+  });
   restaurarDatosEntrega();
+  actualizarTotalLista();
   actualizarTelefonoVisible();
   document.getElementById("entrega-mismo-wa").addEventListener("change", () => {
     actualizarTelefonoVisible();
@@ -595,6 +607,7 @@ function configurarFormularioEntrega() {
     el.addEventListener("change", () => {
       el.classList.remove("invalid");
       guardarDatosEntrega();
+      if (c.clave === "municipio") actualizarTotalLista();
     });
   });
 }
@@ -633,6 +646,30 @@ function configurarModoWeb() {
   if (form) form.hidden = !web || state.lista.length === 0;
 }
 
+// Domicilio según el municipio elegido (solo versión web con formulario)
+function municipioElegido() {
+  if (!hayFormularioEntrega()) return "";
+  return document.getElementById("entrega-municipio").value;
+}
+
+function costoDomicilio() {
+  return TARIFA_DOMICILIO[municipioElegido()] || 0;
+}
+
+function actualizarTotalLista() {
+  const cont = document.getElementById("list-total");
+  const envio = costoDomicilio();
+  cont.classList.toggle("con-domicilio", envio > 0);
+  if (envio > 0) {
+    cont.innerHTML = `
+      <div class="total-fila"><span>Subtotal</span><span>${formatoPrecio(totalLista())}</span></div>
+      <div class="total-fila"><span>Domicilio (${municipioElegido()})</span><span>${formatoPrecio(envio)}</span></div>
+      <div class="total-fila total-final"><span>Total</span><span>${formatoPrecio(totalLista() + envio)}</span></div>`;
+  } else {
+    cont.innerHTML = `<span>Total</span><span>${formatoPrecio(totalLista())}</span>`;
+  }
+}
+
 function renderListSheet() {
   const cont = document.getElementById("list-items");
 
@@ -665,7 +702,7 @@ function renderListSheet() {
   }
 
   configurarModoWeb();
-  document.getElementById("list-total").innerHTML = `<span>Total</span><span>${formatoPrecio(totalLista())}</span>`;
+  actualizarTotalLista();
 }
 
 // ---------- footer ----------

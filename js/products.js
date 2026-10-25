@@ -110,6 +110,14 @@ const MENU = {
   }
 };
 
+// Costo del domicilio por municipio (solo versión web)
+const TARIFA_DOMICILIO = {
+  "Itagüí": 5000,
+  "La Estrella": 7000,
+  "Sabaneta": 7000,
+  "Envigado": 8000
+};
+
 const NEGOCIO = {
   nombre: "El Grill House",
   direccion: "Diagonal 42 #36A 10, La Independencia, Itagüí",
