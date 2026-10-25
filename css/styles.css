@@ -517,15 +517,21 @@ img { max-width: 100%; display: block; }
   margin-bottom: 16px;
 }
 
-.salsa-section { margin-bottom: 16px; }
+.salsa-section {
+  margin-bottom: 16px;
+  padding: 14px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--gold) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--gold) 35%, transparent);
+}
 
-.salsa-label {
-  font-size: 0.82rem;
+.sheet-body .salsa-label {
+  font-size: 0.88rem;
   font-weight: 700;
-  color: var(--muted);
-  margin-bottom: 8px;
+  color: var(--gold);
+  margin-bottom: 10px;
   text-transform: uppercase;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.04em;
 }
 
 .salsa-grid {
@@ -550,6 +556,17 @@ img { max-width: 100%; display: block; }
   border-color: var(--red);
   color: #fff;
 }
+
+.salsa-chip.sin-salsa { border-style: dashed; }
+
+.sheet-body .salsa-aviso {
+  margin: 12px 0 0;
+  color: var(--red);
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.btn-add.pendiente { opacity: 0.45; }
 
 .salsa-chip.disabled {
   opacity: 0.4;

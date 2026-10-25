@@ -12,6 +12,7 @@ const state = {
   detalleActual: null,
   detalleQty: 1,
   detalleSalsas: [],
+  detalleSinSalsa: false,
   detallePermiteSalsas: false,
   promoIndex: 0,
   promoTimer: null,
@@ -226,6 +227,7 @@ function abrirDetalle(item, permiteSalsas = false) {
   state.detalleActual = item;
   state.detalleQty = 1;
   state.detalleSalsas = [];
+  state.detalleSinSalsa = false;
   state.detallePermiteSalsas = permiteSalsas;
 
   document.getElementById("detail-img").src = item.img || "assets/logo.png";
@@ -236,7 +238,9 @@ function abrirDetalle(item, permiteSalsas = false) {
 
   const seccionSalsa = document.getElementById("salsa-section");
   seccionSalsa.hidden = !permiteSalsas;
+  document.getElementById("salsa-aviso").hidden = true;
   if (permiteSalsas) renderSalsaGrid();
+  actualizarBotonAnadir();
 
   abrirSheet("detail-sheet", "detail-backdrop");
 }
@@ -245,15 +249,21 @@ function renderSalsaGrid() {
   const cont = document.getElementById("salsa-grid");
   const limite = state.detalleSalsas.length >= MAX_SALSAS;
 
-  cont.innerHTML = SALSAS.map(s => {
+  const chipSin = `<button type="button" class="salsa-chip sin-salsa ${state.detalleSinSalsa ? "selected" : ""}" data-sin="1">Sin salsas</button>`;
+
+  cont.innerHTML = chipSin + SALSAS.map(s => {
     const seleccionada = state.detalleSalsas.includes(s);
     const bloqueada = limite && !seleccionada;
     return `<button type="button" class="salsa-chip ${seleccionada ? "selected" : ""} ${bloqueada ? "disabled" : ""}" data-salsa="${s}">${s}</button>`;
   }).join("");
 
   cont.querySelectorAll(".salsa-chip").forEach(btn => {
-    btn.addEventListener("click", () => toggleSalsa(btn.dataset.salsa));
+    btn.addEventListener("click", () => {
+      if (btn.dataset.sin) toggleSinSalsa();
+      else toggleSalsa(btn.dataset.salsa);
+    });
   });
+  actualizarBotonAnadir();
 }
 
 function toggleSalsa(nombre) {
@@ -262,8 +272,28 @@ function toggleSalsa(nombre) {
     state.detalleSalsas.splice(idx, 1);
   } else if (state.detalleSalsas.length < MAX_SALSAS) {
     state.detalleSalsas.push(nombre);
+    state.detalleSinSalsa = false;
   }
   renderSalsaGrid();
+}
+
+function toggleSinSalsa() {
+  state.detalleSinSalsa = !state.detalleSinSalsa;
+  if (state.detalleSinSalsa) state.detalleSalsas = [];
+  renderSalsaGrid();
+}
+
+// En hamburguesas y parrilla hay que elegir salsas o "Sin salsas" antes de añadir
+function salsaPendiente() {
+  return state.detallePermiteSalsas && !state.detalleSinSalsa && state.detalleSalsas.length === 0;
+}
+
+function actualizarBotonAnadir() {
+  const pendiente = salsaPendiente();
+  const btn = document.getElementById("detail-add");
+  btn.classList.toggle("pendiente", pendiente);
+  btn.setAttribute("aria-disabled", pendiente ? "true" : "false");
+  if (!pendiente) document.getElementById("salsa-aviso").hidden = true;
 }
 
 function abrirSheet(sheetId, backdropId) {
@@ -278,8 +308,16 @@ function cerrarSheet(sheetId, backdropId) {
 
 // ---------- carrito / lista ----------
 function agregarALista() {
+  if (salsaPendiente()) {
+    const aviso = document.getElementById("salsa-aviso");
+    aviso.hidden = false;
+    document.getElementById("salsa-section").scrollIntoView({ behavior: "smooth", block: "center" });
+    return;
+  }
+
   const item = state.detalleActual;
   const qty = state.detalleQty;
+  const sinSalsa = state.detalleSinSalsa;
   const salsas = [...state.detalleSalsas].sort();
   const mismasSalsas = (a) => JSON.stringify((a || []).slice().sort()) === JSON.stringify(salsas);
   const existente = state.lista.find(l => l.nombre === item.nombre && mismasSalsas(l.salsas));
@@ -287,7 +325,7 @@ function agregarALista() {
   if (existente) {
     existente.cantidad += qty;
   } else {
-    state.lista.push({ nombre: item.nombre, precio: item.precio, cantidad: qty, salsas });
+    state.lista.push({ nombre: item.nombre, precio: item.precio, cantidad: qty, salsas, sinSalsa });
   }
 
   guardarLista();
@@ -337,7 +375,7 @@ function renderListSheet() {
       <div class="list-item">
         <div class="list-item-info">
           <h4>${l.nombre}</h4>
-          <span>x${l.cantidad}${l.salsas && l.salsas.length ? " · " + l.salsas.join(", ") : ""}</span>
+          <span>x${l.cantidad}${l.salsas && l.salsas.length ? " · " + l.salsas.join(", ") : (l.sinSalsa ? " · Sin salsas" : "")}</span>
         </div>
         <div class="list-item-right">
           <span class="list-item-price">${formatoPrecio(l.precio * l.cantidad)}</span>
