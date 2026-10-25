@@ -738,6 +738,13 @@ img { max-width: 100%; display: block; }
   letter-spacing: 0.03em;
 }
 
+.datos-entrega .entrega-nota {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--gold);
+  margin-top: -4px;
+}
+
 .datos-entrega label {
   display: flex;
   flex-direction: column;

@@ -528,8 +528,19 @@ function leerDatosEntrega() {
   return d;
 }
 
+const MENSAJE_FUERA_DE_ZONA = "Por ahora no llegamos a ese municipio. Domicilios solo en Itagüí, La Estrella, Envigado y Sabaneta.";
+
 function validarEntrega() {
   if (!hayFormularioEntrega()) return true;
+  const campoMunicipio = document.getElementById("entrega-municipio");
+  if (campoMunicipio.value === "Otro municipio") {
+    campoMunicipio.classList.add("invalid");
+    const av = document.getElementById("entrega-aviso");
+    av.textContent = MENSAJE_FUERA_DE_ZONA;
+    av.hidden = false;
+    campoMunicipio.scrollIntoView({ behavior: "smooth", block: "center" });
+    return false;
+  }
   const faltan = CAMPOS_ENTREGA.filter(c => {
     if (!c.obligatorio) return false;
     const v = valorCampo(c);
@@ -571,7 +582,20 @@ function configurarFormularioEntrega() {
   CAMPOS_ENTREGA.forEach(c => {
     const el = document.getElementById(c.id);
     el.addEventListener("input", () => { el.classList.remove("invalid"); guardarDatosEntrega(); });
-    el.addEventListener("change", () => { el.classList.remove("invalid"); guardarDatosEntrega(); });
+    el.addEventListener("change", () => {
+      el.classList.remove("invalid");
+      guardarDatosEntrega();
+      if (c.clave === "municipio") {
+        const av = document.getElementById("entrega-aviso");
+        if (el.value === "Otro municipio") {
+          el.classList.add("invalid");
+          av.textContent = MENSAJE_FUERA_DE_ZONA;
+          av.hidden = false;
+        } else {
+          av.hidden = true;
+        }
+      }
+    });
   });
 }
 
