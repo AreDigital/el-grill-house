@@ -75,6 +75,8 @@ const MENU = {
   entradas: {
     titulo: "Entradas",
     subtitulo: "El inicio del buen parche.",
+    permiteSalsas: true,
+    salsasExtra: ["Hogao"], // salsa adicional solo para entradas
     items: [
       { nombre: "Yucas Fritas x5", precio: 12000, descripcion: "Crocantes yucas fritas acompañadas de salsa de la casa.", img: "assets/15 Yucas Fritas.jpg" },
       { nombre: "Papas con Queso y Tocineta", precio: 18000, descripcion: "Crujientes papas francesas con queso, tocineta y salsa cheddar.", img: "assets/16 Papas con queso y tocineta.jpg" },

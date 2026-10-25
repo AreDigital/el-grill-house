@@ -202,10 +202,11 @@ function renderLista() {
 
   const selector = state.vista === "grid" ? ".grid-item" : ".row-item";
   const permiteSalsas = !!MENU[state.categoria].permiteSalsas;
+  const salsasExtra = MENU[state.categoria].salsasExtra || [];
   cont.querySelectorAll(selector).forEach(el => {
     el.addEventListener("click", () => {
       const item = items[el.dataset.idx];
-      abrirDetalle(item, permiteSalsas);
+      abrirDetalle(item, permiteSalsas, salsasExtra);
     });
   });
 }
@@ -223,7 +224,8 @@ function actualizarBotonVista() {
 }
 
 // ---------- sheet de detalle ----------
-function abrirDetalle(item, permiteSalsas = false) {
+function abrirDetalle(item, permiteSalsas = false, salsasExtra = []) {
+  state.detalleSalsasExtra = salsasExtra;
   state.detalleActual = item;
   state.detalleQty = 1;
   state.detalleSalsas = [];
@@ -251,7 +253,7 @@ function renderSalsaGrid() {
 
   const chipSin = `<button type="button" class="salsa-chip sin-salsa ${state.detalleSinSalsa ? "selected" : ""}" data-sin="1">Sin salsas</button>`;
 
-  cont.innerHTML = chipSin + SALSAS.map(s => {
+  cont.innerHTML = chipSin + SALSAS.concat(state.detalleSalsasExtra || []).map(s => {
     const seleccionada = state.detalleSalsas.includes(s);
     const bloqueada = limite && !seleccionada;
     return `<button type="button" class="salsa-chip ${seleccionada ? "selected" : ""} ${bloqueada ? "disabled" : ""}" data-salsa="${s}">${s}</button>`;
