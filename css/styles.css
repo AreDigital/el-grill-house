@@ -541,6 +541,7 @@ img { max-width: 100%; display: block; }
 }
 
 .salsa-chip {
+  position: relative;
   flex: 1 1 auto;
   text-align: center;
   background: var(--card);
@@ -560,11 +561,23 @@ img { max-width: 100%; display: block; }
 }
 
 .salsa-extra {
-  display: block;
-  font-size: 0.68rem;
-  font-weight: 600;
-  opacity: 0.8;
-  margin-top: 1px;
+  position: absolute;
+  top: -7px;
+  right: 10px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  line-height: 1;
+  padding: 3px 6px;
+  border-radius: 999px;
+  background: var(--gold);
+  color: #000;
+  white-space: nowrap;
+}
+
+.sheet-body .salsa-nota {
+  margin: -4px 0 10px;
+  font-size: 0.78rem;
+  color: var(--muted);
 }
 
 .salsa-chip.sin-salsa { border-style: dashed; grid-column: 1 / -1; }

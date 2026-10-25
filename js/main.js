@@ -249,14 +249,15 @@ function abrirDetalle(item, permiteSalsas = false, salsasExtra = []) {
 
 function renderSalsaGrid() {
   const cont = document.getElementById("salsa-grid");
-  const completas = state.detalleSalsas.length >= SALSAS_INCLUIDAS;
+  document.getElementById("salsa-nota").textContent =
+    `Desde la ${SALSAS_INCLUIDAS + 1}ª salsa: +${formatoPrecio(PRECIO_SALSA_EXTRA)} c/u`;
 
   const chipSin = `<button type="button" class="salsa-chip sin-salsa ${state.detalleSinSalsa ? "selected" : ""}" data-sin="1">Sin salsas</button>`;
 
   cont.innerHTML = (state.detalleSalsasExtra || []).concat(SALSAS).map(s => {
     const seleccionada = state.detalleSalsas.includes(s);
     const pos = state.detalleSalsas.indexOf(s);
-    const esExtra = seleccionada ? pos >= SALSAS_INCLUIDAS : completas;
+    const esExtra = seleccionada && pos >= SALSAS_INCLUIDAS;
     const marca = esExtra ? `<span class="salsa-extra">+${formatoPrecio(PRECIO_SALSA_EXTRA)}</span>` : "";
     return `<button type="button" class="salsa-chip ${seleccionada ? "selected" : ""}" data-salsa="${s}">${s}${marca}</button>`;
   }).join("") + chipSin;
