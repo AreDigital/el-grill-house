@@ -484,13 +484,16 @@ function detalleSalsasTexto(l) {
 // ---------- modo web: copiar pedido / pedir por WhatsApp ----------
 function textoPedido() {
   const titulos = titulosLista();
-  const lineas = state.lista.map((l, i) => {
+  const divisor = "━━━━━━━━━━━━━━";
+  const bloques = state.lista.map((l, i) => {
     const salsas = detalleSalsasTexto(l);
-    return `${i + 1}. ${titulos[i]} x${l.cantidad}` + (salsas ? `\n   ${salsas}` : "") + `\n   ${formatoPrecio(l.precio * l.cantidad)}`;
+    return `*${i + 1}. ${titulos[i]}*  x${l.cantidad}\n` + (salsas ? `${salsas}\n` : "") + `${formatoPrecio(l.precio * l.cantidad)}\n${divisor}`;
   });
   const d = leerDatosEntrega();
-  const datos = d ? `\n\nA nombre de: ${d.nombre}\nTeléfono: ${d.telefono}\nDirección: ${d.direccion}\nBarrio: ${d.barrio}, ${d.municipio}` + (d.referencia ? `\nReferencia: ${d.referencia}` : "") : "";
-  return `Hola, ${saludoSegunHora()}. Quiero hacer este pedido:\n\n${lineas.join("\n")}\n\nTotal: ${formatoPrecio(totalLista())}${datos}`;
+  const datos = d
+    ? `\n\n*Datos de entrega*\nNombre: ${d.nombre}\nTeléfono: ${d.telefono}\nDirección: ${d.direccion}\nBarrio: ${d.barrio}, ${d.municipio}` + (d.referencia ? `\nReferencia: ${d.referencia}` : "")
+    : "";
+  return `Hola, ${saludoSegunHora()} 👋\nQuiero hacer este pedido:\n\n${divisor}\n${bloques.join("\n")}\n\n*TOTAL: ${formatoPrecio(totalLista())}*${datos}`;
 }
 
 function saludoSegunHora() {
@@ -538,19 +541,8 @@ function actualizarTelefonoVisible() {
   document.getElementById("entrega-telefono-wrap").hidden = mismoWhatsApp();
 }
 
-const MENSAJE_FUERA_DE_ZONA = "Por ahora no llegamos a ese municipio. Domicilios solo en Itagüí, La Estrella, Envigado y Sabaneta.";
-
 function validarEntrega() {
   if (!hayFormularioEntrega()) return true;
-  const campoMunicipio = document.getElementById("entrega-municipio");
-  if (campoMunicipio.value === "Otro municipio") {
-    campoMunicipio.classList.add("invalid");
-    const av = document.getElementById("entrega-aviso");
-    av.textContent = MENSAJE_FUERA_DE_ZONA;
-    av.hidden = false;
-    campoMunicipio.scrollIntoView({ behavior: "smooth", block: "center" });
-    return false;
-  }
   const faltan = CAMPOS_ENTREGA.filter(c => {
     if (!c.obligatorio) return false;
     const v = valorCampo(c);
@@ -603,16 +595,6 @@ function configurarFormularioEntrega() {
     el.addEventListener("change", () => {
       el.classList.remove("invalid");
       guardarDatosEntrega();
-      if (c.clave === "municipio") {
-        const av = document.getElementById("entrega-aviso");
-        if (el.value === "Otro municipio") {
-          el.classList.add("invalid");
-          av.textContent = MENSAJE_FUERA_DE_ZONA;
-          av.hidden = false;
-        } else {
-          av.hidden = true;
-        }
-      }
     });
   });
 }
