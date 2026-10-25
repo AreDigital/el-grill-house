@@ -100,6 +100,14 @@
         <option value="">Selecciona</option>
       </select>
     </label>
+    <div class="entrega-pago">
+      <span class="entrega-pago-titulo">Forma de pago</span>
+      <div class="pago-opciones">
+        <button type="button" class="pago-chip" id="pago-efectivo" data-pago="Efectivo">Efectivo</button>
+        <button type="button" class="pago-chip" id="pago-transferencia" data-pago="Transferencia">Transferencia</button>
+      </div>
+      <p class="pago-nota" id="pago-nota" hidden></p>
+    </div>
     <label>Dirección
       <input id="entrega-direccion" type="text" autocomplete="street-address" placeholder="Ej: Calle 32A #44-45">
     </label>

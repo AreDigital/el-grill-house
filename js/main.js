@@ -501,13 +501,21 @@ function textoPedido() {
   });
   const d = leerDatosEntrega();
   const datos = d
-    ? `\n\n*Datos de entrega*\nNombre: ${d.nombre}\nTeléfono: ${d.telefono}\nDirección: ${d.direccion}\nBarrio: ${d.barrio}, ${d.municipio}` + (d.referencia ? `\nReferencia: ${d.referencia}` : "")
+    ? `\n\n*Datos de entrega*\nNombre: ${d.nombre}\nTeléfono: ${d.telefono}\nDirección: ${d.direccion}\nBarrio: ${d.barrio}, ${d.municipio}` + (d.referencia ? `\nReferencia: ${d.referencia}` : "") + textoPago(d)
     : "";
   const envio = d ? costoDomicilio() : 0;
   const totales = envio > 0
     ? `Subtotal: ${formatoPrecio(totalLista())}\nDomicilio (${d.municipio}): ${formatoPrecio(envio)}\n*TOTAL: ${formatoPrecio(totalLista() + envio)}*`
     : `*TOTAL: ${formatoPrecio(totalLista())}*`;
   return `Hola, ${saludoSegunHora()} 👋\nQuiero hacer este pedido:\n\n${divisor}\n${bloques.join("\n")}\n\n${totales}${datos}`;
+}
+
+function textoPago(d) {
+  if (!d.pago) return "";
+  if (d.pago === "Transferencia") {
+    return `\n\n*Pago: Transferencia*\n${PAGO_TRANSFERENCIA.banco}: ${PAGO_TRANSFERENCIA.numero}\nAdjunto el comprobante en el chat.`;
+  }
+  return `\n\n*Pago: Efectivo*`;
 }
 
 function saludoSegunHora() {
@@ -527,6 +535,27 @@ const CAMPOS_ENTREGA = [
   { id: "entrega-referencia", clave: "referencia", etiqueta: "Referencia", obligatorio: false }
 ];
 const CLAVE_DATOS_ENTREGA = "grillhouse_datos_entrega";
+const NOTA_TRANSFERENCIA = "Cuando envíes el pedido, adjunta el comprobante en el chat y lo confirmamos enseguida.";
+const NOTA_EFECTIVO = "Listo, te confirmamos el pedido por WhatsApp.";
+
+function formaDePago() {
+  const el = document.querySelector(".pago-chip.selected");
+  return el ? el.dataset.pago : "";
+}
+
+function seleccionarPago(valor) {
+  document.querySelectorAll(".pago-chip").forEach(b => b.classList.toggle("selected", b.dataset.pago === valor));
+  const nota = document.getElementById("pago-nota");
+  nota.hidden = !valor;
+  nota.classList.toggle("es-transferencia", valor === "Transferencia");
+  if (valor === "Transferencia") {
+    nota.innerHTML = `${PAGO_TRANSFERENCIA.banco}: <strong>${PAGO_TRANSFERENCIA.numero}</strong><br>${NOTA_TRANSFERENCIA}`;
+  } else if (valor === "Efectivo") {
+    nota.textContent = NOTA_EFECTIVO;
+  }
+  document.getElementById("entrega-aviso").hidden = true;
+  guardarDatosEntrega();
+}
 
 function hayFormularioEntrega() {
   return window.MODO === "web" && !!document.getElementById("datos-entrega");
@@ -543,6 +572,7 @@ function leerDatosEntrega() {
   const d = {};
   CAMPOS_ENTREGA.forEach(c => { d[c.clave] = valorCampo(c); });
   if (mismoWhatsApp()) d.telefono = "el mismo de este WhatsApp";
+  d.pago = formaDePago();
   return d;
 }
 
@@ -565,9 +595,15 @@ function validarEntrega() {
   });
   CAMPOS_ENTREGA.forEach(c => document.getElementById(c.id).classList.toggle("invalid", faltan.includes(c)));
   const aviso = document.getElementById("entrega-aviso");
-  aviso.hidden = faltan.length === 0;
-  if (faltan.length) {
-    aviso.textContent = `Completa para continuar: ${faltan.map(c => c.etiqueta).join(", ")}`;
+  const etiquetas = faltan.map(c => c.etiqueta);
+  if (!formaDePago()) etiquetas.push("Forma de pago");
+  aviso.hidden = etiquetas.length === 0;
+  if (etiquetas.length) {
+    aviso.textContent = `Completa para continuar: ${etiquetas.join(", ")}`;
+    if (!faltan.length) {
+      document.getElementById("pago-efectivo").scrollIntoView({ behavior: "smooth", block: "center" });
+      return false;
+    }
     const primero = document.getElementById(faltan[0].id);
     primero.scrollIntoView({ behavior: "smooth", block: "center" });
     primero.focus({ preventScroll: true });
@@ -581,6 +617,7 @@ function guardarDatosEntrega() {
     const d = {};
     CAMPOS_ENTREGA.forEach(c => { d[c.clave] = valorCampo(c); });
     d.mismoWa = mismoWhatsApp();
+    d.pago = formaDePago();
     localStorage.setItem(CLAVE_DATOS_ENTREGA, JSON.stringify(d));
   } catch (e) {}
 }
@@ -591,6 +628,7 @@ function restaurarDatosEntrega() {
     if (!d) return;
     CAMPOS_ENTREGA.forEach(c => { if (d[c.clave]) document.getElementById(c.id).value = d[c.clave]; });
     document.getElementById("entrega-mismo-wa").checked = !!d.mismoWa;
+    if (d.pago) seleccionarPago(d.pago);
   } catch (e) {}
 }
 
@@ -602,6 +640,9 @@ function configurarFormularioEntrega() {
     op.value = m;
     op.textContent = `${m} · domicilio ${formatoPrecio(TARIFA_DOMICILIO[m])}`;
     selectMunicipio.appendChild(op);
+  });
+  document.querySelectorAll(".pago-chip").forEach(b => {
+    b.addEventListener("click", () => seleccionarPago(b.dataset.pago));
   });
   restaurarDatosEntrega();
   actualizarTotalLista();

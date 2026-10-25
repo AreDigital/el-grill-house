@@ -777,6 +777,57 @@ img { max-width: 100%; display: block; }
   accent-color: var(--red);
 }
 
+.datos-entrega .entrega-pago {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.entrega-pago-titulo {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.pago-opciones {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.pago-chip {
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 11px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.pago-chip.selected {
+  background: var(--red);
+  border-color: var(--red);
+  color: #fff;
+}
+
+.datos-entrega .pago-nota {
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.datos-entrega .pago-nota.es-transferencia {
+  padding: 10px 12px;
+  border-radius: 10px;
+  color: var(--text);
+  background: color-mix(in srgb, var(--gold) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--gold) 35%, transparent);
+}
+
+.datos-entrega .pago-nota[hidden] { display: none; }
+
 .datos-entrega .entrega-nota {
   font-size: 0.82rem;
   font-weight: 600;

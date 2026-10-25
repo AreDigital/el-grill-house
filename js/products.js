@@ -118,6 +118,12 @@ const TARIFA_DOMICILIO = {
   "Envigado": 8000
 };
 
+// Cuenta para pagos por transferencia
+const PAGO_TRANSFERENCIA = {
+  banco: "Nequi",
+  numero: "3103128320"
+};
+
 const NEGOCIO = {
   nombre: "El Grill House",
   direccion: "Diagonal 42 #36A 10, La Independencia, Itagüí",
