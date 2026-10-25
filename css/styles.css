@@ -763,3 +763,12 @@ img { max-width: 100%; display: block; }
 }
 
 .site-footer p { margin-bottom: 4px; }
+
+.sheet-body .detail-lista-total {
+  margin: 0 0 8px;
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.sheet-body .detail-lista-total[hidden] { display: none; }

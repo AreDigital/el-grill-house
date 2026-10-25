@@ -244,6 +244,10 @@ function abrirDetalle(item, permiteSalsas = false, salsasExtra = []) {
   if (permiteSalsas) renderSalsaGrid();
   actualizarBotonAnadir();
 
+  const resumen = document.getElementById("detail-lista-total");
+  resumen.hidden = state.lista.length === 0;
+  resumen.textContent = `En tu lista llevas ${formatoPrecio(totalLista())}`;
+
   abrirSheet("detail-sheet", "detail-backdrop");
 }
 
