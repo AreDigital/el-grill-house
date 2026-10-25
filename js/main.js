@@ -462,28 +462,79 @@ function renderCartBar() {
   document.getElementById("cart-total").textContent = formatoPrecio(totalLista());
 }
 
+// Si un mismo producto aparece en varias líneas (salsas distintas), se numera: "Costillera 1", "Costillera 2"
+function titulosLista() {
+  const totalPorNombre = {};
+  state.lista.forEach(l => { totalPorNombre[l.nombre] = (totalPorNombre[l.nombre] || 0) + 1; });
+  const contador = {};
+  return state.lista.map(l => {
+    if (totalPorNombre[l.nombre] < 2) return l.nombre;
+    contador[l.nombre] = (contador[l.nombre] || 0) + 1;
+    return `${l.nombre} ${contador[l.nombre]}`;
+  });
+}
+
+function detalleSalsasTexto(l) {
+  if (l.salsas && l.salsas.length) {
+    return l.salsas.join(", ") + (l.adicionales ? ` (+${l.adicionales} adicional${l.adicionales > 1 ? "es" : ""})` : "");
+  }
+  return l.sinSalsa ? "Sin salsas" : "";
+}
+
+// ---------- modo web: copiar pedido / pedir por WhatsApp ----------
+function textoPedido() {
+  const titulos = titulosLista();
+  const lineas = state.lista.map((l, i) => {
+    const salsas = detalleSalsasTexto(l);
+    return `${i + 1}. ${titulos[i]} x${l.cantidad}` + (salsas ? `\n   ${salsas}` : "") + `\n   ${formatoPrecio(l.precio * l.cantidad)}`;
+  });
+  return `Hola, quiero hacer este pedido:\n\n${lineas.join("\n")}\n\nTotal: ${formatoPrecio(totalLista())}`;
+}
+
+async function copiarPedido(btn) {
+  const texto = textoPedido();
+  try {
+    await navigator.clipboard.writeText(texto);
+  } catch (e) {
+    const ta = document.createElement("textarea");
+    ta.value = texto;
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand("copy");
+    ta.remove();
+  }
+  const original = btn.textContent;
+  btn.textContent = "¡Copiado!";
+  setTimeout(() => { btn.textContent = original; }, 2000);
+}
+
+function pedirPorWhatsApp() {
+  const url = `https://wa.me/${NEGOCIO.whatsapp}?text=${encodeURIComponent(textoPedido())}`;
+  window.open(url, "_blank");
+}
+
+function configurarModoWeb() {
+  const web = window.MODO === "web";
+  document.getElementById("list-hint").hidden = web;
+  document.getElementById("list-web-actions").hidden = !web || state.lista.length === 0;
+}
+
 function renderListSheet() {
   const cont = document.getElementById("list-items");
 
   if (state.lista.length === 0) {
     cont.innerHTML = `<p style="color:var(--muted); padding: 10px 0;">Tu lista está vacía.</p>`;
   } else {
-    // Si un mismo producto aparece en varias líneas (salsas distintas), se numera: "Costillera 1", "Costillera 2"
-    const totalPorNombre = {};
-    state.lista.forEach(l => { totalPorNombre[l.nombre] = (totalPorNombre[l.nombre] || 0) + 1; });
-    const contador = {};
-    const tituloLinea = (l) => {
-      if (totalPorNombre[l.nombre] < 2) return l.nombre;
-      contador[l.nombre] = (contador[l.nombre] || 0) + 1;
-      return `${l.nombre} ${contador[l.nombre]}`;
-    };
+    const titulos = titulosLista();
 
     cont.innerHTML = state.lista.map((l, i) => `
       <div class="list-item">
         <img class="list-item-img" src="${(buscarProducto(l.nombre) || {}).item?.img || "assets/logo.png"}" alt="">
         <div class="list-item-info">
-          <h4>${tituloLinea(l)}</h4>
-          <span>x${l.cantidad}${l.salsas && l.salsas.length ? " · " + l.salsas.join(", ") + (l.adicionales ? ` (+${l.adicionales} adicional${l.adicionales > 1 ? "es" : ""})` : "") : (l.sinSalsa ? " · Sin salsas" : "")}</span>
+          <h4>${titulos[i]}</h4>
+          <span>x${l.cantidad}${detalleSalsasTexto(l) ? " · " + detalleSalsasTexto(l) : ""}</span>
           <button class="edit-item" data-idx="${i}">Modificar</button>
         </div>
         <div class="list-item-right">
@@ -501,6 +552,7 @@ function renderListSheet() {
     });
   }
 
+  configurarModoWeb();
   document.getElementById("list-total").innerHTML = `<span>Total</span><span>${formatoPrecio(totalLista())}</span>`;
 }
 
@@ -555,4 +607,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   document.getElementById("list-clear").addEventListener("click", vaciarLista);
+  document.getElementById("list-copy").addEventListener("click", (e) => copiarPedido(e.currentTarget));
+  document.getElementById("list-whatsapp").addEventListener("click", pedirPorWhatsApp);
 });

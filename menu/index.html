@@ -79,9 +79,13 @@
 <div class="sheet" id="list-sheet">
   <button class="sheet-close" id="list-close" aria-label="Cerrar">&times;</button>
   <h2 class="list-title">Mi lista</h2>
-  <p class="list-hint">Muéstrale esta pantalla a quien te va a tomar el pedido.</p>
+  <p class="list-hint" id="list-hint">Muéstrale esta pantalla a quien te va a tomar el pedido.</p>
   <div id="list-items" class="list-items"></div>
   <div class="list-total" id="list-total"></div>
+  <div class="list-web-actions" id="list-web-actions" hidden>
+    <button class="btn-whatsapp" id="list-whatsapp">Pedir por WhatsApp</button>
+    <button class="btn-copy" id="list-copy">Copiar pedido</button>
+  </div>
   <button class="btn-clear" id="list-clear">Vaciar lista</button>
 </div>
 
@@ -90,6 +94,7 @@
   <p id="footer-domicilios"></p>
 </footer>
 
+<script>window.MODO = "mesa";</script>
 <script src="js/products.js"></script>
 <script src="js/main.js"></script>
 </body>

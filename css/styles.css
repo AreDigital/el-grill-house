@@ -723,6 +723,35 @@ img { max-width: 100%; display: block; }
   margin-top: 16px;
 }
 
+.list-web-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 20px 0;
+}
+
+.list-web-actions[hidden] { display: none; }
+
+.btn-whatsapp {
+  background: #25D366;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 14px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.btn-copy {
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 12px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
 .btn-clear {
   display: block;
   margin: 14px 20px 0;
