@@ -559,6 +559,14 @@ img { max-width: 100%; display: block; }
   color: #fff;
 }
 
+.salsa-extra {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  opacity: 0.8;
+  margin-top: 1px;
+}
+
 .salsa-chip.sin-salsa { border-style: dashed; grid-column: 1 / -1; }
 
 .sheet-body .salsa-aviso {

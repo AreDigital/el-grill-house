@@ -16,7 +16,8 @@ const SALSAS = [
   "Ranch",
   "Chimichurri"
 ];
-const MAX_SALSAS = 2;
+const SALSAS_INCLUIDAS = 2;      // salsas que van incluidas en el precio
+const PRECIO_SALSA_EXTRA = 2000; // costo de cada salsa adicional
 
 const PRODUCTO_DEL_MES = {
   nombre: "Hamburguesa Americana",

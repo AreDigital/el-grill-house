@@ -249,14 +249,16 @@ function abrirDetalle(item, permiteSalsas = false, salsasExtra = []) {
 
 function renderSalsaGrid() {
   const cont = document.getElementById("salsa-grid");
-  const limite = state.detalleSalsas.length >= MAX_SALSAS;
+  const completas = state.detalleSalsas.length >= SALSAS_INCLUIDAS;
 
   const chipSin = `<button type="button" class="salsa-chip sin-salsa ${state.detalleSinSalsa ? "selected" : ""}" data-sin="1">Sin salsas</button>`;
 
   cont.innerHTML = (state.detalleSalsasExtra || []).concat(SALSAS).map(s => {
     const seleccionada = state.detalleSalsas.includes(s);
-    const bloqueada = limite && !seleccionada;
-    return `<button type="button" class="salsa-chip ${seleccionada ? "selected" : ""} ${bloqueada ? "disabled" : ""}" data-salsa="${s}">${s}</button>`;
+    const pos = state.detalleSalsas.indexOf(s);
+    const esExtra = seleccionada ? pos >= SALSAS_INCLUIDAS : completas;
+    const marca = esExtra ? `<span class="salsa-extra">+${formatoPrecio(PRECIO_SALSA_EXTRA)}</span>` : "";
+    return `<button type="button" class="salsa-chip ${seleccionada ? "selected" : ""}" data-salsa="${s}">${s}${marca}</button>`;
   }).join("") + chipSin;
 
   cont.querySelectorAll(".salsa-chip").forEach(btn => {
@@ -272,7 +274,7 @@ function toggleSalsa(nombre) {
   const idx = state.detalleSalsas.indexOf(nombre);
   if (idx > -1) {
     state.detalleSalsas.splice(idx, 1);
-  } else if (state.detalleSalsas.length < MAX_SALSAS) {
+  } else {
     state.detalleSalsas.push(nombre);
     state.detalleSinSalsa = false;
   }
@@ -296,6 +298,21 @@ function actualizarBotonAnadir() {
   btn.classList.toggle("pendiente", pendiente);
   btn.setAttribute("aria-disabled", pendiente ? "true" : "false");
   if (!pendiente) document.getElementById("salsa-aviso").hidden = true;
+  actualizarPrecioDetalle();
+}
+
+function salsasAdicionales() {
+  return Math.max(0, state.detalleSalsas.length - SALSAS_INCLUIDAS);
+}
+
+function actualizarPrecioDetalle() {
+  const item = state.detalleActual;
+  if (!item) return;
+  const extras = salsasAdicionales();
+  const unitario = item.precio + extras * PRECIO_SALSA_EXTRA;
+  document.getElementById("detail-precio").textContent = formatoPrecio(unitario);
+  document.getElementById("detail-add").textContent =
+    extras ? `Añadir · ${formatoPrecio(unitario * state.detalleQty)}` : "Añadir a mi lista";
 }
 
 function abrirSheet(sheetId, backdropId) {
@@ -321,13 +338,14 @@ function agregarALista() {
   const qty = state.detalleQty;
   const sinSalsa = state.detalleSinSalsa;
   const salsas = [...state.detalleSalsas].sort();
+  const adicionales = salsasAdicionales();
   const mismasSalsas = (a) => JSON.stringify((a || []).slice().sort()) === JSON.stringify(salsas);
   const existente = state.lista.find(l => l.nombre === item.nombre && mismasSalsas(l.salsas));
 
   if (existente) {
     existente.cantidad += qty;
   } else {
-    state.lista.push({ nombre: item.nombre, precio: item.precio, cantidad: qty, salsas, sinSalsa });
+    state.lista.push({ nombre: item.nombre, precio: item.precio + adicionales * PRECIO_SALSA_EXTRA, cantidad: qty, salsas, sinSalsa, adicionales });
   }
 
   guardarLista();
@@ -377,7 +395,7 @@ function renderListSheet() {
       <div class="list-item">
         <div class="list-item-info">
           <h4>${l.nombre}</h4>
-          <span>x${l.cantidad}${l.salsas && l.salsas.length ? " · " + l.salsas.join(", ") : (l.sinSalsa ? " · Sin salsas" : "")}</span>
+          <span>x${l.cantidad}${l.salsas && l.salsas.length ? " · " + l.salsas.join(", ") + (l.adicionales ? ` (+${l.adicionales} adicional${l.adicionales > 1 ? "es" : ""})` : "") : (l.sinSalsa ? " · Sin salsas" : "")}</span>
         </div>
         <div class="list-item-right">
           <span class="list-item-price">${formatoPrecio(l.precio * l.cantidad)}</span>
@@ -426,10 +444,12 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("qty-minus").addEventListener("click", () => {
     state.detalleQty = Math.max(1, state.detalleQty - 1);
     document.getElementById("qty-value").textContent = state.detalleQty;
+    actualizarPrecioDetalle();
   });
   document.getElementById("qty-plus").addEventListener("click", () => {
     state.detalleQty += 1;
     document.getElementById("qty-value").textContent = state.detalleQty;
+    actualizarPrecioDetalle();
   });
 
   document.getElementById("detail-add").addEventListener("click", agregarALista);
