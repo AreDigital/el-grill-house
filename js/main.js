@@ -445,6 +445,7 @@ function renderListSheet() {
   } else {
     cont.innerHTML = state.lista.map((l, i) => `
       <div class="list-item">
+        <img class="list-item-img" src="${(buscarProducto(l.nombre) || {}).item?.img || "assets/logo.png"}" alt="">
         <div class="list-item-info">
           <h4>${l.nombre}</h4>
           <span>x${l.cantidad}${l.salsas && l.salsas.length ? " · " + l.salsas.join(", ") + (l.adicionales ? ` (+${l.adicionales} adicional${l.adicionales > 1 ? "es" : ""})` : "") : (l.sinSalsa ? " · Sin salsas" : "")}</span>

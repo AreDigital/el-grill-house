@@ -674,6 +674,16 @@ img { max-width: 100%; display: block; }
   padding: 10px 14px;
 }
 
+.list-item-img {
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-right: 12px;
+  align-self: flex-start;
+}
+
 .list-item-info { flex: 1; min-width: 0; }
 .list-item-info h4 { font-size: 0.95rem; }
 .list-item-info span { color: var(--muted); font-size: 0.8rem; }
