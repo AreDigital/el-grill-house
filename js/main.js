@@ -253,11 +253,11 @@ function renderSalsaGrid() {
 
   const chipSin = `<button type="button" class="salsa-chip sin-salsa ${state.detalleSinSalsa ? "selected" : ""}" data-sin="1">Sin salsas</button>`;
 
-  cont.innerHTML = chipSin + SALSAS.concat(state.detalleSalsasExtra || []).map(s => {
+  cont.innerHTML = (state.detalleSalsasExtra || []).concat(SALSAS).map(s => {
     const seleccionada = state.detalleSalsas.includes(s);
     const bloqueada = limite && !seleccionada;
     return `<button type="button" class="salsa-chip ${seleccionada ? "selected" : ""} ${bloqueada ? "disabled" : ""}" data-salsa="${s}">${s}</button>`;
-  }).join("");
+  }).join("") + chipSin;
 
   cont.querySelectorAll(".salsa-chip").forEach(btn => {
     btn.addEventListener("click", () => {

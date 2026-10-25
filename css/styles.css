@@ -535,15 +535,9 @@ img { max-width: 100%; display: block; }
 }
 
 .salsa-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-}
-
-/* relleno al final: evita que una salsa sola en la última fila ocupe todo el ancho */
-.salsa-grid::after {
-  content: "";
-  flex: 1.2 1 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
 }
 
 .salsa-chip {
@@ -565,7 +559,7 @@ img { max-width: 100%; display: block; }
   color: #fff;
 }
 
-.salsa-chip.sin-salsa { border-style: dashed; }
+.salsa-chip.sin-salsa { border-style: dashed; grid-column: 1 / -1; }
 
 .sheet-body .salsa-aviso {
   margin: 12px 0 0;
