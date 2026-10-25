@@ -540,6 +540,12 @@ img { max-width: 100%; display: block; }
   gap: 5px;
 }
 
+/* relleno al final: evita que una salsa sola en la última fila ocupe todo el ancho */
+.salsa-grid::after {
+  content: "";
+  flex: 1.2 1 0;
+}
+
 .salsa-chip {
   flex: 1 1 auto;
   text-align: center;
