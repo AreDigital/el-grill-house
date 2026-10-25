@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<base href="/">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>El Grill House | Menú</title>
+<meta name="description" content="Menú de El Grill House — arma tu pedido desde la mesa.">
+<link rel="icon" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <img src="assets/logo.png" alt="El Grill House" class="topbar-logo">
+  <span class="topbar-title">EL GRILL HOUSE</span>
+</header>
+
+<section class="promo-wrap">
+  <div class="promo-slider" id="promo-slider">
+    <div class="promo-track" id="promo-track"></div>
+    <div class="promo-dots" id="promo-dots"></div>
+  </div>
+</section>
+
+<nav class="chip-row" id="chip-row"></nav>
+
+<div class="view-toggle-bar">
+  <button class="view-toggle-btn" id="view-toggle">
+    <span id="view-toggle-icon">&#9638;</span>
+    <span id="view-toggle-label">Ver en cuadrícula</span>
+  </button>
+</div>
+
+<main id="product-list" class="product-list"></main>
+
+<!-- Detalle de producto -->
+<div class="sheet-backdrop" id="detail-backdrop"></div>
+<div class="sheet" id="detail-sheet">
+  <button class="sheet-close" id="detail-close" aria-label="Cerrar">&times;</button>
+  <div class="sheet-img-wrap">
+    <img id="detail-img" alt="">
+  </div>
+  <div class="sheet-body">
+    <h2 id="detail-nombre"></h2>
+    <p id="detail-desc"></p>
+    <div class="sheet-price" id="detail-precio"></div>
+    <p class="sheet-price-extra" id="detail-precio-extra" hidden></p>
+    <div class="salsa-section" id="salsa-section" hidden>
+      <p class="salsa-label">Elige tus salsas · 2 incluidas</p>
+      <p class="salsa-nota" id="salsa-nota"></p>
+      <div class="salsa-grid" id="salsa-grid"></div>
+      <p class="salsa-aviso" id="salsa-aviso" hidden>Elige tus salsas o 'Sin salsas' para continuar</p>
+    </div>
+    <p class="detail-lista-total" id="detail-lista-total" hidden></p>
+    <div class="qty-row">
+      <div class="qty-control">
+        <button id="qty-minus" aria-label="Menos">&minus;</button>
+        <span id="qty-value">1</span>
+        <button id="qty-plus" aria-label="Más">&plus;</button>
+      </div>
+      <button class="btn-add" id="detail-add">Añadir a mi lista</button>
+    </div>
+  </div>
+</div>
+
+<!-- Barra flotante de lista -->
+<button class="cart-bar" id="cart-bar" hidden>
+  <span class="cart-bar-count" id="cart-count">0</span>
+  <span class="cart-bar-label">Ver mi lista</span>
+  <span class="cart-bar-total" id="cart-total"></span>
+</button>
+
+<!-- Mi lista -->
+<div class="sheet-backdrop" id="list-backdrop"></div>
+<div class="sheet" id="list-sheet">
+  <button class="sheet-close" id="list-close" aria-label="Cerrar">&times;</button>
+  <h2 class="list-title">Mi lista</h2>
+  <p class="list-hint">Muéstrale esta pantalla a quien te va a tomar el pedido.</p>
+  <div id="list-items" class="list-items"></div>
+  <div class="list-total" id="list-total"></div>
+  <button class="btn-clear" id="list-clear">Vaciar lista</button>
+</div>
+
+<footer class="site-footer">
+  <p id="footer-direccion"></p>
+  <p id="footer-domicilios"></p>
+</footer>
+
+<script src="js/products.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
