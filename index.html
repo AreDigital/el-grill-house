@@ -80,6 +80,35 @@
   <p class="list-hint" id="list-hint">Muéstrale esta pantalla a quien te va a tomar el pedido.</p>
   <div id="list-items" class="list-items"></div>
   <div class="list-total" id="list-total"></div>
+  <section class="datos-entrega" id="datos-entrega" hidden>
+    <h3>Datos de entrega</h3>
+    <label>A nombre de
+      <input id="entrega-nombre" type="text" autocomplete="name" placeholder="Nombre de quien recibe">
+    </label>
+    <label>Teléfono de contacto
+      <input id="entrega-telefono" type="tel" inputmode="tel" autocomplete="tel" placeholder="Ej: 300 123 4567">
+    </label>
+    <label>Municipio
+      <select id="entrega-municipio">
+        <option value="">Selecciona</option>
+        <option>Itagüí</option>
+        <option>Envigado</option>
+        <option>Sabaneta</option>
+        <option>La Estrella</option>
+        <option>Medellín</option>
+      </select>
+    </label>
+    <label>Dirección
+      <input id="entrega-direccion" type="text" autocomplete="street-address" placeholder="Ej: Calle 32A #44-45">
+    </label>
+    <label>Barrio
+      <input id="entrega-barrio" type="text" placeholder="Ej: San Pío">
+    </label>
+    <label>Referencia (opcional)
+      <input id="entrega-referencia" type="text" placeholder="Ej: Primer piso, reja gris">
+    </label>
+    <p class="entrega-aviso" id="entrega-aviso" hidden></p>
+  </section>
   <div class="list-web-actions" id="list-web-actions" hidden>
     <button class="btn-whatsapp" id="list-whatsapp">Pedir por WhatsApp</button>
     <button class="btn-copy" id="list-copy">Copiar pedido</button>

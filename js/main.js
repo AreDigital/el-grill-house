@@ -488,10 +488,95 @@ function textoPedido() {
     const salsas = detalleSalsasTexto(l);
     return `${i + 1}. ${titulos[i]} x${l.cantidad}` + (salsas ? `\n   ${salsas}` : "") + `\n   ${formatoPrecio(l.precio * l.cantidad)}`;
   });
-  return `Hola, quiero hacer este pedido:\n\n${lineas.join("\n")}\n\nTotal: ${formatoPrecio(totalLista())}`;
+  const d = leerDatosEntrega();
+  const datos = d ? `\n\nA nombre de: ${d.nombre}\nTeléfono: ${d.telefono}\nDirección: ${d.direccion}\nBarrio: ${d.barrio}, ${d.municipio}` + (d.referencia ? `\nReferencia: ${d.referencia}` : "") : "";
+  return `Hola, ${saludoSegunHora()}. Quiero hacer este pedido:\n\n${lineas.join("\n")}\n\nTotal: ${formatoPrecio(totalLista())}${datos}`;
+}
+
+function saludoSegunHora() {
+  const h = new Date().getHours();
+  if (h >= 5 && h < 12) return "buenos días";
+  if (h >= 12 && h < 18) return "buenas tardes";
+  return "buenas noches";
+}
+
+// ---------- datos de entrega (solo modo web) ----------
+const CAMPOS_ENTREGA = [
+  { id: "entrega-nombre", clave: "nombre", etiqueta: "Nombre", obligatorio: true },
+  { id: "entrega-telefono", clave: "telefono", etiqueta: "Teléfono", obligatorio: true },
+  { id: "entrega-municipio", clave: "municipio", etiqueta: "Municipio", obligatorio: true },
+  { id: "entrega-direccion", clave: "direccion", etiqueta: "Dirección", obligatorio: true },
+  { id: "entrega-barrio", clave: "barrio", etiqueta: "Barrio", obligatorio: true },
+  { id: "entrega-referencia", clave: "referencia", etiqueta: "Referencia", obligatorio: false }
+];
+const CLAVE_DATOS_ENTREGA = "grillhouse_datos_entrega";
+
+function hayFormularioEntrega() {
+  return window.MODO === "web" && !!document.getElementById("datos-entrega");
+}
+
+function valorCampo(c) {
+  return document.getElementById(c.id).value.trim();
+}
+
+// Devuelve los datos si el formulario existe y está completo; null si no hay formulario.
+// Si falta algo, marca los campos y devuelve false.
+function leerDatosEntrega() {
+  if (!hayFormularioEntrega()) return null;
+  const d = {};
+  CAMPOS_ENTREGA.forEach(c => { d[c.clave] = valorCampo(c); });
+  return d;
+}
+
+function validarEntrega() {
+  if (!hayFormularioEntrega()) return true;
+  const faltan = CAMPOS_ENTREGA.filter(c => {
+    if (!c.obligatorio) return false;
+    const v = valorCampo(c);
+    if (c.clave === "telefono") return v.replace(/\D/g, "").length < 7;
+    return !v;
+  });
+  CAMPOS_ENTREGA.forEach(c => document.getElementById(c.id).classList.toggle("invalid", faltan.includes(c)));
+  const aviso = document.getElementById("entrega-aviso");
+  aviso.hidden = faltan.length === 0;
+  if (faltan.length) {
+    aviso.textContent = `Completa para continuar: ${faltan.map(c => c.etiqueta).join(", ")}`;
+    const primero = document.getElementById(faltan[0].id);
+    primero.scrollIntoView({ behavior: "smooth", block: "center" });
+    primero.focus({ preventScroll: true });
+    return false;
+  }
+  return true;
+}
+
+function guardarDatosEntrega() {
+  try {
+    const d = {};
+    CAMPOS_ENTREGA.forEach(c => { d[c.clave] = valorCampo(c); });
+    localStorage.setItem(CLAVE_DATOS_ENTREGA, JSON.stringify(d));
+  } catch (e) {}
+}
+
+function restaurarDatosEntrega() {
+  try {
+    const d = JSON.parse(localStorage.getItem(CLAVE_DATOS_ENTREGA) || "null");
+    if (!d) return;
+    CAMPOS_ENTREGA.forEach(c => { if (d[c.clave]) document.getElementById(c.id).value = d[c.clave]; });
+  } catch (e) {}
+}
+
+function configurarFormularioEntrega() {
+  if (!hayFormularioEntrega()) return;
+  restaurarDatosEntrega();
+  CAMPOS_ENTREGA.forEach(c => {
+    const el = document.getElementById(c.id);
+    el.addEventListener("input", () => { el.classList.remove("invalid"); guardarDatosEntrega(); });
+    el.addEventListener("change", () => { el.classList.remove("invalid"); guardarDatosEntrega(); });
+  });
 }
 
 async function copiarPedido(btn) {
+  if (!validarEntrega()) return;
   const texto = textoPedido();
   try {
     await navigator.clipboard.writeText(texto);
@@ -511,6 +596,7 @@ async function copiarPedido(btn) {
 }
 
 function pedirPorWhatsApp() {
+  if (!validarEntrega()) return;
   const url = `https://wa.me/${NEGOCIO.whatsapp}?text=${encodeURIComponent(textoPedido())}`;
   window.location.href = url; // misma pestaña: iOS/Chrome abren mejor la app así
 }
@@ -519,6 +605,8 @@ function configurarModoWeb() {
   const web = window.MODO === "web";
   document.getElementById("list-hint").hidden = web;
   document.getElementById("list-web-actions").hidden = !web || state.lista.length === 0;
+  const form = document.getElementById("datos-entrega");
+  if (form) form.hidden = !web || state.lista.length === 0;
 }
 
 function renderListSheet() {
@@ -606,6 +694,7 @@ document.addEventListener("DOMContentLoaded", () => {
     cerrarSheet("list-sheet", "list-backdrop");
   });
 
+  configurarFormularioEntrega();
   document.getElementById("list-clear").addEventListener("click", vaciarLista);
   document.getElementById("list-copy").addEventListener("click", (e) => copiarPedido(e.currentTarget));
   document.getElementById("list-whatsapp").addEventListener("click", pedirPorWhatsApp);

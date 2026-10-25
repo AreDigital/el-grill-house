@@ -723,6 +723,53 @@ img { max-width: 100%; display: block; }
   margin-top: 16px;
 }
 
+.datos-entrega {
+  padding: 14px 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.datos-entrega[hidden] { display: none; }
+
+.datos-entrega h3 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.2rem;
+  letter-spacing: 0.03em;
+}
+
+.datos-entrega label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.datos-entrega input,
+.datos-entrega select {
+  width: 100%;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 11px 12px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 16px; /* 16px evita que iOS haga zoom al escribir */
+}
+
+.datos-entrega input.invalid,
+.datos-entrega select.invalid { border-color: var(--red); }
+
+.datos-entrega .entrega-aviso {
+  color: var(--red);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.datos-entrega .entrega-aviso[hidden] { display: none; }
+
 .list-web-actions {
   display: flex;
   flex-direction: column;
