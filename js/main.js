@@ -10,6 +10,7 @@ const state = {
   vista: "grid", // "lista" o "grid"
   lista: [],
   detalleActual: null,
+  editandoIndice: null,
   detalleQty: 1,
   detalleSalsas: [],
   detalleSinSalsa: false,
@@ -224,7 +225,8 @@ function actualizarBotonVista() {
 }
 
 // ---------- sheet de detalle ----------
-function abrirDetalle(item, permiteSalsas = false, salsasExtra = []) {
+function abrirDetalle(item, permiteSalsas = false, salsasExtra = [], edicion = null) {
+  state.editandoIndice = edicion ? edicion.indice : null;
   state.detalleSalsasExtra = salsasExtra;
   state.detalleActual = item;
   state.detalleQty = 1;
@@ -244,8 +246,18 @@ function abrirDetalle(item, permiteSalsas = false, salsasExtra = []) {
   if (permiteSalsas) renderSalsaGrid();
   actualizarBotonAnadir();
 
+  if (edicion) {
+    state.detalleQty = edicion.linea.cantidad;
+    state.detalleSalsas = [...(edicion.linea.salsas || [])];
+    state.detalleSinSalsa = !!edicion.linea.sinSalsa;
+    document.getElementById("qty-value").textContent = state.detalleQty;
+    if (permiteSalsas) renderSalsaGrid();
+    actualizarBotonAnadir();
+  }
+  document.getElementById("detail-add").textContent = edicion ? "Actualizar" : "Añadir a mi lista";
+
   const resumen = document.getElementById("detail-lista-total");
-  resumen.hidden = state.lista.length === 0;
+  resumen.hidden = state.lista.length === 0 || !!edicion;
   resumen.textContent = `En tu lista llevas ${formatoPrecio(totalLista())}`;
 
   abrirSheet("detail-sheet", "detail-backdrop");
@@ -349,17 +361,48 @@ function agregarALista() {
   const salsas = [...state.detalleSalsas].sort();
   const adicionales = salsasAdicionales();
   const mismasSalsas = (a) => JSON.stringify((a || []).slice().sort()) === JSON.stringify(salsas);
+  const indiceEdicion = state.editandoIndice;
+  if (indiceEdicion !== null) state.lista.splice(indiceEdicion, 1);
   const existente = state.lista.find(l => l.nombre === item.nombre && mismasSalsas(l.salsas));
 
   if (existente) {
     existente.cantidad += qty;
   } else {
-    state.lista.push({ nombre: item.nombre, precio: item.precio + adicionales * PRECIO_SALSA_EXTRA, cantidad: qty, salsas, sinSalsa, adicionales });
+    const nueva = { nombre: item.nombre, precio: item.precio + adicionales * PRECIO_SALSA_EXTRA, cantidad: qty, salsas, sinSalsa, adicionales };
+    if (indiceEdicion !== null) state.lista.splice(indiceEdicion, 0, nueva);
+    else state.lista.push(nueva);
   }
 
   guardarLista();
   renderCartBar();
+  cerrarDetalle();
+}
+
+// Cierra la tarjeta del producto; si se estaba editando, vuelve a "Mi lista"
+function cerrarDetalle() {
+  const editaba = state.editandoIndice !== null;
+  state.editandoIndice = null;
   cerrarSheet("detail-sheet", "detail-backdrop");
+  if (editaba) {
+    renderListSheet();
+    abrirSheet("list-sheet", "list-backdrop");
+  }
+}
+
+function buscarProducto(nombre) {
+  for (const cat of Object.values(MENU)) {
+    const item = cat.items.find(i => i.nombre === nombre);
+    if (item) return { item, permiteSalsas: !!cat.permiteSalsas, salsasExtra: cat.salsasExtra || [] };
+  }
+  return null;
+}
+
+function modificarEnLista(indice) {
+  const linea = state.lista[indice];
+  const prod = buscarProducto(linea.nombre);
+  if (!prod) return;
+  cerrarSheet("list-sheet", "list-backdrop");
+  abrirDetalle(prod.item, prod.permiteSalsas, prod.salsasExtra, { indice, linea });
 }
 
 function quitarDeLista(indice) {
@@ -405,6 +448,7 @@ function renderListSheet() {
         <div class="list-item-info">
           <h4>${l.nombre}</h4>
           <span>x${l.cantidad}${l.salsas && l.salsas.length ? " · " + l.salsas.join(", ") + (l.adicionales ? ` (+${l.adicionales} adicional${l.adicionales > 1 ? "es" : ""})` : "") : (l.sinSalsa ? " · Sin salsas" : "")}</span>
+          <button class="edit-item" data-idx="${i}">Modificar</button>
         </div>
         <div class="list-item-right">
           <span class="list-item-price">${formatoPrecio(l.precio * l.cantidad)}</span>
@@ -413,6 +457,9 @@ function renderListSheet() {
       </div>
     `).join("");
 
+    cont.querySelectorAll(".edit-item").forEach(btn => {
+      btn.addEventListener("click", () => modificarEnLista(Number(btn.dataset.idx)));
+    });
     cont.querySelectorAll(".remove-item").forEach(btn => {
       btn.addEventListener("click", () => quitarDeLista(Number(btn.dataset.idx)));
     });
@@ -443,12 +490,8 @@ document.addEventListener("DOMContentLoaded", () => {
     renderLista();
   });
 
-  document.getElementById("detail-close").addEventListener("click", () => {
-    cerrarSheet("detail-sheet", "detail-backdrop");
-  });
-  document.getElementById("detail-backdrop").addEventListener("click", () => {
-    cerrarSheet("detail-sheet", "detail-backdrop");
-  });
+  document.getElementById("detail-close").addEventListener("click", cerrarDetalle);
+  document.getElementById("detail-backdrop").addEventListener("click", cerrarDetalle);
 
   document.getElementById("qty-minus").addEventListener("click", () => {
     state.detalleQty = Math.max(1, state.detalleQty - 1);

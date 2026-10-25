@@ -682,6 +682,18 @@ img { max-width: 100%; display: block; }
 
 .list-item-price { font-family: 'Bebas Neue', sans-serif; color: var(--red); font-size: 1rem; }
 
+.edit-item {
+  display: block;
+  margin-top: 6px;
+  padding: 4px 12px;
+  border: 1px solid var(--gold);
+  border-radius: 999px;
+  color: var(--gold);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
 .remove-item {
   background: none;
   border: none;
