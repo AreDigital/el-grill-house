@@ -13,8 +13,10 @@
 <body>
 
 <header class="topbar">
-  <img src="assets/logo.png" alt="El Grill House" class="topbar-logo">
-  <span class="topbar-title">EL GRILL HOUSE</span>
+  <a href="/" class="topbar-home" id="inicio" aria-label="El Grill House, ir al inicio">
+    <img src="assets/logo.png" alt="" class="topbar-logo">
+    <span class="topbar-title">EL GRILL HOUSE</span>
+  </a>
   <nav class="topbar-nav" aria-label="Principal">
     <a href="#carta">Menú</a>
     <a href="/quienes-somos/">Quiénes somos</a>
@@ -186,12 +188,20 @@
 var h=document.querySelector('#horarios li[data-dia="'+new Date().getDay()+'"]');if(h)h.classList.add("hoy");
 var v=document.getElementById("info-web"),c=document.getElementById("chip-row");
 var car=document.getElementById("carta"),nm=document.querySelector('.topbar-nav a[href="#carta"]'),nc=document.querySelector('.topbar-nav a[href="#contacto"]');
+var fijo=null,idle;
 if(v&&c){var rev=function(){var lim=c.getBoundingClientRect().bottom,enInfo=v.getBoundingClientRect().top<=lim-1;
 c.classList.toggle("chip-oculto",enInfo);
 if(nm&&nc&&car){var alFinal=scrollY>0&&scrollY+innerHeight>=document.documentElement.scrollHeight-4;
-var enContacto=enInfo||alFinal;
-nm.classList.toggle("activo",!enContacto&&scrollY>60);nc.classList.toggle("activo",enContacto);}};
-addEventListener("scroll",rev,{passive:true});addEventListener("resize",rev);rev();}
+var enContacto=enInfo||alFinal,a=!enContacto&&scrollY>60,b=enContacto;
+if(fijo){a=fijo==="menu";b=fijo==="contacto";}
+nm.classList.toggle("activo",a);nc.classList.toggle("activo",b);}};
+addEventListener("scroll",function(){rev();if(fijo){clearTimeout(idle);idle=setTimeout(function(){fijo=null;rev();},180);}},{passive:true});
+addEventListener("resize",rev);rev();
+var marcar=function(k){fijo=k;clearTimeout(idle);idle=setTimeout(function(){fijo=null;rev();},1500);rev();};
+if(nm)nm.addEventListener("click",function(){marcar("menu");});
+if(nc)nc.addEventListener("click",function(){marcar("contacto");});
+var ini=document.getElementById("inicio");
+if(ini)ini.addEventListener("click",function(e){e.preventDefault();try{history.replaceState(null,"",location.pathname);}catch(x){}marcar("ninguno");scrollTo({top:0,behavior:"smooth"});});}
 var w=document.getElementById("wa-info");
 if(w){var f=function(){var h=new Date().getHours(),g=h>=5&&h<12?"buenos días":h>=12&&h<18?"buenas tardes":"buenas noches";
 w.href="https://wa.me/573113195427?text="+encodeURIComponent("Hola, "+g+". ¿Me podrían dar más información, por favor?");};
