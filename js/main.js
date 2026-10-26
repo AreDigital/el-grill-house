@@ -507,13 +507,13 @@ function textoPedido() {
   const totales = envio > 0
     ? `Subtotal: ${formatoPrecio(totalLista())}\nDomicilio (${d.municipio}): ${formatoPrecio(envio)}\n*TOTAL: ${formatoPrecio(totalLista() + envio)}*`
     : `*TOTAL: ${formatoPrecio(totalLista())}*`;
-  return `Hola, ${saludoSegunHora()} 👋\nQuiero hacer este pedido:\n\n${divisor}\n${bloques.join("\n")}\n\n${totales}${datos}`;
+  return `Hola, ${saludoSegunHora()}\nQuiero hacer este pedido:\n\n${divisor}\n${bloques.join("\n")}\n\n${totales}${datos}`;
 }
 
 function textoPago(d) {
   if (!d.pago) return "";
   if (d.pago === "Transferencia") {
-    return `\n\n*Pago: Transferencia*\nQuedo atento a la confirmación para hacer la transferencia y enviarles el comprobante.`;
+    return `\n\n*Pago: Transferencia*\n¡Muchas gracias! Quedo atento a la confirmación para hacer la transferencia y enviarles el comprobante.`;
   }
   return `\n\n*Pago: Efectivo*`;
 }
