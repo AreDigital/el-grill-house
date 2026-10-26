@@ -771,15 +771,21 @@ function preguntarSiEnvio() {
 
 function mostrarPedidoEnviado(p) {
   const total = p ? formatoPrecio(p.total) : "";
+  const filaNequi = `<div class="pago-fila"><div><small>${PAGO_TRANSFERENCIA.banco}</small><strong>${PAGO_TRANSFERENCIA.numero}</strong></div><button class="btn-copy-mini" data-copiar="${PAGO_TRANSFERENCIA.numero}">Copiar</button></div>`;
   let cuerpo = `<p>Espera nuestra confirmación por WhatsApp.</p>`;
+
   if (p && p.pago === "Transferencia") {
     cuerpo = `<p>Espera nuestra confirmación por WhatsApp. Cuando te la demos, transfiere:</p>
       <div class="pago-fila"><div><small>Valor a pagar</small><strong>${total}</strong></div></div>
-      <div class="pago-fila"><div><small>${PAGO_TRANSFERENCIA.banco}</small><strong>${PAGO_TRANSFERENCIA.numero}</strong></div><button class="btn-copy-mini" data-copiar="${PAGO_TRANSFERENCIA.numero}">Copiar</button></div>`;
+      ${filaNequi}
+      <p class="nota-extra">No olvides enviarnos el comprobante por WhatsApp.</p>`;
   } else if (p && p.pago === "Efectivo") {
     cuerpo = `<p>Espera nuestra confirmación por WhatsApp.</p>
-      <div class="pago-fila"><div><small>Valor a pagar en efectivo</small><strong>${total}</strong></div></div>`;
+      <div class="pago-fila"><div><small>Valor a pagar en efectivo</small><strong>${total}</strong></div></div>
+      ${filaNequi}
+      <p class="nota-extra">Si prefieres transferir, espera nuestra confirmación y envíanos el comprobante por WhatsApp.</p>`;
   }
+
   mostrarModalPedido(`<h3>¡Pedido enviado!</h3>${cuerpo}<button class="btn-whatsapp" id="pedido-listo">Listo</button>`);
   document.querySelectorAll("[data-copiar]").forEach(b => {
     b.addEventListener("click", async () => {

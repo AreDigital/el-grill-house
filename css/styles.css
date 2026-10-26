@@ -1026,6 +1026,11 @@ img { max-width: 100%; display: block; }
   color: var(--muted);
 }
 
+.pedido-modal-card .nota-extra {
+  font-size: 0.82rem;
+  color: var(--gold);
+}
+
 .pedido-modal-card .btn-whatsapp,
 .pedido-modal-card .btn-copy { width: 100%; }
 
