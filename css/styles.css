@@ -1117,3 +1117,7 @@ html { scroll-behavior: smooth; }
 .topbar-nav a[aria-current] { color: var(--gold); }
 .topbar-home { display: flex; }
 .horarios-linea { font-size: 0.88rem; line-height: 1.5; }
+.horarios-festivo { font-size: 0.8rem; line-height: 1.45; color: var(--muted); margin-top: 8px; }
+.redes { display: flex; gap: 10px; margin: 10px 0 4px; }
+.red-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 8px; border-radius: 10px; border: 1.5px solid var(--border); color: var(--text); text-decoration: none; font-weight: 600; font-size: 0.88rem; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+.red-btn svg { flex: none; }
