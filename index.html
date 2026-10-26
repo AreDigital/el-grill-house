@@ -17,6 +17,15 @@
   <span class="topbar-title">EL GRILL HOUSE</span>
 </header>
 
+<section class="hero-text">
+  <h1>Hamburguesas artesanales y parrilla en Itagüí</h1>
+  <p>Pide por WhatsApp o ven a probarla</p>
+  <div class="hero-btns">
+    <a class="hero-btn hero-btn-wa" href="#chip-row" id="hero-pedir">Pedir por WhatsApp</a>
+    <a class="hero-btn hero-btn-map" href="https://www.google.com.co/maps/dir//El+Grill+House,+Dg.+42+%2336A-10,+La+Independencia,+Itag%C3%BC%C3%AD,+Itag%C3%BCi,+Antioquia/@6.16637,-75.616084,17z/data=!4m16!1m7!3m6!1s0x8e46833b61020721:0xf4124dfbcc72fc1e!2sEl+Grill+House!8m2!3d6.1664612!4d-75.6171581!16s%2Fg%2F11zxzwys0v!4m7!1m0!1m5!1m1!1s0x8e46833b61020721:0xf4124dfbcc72fc1e!2m2!1d-75.6171581!2d6.1664612?entry=ttu&g_ep=EgoyMDI2MTAyMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener">Cómo llegar</a>
+  </div>
+</section>
+
 <section class="promo-wrap">
   <div class="promo-slider" id="promo-slider">
     <div class="promo-track" id="promo-track"></div>
@@ -132,12 +141,53 @@
 <!-- Confirmación después de enviar el pedido por WhatsApp -->
 <div class="pedido-modal" id="pedido-modal" hidden></div>
 
+<section class="visitanos" id="visitanos">
+  <h2>Visítanos</h2>
+  <div class="visit-grid">
+    <div class="visit-info">
+      <div class="visit-bloque">
+        <h3>Dirección</h3>
+        <p>Diagonal 42 #36A 10, La Independencia, Itagüí</p>
+        <a class="visit-btn" href="https://www.google.com.co/maps/dir//El+Grill+House,+Dg.+42+%2336A-10,+La+Independencia,+Itag%C3%BC%C3%AD,+Itag%C3%BCi,+Antioquia/@6.16637,-75.616084,17z/data=!4m16!1m7!3m6!1s0x8e46833b61020721:0xf4124dfbcc72fc1e!2sEl+Grill+House!8m2!3d6.1664612!4d-75.6171581!16s%2Fg%2F11zxzwys0v!4m7!1m0!1m5!1m1!1s0x8e46833b61020721:0xf4124dfbcc72fc1e!2m2!1d-75.6171581!2d6.1664612?entry=ttu&g_ep=EgoyMDI2MTAyMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener">Cómo llegar</a>
+      </div>
+      <div class="visit-bloque">
+        <h3>Horario de atención</h3>
+        <ul class="horarios" id="horarios">
+          <li data-dia="1"><span>Lunes</span><span class="cerrado">Cerrado</span></li>
+          <li data-dia="2"><span>Martes</span><span>5:00 p. m. – 11:00 p. m.</span></li>
+          <li data-dia="3"><span>Miércoles</span><span>5:00 p. m. – 11:00 p. m.</span></li>
+          <li data-dia="4"><span>Jueves</span><span>5:00 p. m. – 11:00 p. m.</span></li>
+          <li data-dia="5"><span>Viernes</span><span>5:00 p. m. – 11:30 p. m.</span></li>
+          <li data-dia="6"><span>Sábado</span><span>2:00 p. m. – 11:30 p. m.</span></li>
+          <li data-dia="0"><span>Domingo</span><span>2:00 p. m. – 11:00 p. m.</span></li>
+        </ul>
+      </div>
+      <div class="visit-bloque">
+        <h3>Escríbenos</h3>
+        <p><a class="visit-link" href="tel:+573113195427">+57 311 3195427</a></p>
+        <p><a class="visit-link" href="https://www.instagram.com/elgrillhouse/" target="_blank" rel="noopener">Instagram @elgrillhouse</a></p>
+        <a class="visit-btn visit-btn-wa" href="https://wa.me/573113195427" target="_blank" rel="noopener">Escribir por WhatsApp</a>
+      </div>
+    </div>
+    <div class="visit-mapa">
+      <iframe title="Mapa de El Grill House" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+        src="https://www.google.com/maps?q=6.1664612,-75.6171581&amp;z=17&amp;output=embed"></iframe>
+    </div>
+  </div>
+</section>
+
 <footer class="site-footer">
   <p id="footer-direccion"></p>
   <p id="footer-domicilios"></p>
 </footer>
 
 <script>window.MODO = "web";</script>
+<script>
+(function(){var h=document.querySelector('#horarios li[data-dia="'+new Date().getDay()+'"]');if(h)h.classList.add("hoy");
+var v=document.getElementById("visitanos"),c=document.getElementById("chip-row");
+if(v&&c&&"IntersectionObserver"in window){new IntersectionObserver(function(e){c.classList.toggle("chip-oculto",e[0].isIntersecting);},{rootMargin:"-70px 0px 0px 0px"}).observe(v);}
+})();
+</script>
 <script src="js/products.js"></script>
 <script src="js/main.js"></script>
 </body>
