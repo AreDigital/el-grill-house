@@ -1066,3 +1066,11 @@ img { max-width: 100%; display: block; }
   border-radius: 999px;
   cursor: pointer;
 }
+
+.logo-nequi {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  vertical-align: -3px;
+  margin-right: 5px;
+}

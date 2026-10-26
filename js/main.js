@@ -549,7 +549,7 @@ function seleccionarPago(valor) {
   nota.hidden = !valor;
   nota.classList.toggle("es-transferencia", valor === "Transferencia");
   if (valor === "Transferencia") {
-    nota.innerHTML = `${NOTA_TRANSFERENCIA}<br><br>${PAGO_TRANSFERENCIA.banco}: <strong>${PAGO_TRANSFERENCIA.numero}</strong>`;
+    nota.innerHTML = `${NOTA_TRANSFERENCIA}<br><br><img class="logo-nequi" src="assets/nequi.png" alt="">${PAGO_TRANSFERENCIA.banco}: <strong>${PAGO_TRANSFERENCIA.numero}</strong>`;
   } else if (valor === "Efectivo") {
     nota.textContent = NOTA_EFECTIVO;
   }
@@ -787,7 +787,7 @@ function preguntarSiEnvio() {
 
 function mostrarPedidoEnviado(p) {
   const total = p ? formatoPrecio(p.total) : "";
-  const filaNequi = `<div class="pago-fila"><div><small>${PAGO_TRANSFERENCIA.banco}</small><strong>${PAGO_TRANSFERENCIA.numero}</strong></div><button class="btn-copy-mini" data-copiar="${PAGO_TRANSFERENCIA.numero}">Copiar</button></div>`;
+  const filaNequi = `<div class="pago-fila"><div><small><img class="logo-nequi" src="assets/nequi.png" alt="">${PAGO_TRANSFERENCIA.banco}</small><strong>${PAGO_TRANSFERENCIA.numero}</strong></div><button class="btn-copy-mini" data-copiar="${PAGO_TRANSFERENCIA.numero}">Copiar</button></div>`;
   let cuerpo = `<p>Espera nuestra confirmación por WhatsApp.</p>`;
 
   if (p && p.pago === "Transferencia") {
