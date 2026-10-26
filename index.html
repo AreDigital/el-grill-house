@@ -9,6 +9,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css">
+<script>if(/^#(carta|contacto)$/.test(location.hash)){document.documentElement.classList.add("saltando");setTimeout(function(){document.documentElement.classList.remove("saltando");},1500);}</script>
+<style>.saltando body{visibility:hidden}</style>
 </head>
 <body>
 
@@ -189,6 +191,9 @@ var h=document.querySelector('#horarios li[data-dia="'+new Date().getDay()+'"]')
 var v=document.getElementById("info-web"),c=document.getElementById("chip-row");
 var car=document.getElementById("carta"),nm=document.querySelector('.topbar-nav a[href="#carta"]'),nc=document.querySelector('.topbar-nav a[href="#contacto"]');
 var fijo=null,idle;
+var salto=function(){var id=location.hash.slice(1),t=document.getElementById(id);if(!t)return false;
+var off=id==="carta"?58:80;scrollTo({top:Math.max(0,t.getBoundingClientRect().top+scrollY-off),behavior:"instant"});return true;};
+var hashInicial=/^#(carta|contacto)$/.test(location.hash)?location.hash.slice(1):null;
 if(v&&c){var rev=function(){var lim=c.getBoundingClientRect().bottom,enInfo=v.getBoundingClientRect().top<=lim-1;
 c.classList.toggle("chip-oculto",enInfo);
 if(nm&&nc&&car){var alFinal=scrollY>0&&scrollY+innerHeight>=document.documentElement.scrollHeight-4;
@@ -200,6 +205,12 @@ addEventListener("resize",rev);rev();
 var marcar=function(k){fijo=k;clearTimeout(idle);idle=setTimeout(function(){fijo=null;rev();},1500);rev();};
 if(nm)nm.addEventListener("click",function(){marcar("menu");});
 if(nc)nc.addEventListener("click",function(){marcar("contacto");});
+if(hashInicial){var movio=false;addEventListener("wheel",function(){movio=true;},{once:true,passive:true});addEventListener("touchstart",function(){movio=true;},{once:true,passive:true});
+var ir=function(){if(!movio){salto();}};
+var listo=function(){fijo=hashInicial==="carta"?"menu":"contacto";ir();rev();document.documentElement.classList.remove("saltando");try{history.replaceState(null,"",location.pathname);}catch(x){}
+clearTimeout(idle);idle=setTimeout(function(){fijo=null;rev();},400);};
+if(document.readyState==="loading")addEventListener("DOMContentLoaded",listo);else listo();
+addEventListener("load",function(){ir();rev();});}
 var ini=document.getElementById("inicio");
 if(ini)ini.addEventListener("click",function(e){e.preventDefault();try{history.replaceState(null,"",location.pathname);}catch(x){}marcar("ninguno");scrollTo({top:0,behavior:"smooth"});});}
 var w=document.getElementById("wa-info");
