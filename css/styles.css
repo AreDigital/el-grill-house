@@ -1143,3 +1143,6 @@ html { scroll-behavior: smooth; }
   .promo-arrow-next { right: 10px; }
 }
 .horarios-festivo { font-size: 0.69rem; }
+@media (min-width: 641px) {
+  .topbar { padding-left: max(16px, calc((100% - 720px) / 2)); padding-right: max(16px, calc((100% - 720px) / 2)); }
+}
