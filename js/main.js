@@ -130,6 +130,64 @@ function configurarPromo() {
     }, { passive: true });
   });
 
+  // --- Solo ratón (computador): arrastrar el banner y flechas ---
+  // El dedo en el celular no pasa por aquí (pointerType "touch").
+  const slider = document.getElementById("promo-slider");
+  let arrastrando = false, inicioX = 0, inicioScroll = 0, huboArrastre = false;
+
+  track.addEventListener("pointerdown", (e) => {
+    if (e.pointerType !== "mouse" || e.button !== 0) return;
+    arrastrando = true;
+    huboArrastre = false;
+    inicioX = e.clientX;
+    inicioScroll = track.scrollLeft;
+    clearInterval(state.promoTimer);
+    track.classList.add("arrastrando");
+  });
+
+  window.addEventListener("pointermove", (e) => {
+    if (!arrastrando) return;
+    const dx = e.clientX - inicioX;
+    if (Math.abs(dx) > 5) huboArrastre = true;
+    track.scrollLeft = inicioScroll - dx;
+  });
+
+  window.addEventListener("pointerup", (e) => {
+    if (!arrastrando) return;
+    arrastrando = false;
+    track.classList.remove("arrastrando");
+    if (huboArrastre) {
+      const dx = e.clientX - inicioX;
+      const base = Math.round(inicioScroll / track.clientWidth);
+      let destino = Math.round(track.scrollLeft / track.clientWidth);
+      if (destino === base && Math.abs(dx) > 40) destino = base + (dx < 0 ? 1 : -1);
+      irASlide(Math.max(0, Math.min(BANNERS.length - 1, destino)));
+    }
+    programarReinicioAutoplay();
+  });
+
+  track.addEventListener("click", (e) => {
+    if (huboArrastre) { e.stopImmediatePropagation(); huboArrastre = false; }
+  }, true);
+
+  track.addEventListener("dragstart", (e) => e.preventDefault());
+
+  if (BANNERS.length > 1 && slider) {
+    [["prev", "&#8249;", "Anterior", -1], ["next", "&#8250;", "Siguiente", 1]].forEach(([cls, txt, label, paso]) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "promo-arrow promo-arrow-" + cls;
+      b.setAttribute("aria-label", label);
+      b.innerHTML = txt;
+      b.addEventListener("click", () => {
+        clearInterval(state.promoTimer);
+        irASlide(state.promoIndex + paso);
+        programarReinicioAutoplay();
+      });
+      slider.appendChild(b);
+    });
+  }
+
   // El navegador no dispara "click" después de un deslizamiento,
   // así que no hay que distinguir entre tocar y arrastrar.
   track.addEventListener("click", (e) => {

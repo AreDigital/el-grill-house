@@ -1130,3 +1130,15 @@ html { scroll-behavior: smooth; }
 .visitanos { margin-top: 28px; }
 .redes-pagina { max-width: 720px; margin: 24px auto 0; }
 .site-footer .redes-centro { margin: 16px 0 0; }
+
+/* Banner: arrastre y flechas solo con ratón (computador). El celular no cambia. */
+.promo-arrow { display: none; }
+@media (hover: hover) and (pointer: fine) {
+  .promo-track { cursor: grab; }
+  .promo-track.arrastrando { cursor: grabbing; scroll-snap-type: none; scroll-behavior: auto; user-select: none; }
+  .promo-track.arrastrando .promo-slide img { pointer-events: none; }
+  .promo-arrow { display: flex; align-items: center; justify-content: center; position: absolute; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; border-radius: 50%; border: 0; background: rgba(0,0,0,0.55); color: #fff; font-size: 1.7rem; line-height: 1; padding-bottom: 3px; cursor: pointer; opacity: 0; transition: opacity .2s; z-index: 5; }
+  .promo-slider:hover .promo-arrow { opacity: 1; }
+  .promo-arrow-prev { left: 10px; }
+  .promo-arrow-next { right: 10px; }
+}
