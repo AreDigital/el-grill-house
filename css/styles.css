@@ -1128,3 +1128,4 @@ html { scroll-behavior: smooth; }
 .visit-domicilios { text-align: center; color: var(--muted); font-size: 0.85rem; }
 .redes-centro { justify-content: center; margin: 0 0 8px; }
 .visitanos { margin-top: 28px; }
+.redes-pagina { max-width: 720px; margin: 24px auto 0; }
