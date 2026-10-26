@@ -137,6 +137,7 @@ function configurarPromo() {
 
   track.addEventListener("pointerdown", (e) => {
     if (e.pointerType !== "mouse" || e.button !== 0) return;
+    cancelAnimationFrame(animacion);
     arrastrando = true;
     huboArrastre = false;
     inicioX = e.clientX;
@@ -152,16 +153,41 @@ function configurarPromo() {
     track.scrollLeft = inicioScroll - dx;
   });
 
+  // Al soltar, el banner sigue deslizando y frena poco a poco hasta la imagen.
+  let animacion = 0;
+  function frenarHasta(destino) {
+    cancelAnimationFrame(animacion);
+    const desde = track.scrollLeft;
+    const hasta = destino * track.clientWidth;
+    const dur = Math.min(900, 450 + Math.abs(hasta - desde) * 0.6);
+    const t0 = performance.now();
+    function paso(ahora) {
+      const t = Math.min(1, (ahora - t0) / dur);
+      const suave = 1 - Math.pow(1 - t, 4);
+      track.scrollLeft = desde + (hasta - desde) * suave;
+      if (t < 1) {
+        animacion = requestAnimationFrame(paso);
+      } else {
+        track.classList.remove("arrastrando");
+      }
+    }
+    animacion = requestAnimationFrame(paso);
+  }
+
   window.addEventListener("pointerup", (e) => {
     if (!arrastrando) return;
     arrastrando = false;
-    track.classList.remove("arrastrando");
     if (huboArrastre) {
       const dx = e.clientX - inicioX;
       const base = Math.round(inicioScroll / track.clientWidth);
       let destino = Math.round(track.scrollLeft / track.clientWidth);
       if (destino === base && Math.abs(dx) > 40) destino = base + (dx < 0 ? 1 : -1);
-      irASlide(Math.max(0, Math.min(BANNERS.length - 1, destino)));
+      destino = Math.max(0, Math.min(BANNERS.length - 1, destino));
+      state.promoIndex = destino;
+      actualizarPuntos();
+      frenarHasta(destino);
+    } else {
+      track.classList.remove("arrastrando");
     }
     programarReinicioAutoplay();
   });
