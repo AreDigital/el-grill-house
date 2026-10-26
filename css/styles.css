@@ -1124,3 +1124,7 @@ html { scroll-behavior: smooth; }
 .redes { gap: 12px; }
 .red-btn { flex: none; width: 44px; height: 44px; padding: 0; border-radius: 50%; }
 .red-wa { background: #25D366; border-color: #25D366; color: #0a0a0a; }
+.visit-btn-full { display: block; text-align: center; margin-top: 0; padding: 13px 16px; font-size: 0.95rem; }
+.visit-domicilios { text-align: center; color: var(--muted); font-size: 0.85rem; }
+.redes-centro { justify-content: center; margin: 0 0 8px; }
+.visitanos { margin-top: 28px; }
