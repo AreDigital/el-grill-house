@@ -184,8 +184,11 @@
 <script>
 (function(){var h=document.querySelector('#horarios li[data-dia="'+new Date().getDay()+'"]');if(h)h.classList.add("hoy");
 var v=document.getElementById("info-web"),c=document.getElementById("chip-row");
-if(v&&c){var rev=function(){var lim=c.getBoundingClientRect().bottom;
-c.classList.toggle("chip-oculto",v.getBoundingClientRect().top<=lim-1);};
+var car=document.getElementById("carta"),nm=document.querySelector('.topbar-nav a[href="#carta"]'),nc=document.querySelector('.topbar-nav a[href="#contacto"]');
+if(v&&c){var rev=function(){var lim=c.getBoundingClientRect().bottom,enInfo=v.getBoundingClientRect().top<=lim-1;
+c.classList.toggle("chip-oculto",enInfo);
+if(nm&&nc&&car){var enCarta=!enInfo&&car.getBoundingClientRect().top<=lim;
+nm.classList.toggle("activo",enCarta);nc.classList.toggle("activo",enInfo);}};
 addEventListener("scroll",rev,{passive:true});addEventListener("resize",rev);rev();}
 var w=document.getElementById("wa-info");
 if(w){var f=function(){var h=new Date().getHours(),g=h>=5&&h<12?"buenos días":h>=12&&h<18?"buenas tardes":"buenas noches";
