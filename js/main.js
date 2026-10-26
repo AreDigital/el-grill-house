@@ -737,6 +737,17 @@ function borrarPedidoPendiente() {
   try { localStorage.removeItem(CLAVE_PEDIDO_PENDIENTE); } catch (e) {}
 }
 
+function activarBotonesCopiar() {
+  document.querySelectorAll("#pedido-modal [data-copiar]").forEach(b => {
+    b.addEventListener("click", async () => {
+      await copiarTexto(b.dataset.copiar);
+      const t = b.textContent;
+      b.textContent = "¡Copiado!";
+      setTimeout(() => { b.textContent = t; }, 2000);
+    });
+  });
+}
+
 function mostrarModalPedido(html) {
   const modal = document.getElementById("pedido-modal");
   modal.innerHTML = `<div class="pedido-modal-card">${html}</div>`;
@@ -751,7 +762,10 @@ function preguntarSiEnvio() {
   mostrarModalPedido(`
     <h3>¿Ya enviaste tu pedido por WhatsApp?</h3>
     <button class="btn-whatsapp" id="pedido-si">Sí, ya lo envié</button>
-    <button class="btn-copy" id="pedido-no">Volver a mi lista</button>`);
+    <button class="btn-copy" id="pedido-no">Volver a mi lista</button>
+    <p class="nota-extra">¿No se abrió WhatsApp? Vuelve a tu lista, usa "Copiar pedido" y escríbenos a este número:</p>
+    <div class="pago-fila"><div><small>WhatsApp</small><strong>${NEGOCIO.whatsappVisible}</strong></div><button class="btn-copy-mini" data-copiar="${NEGOCIO.whatsapp}">Copiar</button></div>`);
+  activarBotonesCopiar();
   document.getElementById("pedido-si").addEventListener("click", () => {
     const pendiente = leerPedidoPendiente();
     borrarPedidoPendiente();
@@ -787,14 +801,7 @@ function mostrarPedidoEnviado(p) {
   }
 
   mostrarModalPedido(`<h3>¡Pedido enviado!</h3>${cuerpo}<button class="btn-whatsapp" id="pedido-listo">Listo</button>`);
-  document.querySelectorAll("[data-copiar]").forEach(b => {
-    b.addEventListener("click", async () => {
-      await copiarTexto(b.dataset.copiar);
-      const t = b.textContent;
-      b.textContent = "¡Copiado!";
-      setTimeout(() => { b.textContent = t; }, 2000);
-    });
-  });
+  activarBotonesCopiar();
   document.getElementById("pedido-listo").addEventListener("click", cerrarModalPedido);
 }
 

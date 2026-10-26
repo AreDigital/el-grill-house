@@ -128,5 +128,6 @@ const NEGOCIO = {
   nombre: "El Grill House",
   direccion: "Diagonal 42 #36A 10, La Independencia, Itagüí",
   whatsapp: "573113195427",
+  whatsappVisible: "311 319 5427",
   domicilios: "Domicilios solo en Itagüí, La Estrella, Envigado y Sabaneta"
 };
