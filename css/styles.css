@@ -1154,3 +1154,9 @@ html { scroll-behavior: smooth; }
 .quienes-texto .quienes-cierre { font-weight: 700; color: var(--gold); margin: 18px 0 0; }
 .quienes-btn { display: block; margin-top: 18px; padding: 14px 16px; border-radius: 12px; background: var(--red); color: #fff; text-align: center; font-weight: 700; font-size: 0.95rem; text-decoration: none; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
 .quienes-card img { height: auto; aspect-ratio: 2 / 1; object-fit: cover; }
+@media (max-width: 640px) {
+  .topbar-nav { gap: 0; align-items: center; }
+  .topbar-nav a { font-size: 0.9rem; padding: 6px 12px; }
+  .topbar-nav a + a { border-left: 1px solid var(--border); }
+  .topbar-nav a:last-child { padding-right: 0; }
+}
