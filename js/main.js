@@ -513,7 +513,7 @@ function textoPedido() {
 function textoPago(d) {
   if (!d.pago) return "";
   if (d.pago === "Transferencia") {
-    return `\n\n*Pago: Transferencia*\n${PAGO_TRANSFERENCIA.banco}: ${PAGO_TRANSFERENCIA.numero}\nAdjunto el comprobante en el chat.`;
+    return `\n\n*Pago: Transferencia*\nQuedo atento a la confirmación para hacer la transferencia y enviarles el comprobante.`;
   }
   return `\n\n*Pago: Efectivo*`;
 }
@@ -535,7 +535,7 @@ const CAMPOS_ENTREGA = [
   { id: "entrega-referencia", clave: "referencia", etiqueta: "Referencia", obligatorio: false }
 ];
 const CLAVE_DATOS_ENTREGA = "grillhouse_datos_entrega";
-const NOTA_TRANSFERENCIA = "Cuando envíes el pedido, adjunta el comprobante en el chat y lo confirmamos enseguida.";
+const NOTA_TRANSFERENCIA = "Espera nuestra confirmación antes de transferir. Te avisamos por WhatsApp apenas revisemos que todo esté disponible.";
 const NOTA_EFECTIVO = "Listo, te confirmamos el pedido por WhatsApp.";
 
 function formaDePago() {
@@ -549,7 +549,7 @@ function seleccionarPago(valor) {
   nota.hidden = !valor;
   nota.classList.toggle("es-transferencia", valor === "Transferencia");
   if (valor === "Transferencia") {
-    nota.innerHTML = `${PAGO_TRANSFERENCIA.banco}: <strong>${PAGO_TRANSFERENCIA.numero}</strong><br>${NOTA_TRANSFERENCIA}`;
+    nota.innerHTML = `${NOTA_TRANSFERENCIA}<br><br>${PAGO_TRANSFERENCIA.banco}: <strong>${PAGO_TRANSFERENCIA.numero}</strong>`;
   } else if (valor === "Efectivo") {
     nota.textContent = NOTA_EFECTIVO;
   }
