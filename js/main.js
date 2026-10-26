@@ -748,7 +748,7 @@ function mostrarPedidoEnviado(p) {
   let cuerpo = `<p>Espera nuestra confirmación por WhatsApp.</p>`;
   if (p && p.pago === "Transferencia") {
     cuerpo = `<p>Espera nuestra confirmación por WhatsApp. Cuando te la demos, transfiere:</p>
-      <div class="pago-fila"><div><small>Valor a pagar</small><strong>${total}</strong></div><button class="btn-copy-mini" data-copiar="${p.total}">Copiar</button></div>
+      <div class="pago-fila"><div><small>Valor a pagar</small><strong>${total}</strong></div></div>
       <div class="pago-fila"><div><small>${PAGO_TRANSFERENCIA.banco}</small><strong>${PAGO_TRANSFERENCIA.numero}</strong></div><button class="btn-copy-mini" data-copiar="${PAGO_TRANSFERENCIA.numero}">Copiar</button></div>`;
   } else if (p && p.pago === "Efectivo") {
     cuerpo = `<p>Espera nuestra confirmación por WhatsApp.</p>
@@ -776,7 +776,16 @@ function pedirPorWhatsApp() {
   if (!validarEntrega()) return;
   guardarPedidoPendiente();
   const url = `https://wa.me/${NEGOCIO.whatsapp}?text=${encodeURIComponent(textoPedido())}`;
-  window.location.href = url; // misma pestaña: iOS/Chrome abren mejor la app así
+  // Se abre WhatsApp en otra pestaña (enlace real, para que los celulares lo traten como un toque) y esta página
+  // se queda aquí, preguntando si ya se envió el pedido.
+  const enlace = document.createElement("a");
+  enlace.href = url;
+  enlace.target = "_blank";
+  enlace.rel = "noopener";
+  document.body.appendChild(enlace);
+  enlace.click();
+  enlace.remove();
+  preguntarSiEnvio();
 }
 
 function configurarModoWeb() {
