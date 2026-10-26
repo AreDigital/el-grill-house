@@ -185,7 +185,9 @@
 <script>
 (function(){var h=document.querySelector('#horarios li[data-dia="'+new Date().getDay()+'"]');if(h)h.classList.add("hoy");
 var v=document.getElementById("info-web"),c=document.getElementById("chip-row");
-if(v&&c&&"IntersectionObserver"in window){new IntersectionObserver(function(e){c.classList.toggle("chip-oculto",e[0].isIntersecting);},{rootMargin:"-70px 0px 0px 0px"}).observe(v);}
+if(v&&c){var rev=function(){var lim=c.getBoundingClientRect().bottom;
+c.classList.toggle("chip-oculto",v.getBoundingClientRect().top<=lim-1);};
+addEventListener("scroll",rev,{passive:true});addEventListener("resize",rev);rev();}
 var w=document.getElementById("wa-info");
 if(w){var f=function(){var h=new Date().getHours(),g=h>=5&&h<12?"buenos días":h>=12&&h<18?"buenas tardes":"buenas noches";
 w.href="https://wa.me/573113195427?text="+encodeURIComponent("Hola, "+g+". ¿Me podrían dar más información, por favor?");};
