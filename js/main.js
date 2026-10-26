@@ -763,9 +763,11 @@ function preguntarSiEnvio() {
     <h3>¿Ya enviaste tu pedido por WhatsApp?</h3>
     <button class="btn-whatsapp" id="pedido-si">Sí, ya lo envié</button>
     <button class="btn-copy" id="pedido-no">Volver a mi lista</button>
-    <p class="nota-extra">¿No se abrió WhatsApp? Vuelve a tu lista, usa "Copiar pedido" y escríbenos a este número:</p>
-    <div class="pago-fila"><div><small>WhatsApp</small><strong>${NEGOCIO.whatsappVisible}</strong></div><button class="btn-copy-mini" data-copiar="${NEGOCIO.whatsapp}">Copiar</button></div>`);
+    <p class="nota-extra">¿No se abrió WhatsApp? Copia tu pedido y escríbenos a este número:</p>
+    <div class="pago-fila"><div><small>WhatsApp</small><strong>${NEGOCIO.whatsappVisible}</strong></div><button class="btn-copy-mini" data-copiar="${NEGOCIO.whatsapp}">Copiar</button></div>
+    <button class="btn-copy" id="pedido-copiar">Copiar pedido</button>`);
   activarBotonesCopiar();
+  document.getElementById("pedido-copiar").addEventListener("click", (e) => copiarPedido(e.currentTarget));
   document.getElementById("pedido-si").addEventListener("click", () => {
     const pendiente = leerPedidoPendiente();
     borrarPedidoPendiente();
