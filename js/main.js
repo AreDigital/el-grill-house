@@ -632,6 +632,29 @@ function restaurarDatosEntrega() {
   } catch (e) {}
 }
 
+const CAMPOS_DIRECCION = ["entrega-municipio", "entrega-direccion", "entrega-barrio", "entrega-referencia"];
+
+function actualizarBotonOtraDireccion() {
+  const hayDireccion = CAMPOS_DIRECCION.some(id => document.getElementById(id).value.trim() !== "");
+  document.getElementById("otra-direccion").hidden = !hayDireccion;
+}
+
+// Borra solo la dirección (municipio, dirección, barrio y referencia); nombre, teléfono y pago se conservan
+function usarOtraDireccion() {
+  CAMPOS_DIRECCION.forEach(id => {
+    const el = document.getElementById(id);
+    el.value = "";
+    el.classList.remove("invalid");
+  });
+  document.getElementById("entrega-aviso").hidden = true;
+  guardarDatosEntrega();
+  actualizarTotalLista();
+  actualizarBotonOtraDireccion();
+  const primero = document.getElementById("entrega-municipio");
+  primero.scrollIntoView({ behavior: "smooth", block: "center" });
+  primero.focus({ preventScroll: true });
+}
+
 function configurarFormularioEntrega() {
   if (!hayFormularioEntrega()) return;
   const selectMunicipio = document.getElementById("entrega-municipio");
@@ -646,6 +669,8 @@ function configurarFormularioEntrega() {
   });
   restaurarDatosEntrega();
   actualizarTotalLista();
+  actualizarBotonOtraDireccion();
+  document.getElementById("otra-direccion").addEventListener("click", usarOtraDireccion);
   actualizarTelefonoVisible();
   document.getElementById("entrega-mismo-wa").addEventListener("change", () => {
     actualizarTelefonoVisible();
@@ -654,10 +679,11 @@ function configurarFormularioEntrega() {
   });
   CAMPOS_ENTREGA.forEach(c => {
     const el = document.getElementById(c.id);
-    el.addEventListener("input", () => { el.classList.remove("invalid"); guardarDatosEntrega(); });
+    el.addEventListener("input", () => { el.classList.remove("invalid"); guardarDatosEntrega(); actualizarBotonOtraDireccion(); });
     el.addEventListener("change", () => {
       el.classList.remove("invalid");
       guardarDatosEntrega();
+      actualizarBotonOtraDireccion();
       if (c.clave === "municipio") actualizarTotalLista();
     });
   });

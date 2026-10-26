@@ -753,6 +753,26 @@ img { max-width: 100%; display: block; }
 
 .datos-entrega[hidden] { display: none; }
 
+.entrega-encabezado {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.btn-otra-direccion {
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-otra-direccion[hidden] { display: none; }
+
 .datos-entrega h3 {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 1.2rem;
