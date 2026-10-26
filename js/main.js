@@ -663,9 +663,7 @@ function configurarFormularioEntrega() {
   });
 }
 
-async function copiarPedido(btn) {
-  if (!validarEntrega()) return;
-  const texto = textoPedido();
+async function copiarTexto(texto) {
   try {
     await navigator.clipboard.writeText(texto);
   } catch (e) {
@@ -678,13 +676,105 @@ async function copiarPedido(btn) {
     document.execCommand("copy");
     ta.remove();
   }
+}
+
+async function copiarPedido(btn) {
+  if (!validarEntrega()) return;
+  await copiarTexto(textoPedido());
   const original = btn.textContent;
   btn.textContent = "¡Copiado!";
   setTimeout(() => { btn.textContent = original; }, 2000);
 }
 
+// ---------- después de enviar por WhatsApp ----------
+const CLAVE_PEDIDO_PENDIENTE = "grillhouse_pedido_pendiente";
+
+function guardarPedidoPendiente() {
+  try {
+    localStorage.setItem(CLAVE_PEDIDO_PENDIENTE, JSON.stringify({
+      total: totalLista() + costoDomicilio(),
+      pago: formaDePago(),
+      hora: Date.now()
+    }));
+  } catch (e) {}
+}
+
+function leerPedidoPendiente() {
+  try {
+    const p = JSON.parse(localStorage.getItem(CLAVE_PEDIDO_PENDIENTE) || "null");
+    if (!p || Date.now() - p.hora > 12 * 60 * 60 * 1000) return null;
+    return p;
+  } catch (e) { return null; }
+}
+
+function borrarPedidoPendiente() {
+  try { localStorage.removeItem(CLAVE_PEDIDO_PENDIENTE); } catch (e) {}
+}
+
+function mostrarModalPedido(html) {
+  const modal = document.getElementById("pedido-modal");
+  modal.innerHTML = `<div class="pedido-modal-card">${html}</div>`;
+  modal.hidden = false;
+}
+
+function cerrarModalPedido() {
+  document.getElementById("pedido-modal").hidden = true;
+}
+
+function preguntarSiEnvio() {
+  mostrarModalPedido(`
+    <h3>¿Ya enviaste tu pedido por WhatsApp?</h3>
+    <button class="btn-whatsapp" id="pedido-si">Sí, ya lo envié</button>
+    <button class="btn-copy" id="pedido-no">Volver a mi lista</button>`);
+  document.getElementById("pedido-si").addEventListener("click", () => {
+    const pendiente = leerPedidoPendiente();
+    borrarPedidoPendiente();
+    state.lista = [];
+    guardarLista();
+    renderCartBar();
+    cerrarSheet("list-sheet", "list-backdrop");
+    mostrarPedidoEnviado(pendiente);
+  });
+  document.getElementById("pedido-no").addEventListener("click", () => {
+    borrarPedidoPendiente();
+    cerrarModalPedido();
+    renderListSheet();
+    abrirSheet("list-sheet", "list-backdrop");
+  });
+}
+
+function mostrarPedidoEnviado(p) {
+  const total = p ? formatoPrecio(p.total) : "";
+  let cuerpo = `<p>Espera nuestra confirmación por WhatsApp.</p>`;
+  if (p && p.pago === "Transferencia") {
+    cuerpo = `<p>Espera nuestra confirmación por WhatsApp. Cuando te la demos, transfiere:</p>
+      <div class="pago-fila"><div><small>Valor a pagar</small><strong>${total}</strong></div><button class="btn-copy-mini" data-copiar="${p.total}">Copiar</button></div>
+      <div class="pago-fila"><div><small>${PAGO_TRANSFERENCIA.banco}</small><strong>${PAGO_TRANSFERENCIA.numero}</strong></div><button class="btn-copy-mini" data-copiar="${PAGO_TRANSFERENCIA.numero}">Copiar</button></div>`;
+  } else if (p && p.pago === "Efectivo") {
+    cuerpo = `<p>Espera nuestra confirmación por WhatsApp.</p>
+      <div class="pago-fila"><div><small>Valor a pagar en efectivo</small><strong>${total}</strong></div></div>`;
+  }
+  mostrarModalPedido(`<h3>¡Pedido enviado!</h3>${cuerpo}<button class="btn-whatsapp" id="pedido-listo">Listo</button>`);
+  document.querySelectorAll("[data-copiar]").forEach(b => {
+    b.addEventListener("click", async () => {
+      await copiarTexto(b.dataset.copiar);
+      const t = b.textContent;
+      b.textContent = "¡Copiado!";
+      setTimeout(() => { b.textContent = t; }, 2000);
+    });
+  });
+  document.getElementById("pedido-listo").addEventListener("click", cerrarModalPedido);
+}
+
+function revisarPedidoPendiente() {
+  if (window.MODO !== "web" || !document.getElementById("pedido-modal")) return;
+  if (!document.getElementById("pedido-modal").hidden) return;
+  if (leerPedidoPendiente()) preguntarSiEnvio();
+}
+
 function pedirPorWhatsApp() {
   if (!validarEntrega()) return;
+  guardarPedidoPendiente();
   const url = `https://wa.me/${NEGOCIO.whatsapp}?text=${encodeURIComponent(textoPedido())}`;
   window.location.href = url; // misma pestaña: iOS/Chrome abren mejor la app así
 }
@@ -808,6 +898,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   configurarFormularioEntrega();
+  revisarPedidoPendiente();
+  window.addEventListener("pageshow", revisarPedidoPendiente);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) revisarPedidoPendiente(); });
   document.getElementById("list-clear").addEventListener("click", vaciarLista);
   document.getElementById("list-copy").addEventListener("click", (e) => copiarPedido(e.currentTarget));
   document.getElementById("list-whatsapp").addEventListener("click", pedirPorWhatsApp);

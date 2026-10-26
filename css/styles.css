@@ -967,3 +967,77 @@ img { max-width: 100%; display: block; }
 }
 
 .sheet-body .detail-lista-total[hidden] { display: none; }
+
+/* ---------- Confirmación después de enviar por WhatsApp ---------- */
+.pedido-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.pedido-modal[hidden] { display: none; }
+
+.pedido-modal-card {
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 22px 20px;
+}
+
+.pedido-modal-card h3 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.6rem;
+  letter-spacing: 0.03em;
+}
+
+.pedido-modal-card p {
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.pedido-modal-card .btn-whatsapp,
+.pedido-modal-card .btn-copy { width: 100%; }
+
+.pago-fila {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--card);
+  border: 1px solid var(--border);
+}
+
+.pago-fila small {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.pago-fila strong {
+  font-size: 1.15rem;
+  color: var(--text);
+}
+
+.btn-copy-mini {
+  flex-shrink: 0;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 7px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+}
