@@ -154,7 +154,7 @@
         <p class="horarios-festivo">(Si el lunes es festivo: domingo hasta las&nbsp;12&nbsp;a.&nbsp;m., lunes abierto y martes cerrado)</p>
       </div>
       <div class="visit-bloque" id="contacto">
-        <a class="visit-btn visit-btn-wa visit-btn-full" href="https://wa.me/573113195427" target="_blank" rel="noopener">Escribir por WhatsApp</a>
+        <a class="visit-btn visit-btn-wa visit-btn-full" id="wa-info" href="https://wa.me/573113195427" target="_blank" rel="noopener">Escribir por WhatsApp</a>
       </div>
       <div class="visit-bloque">
         <h3>Dirección</h3>
@@ -186,6 +186,10 @@
 (function(){var h=document.querySelector('#horarios li[data-dia="'+new Date().getDay()+'"]');if(h)h.classList.add("hoy");
 var v=document.getElementById("info-web"),c=document.getElementById("chip-row");
 if(v&&c&&"IntersectionObserver"in window){new IntersectionObserver(function(e){c.classList.toggle("chip-oculto",e[0].isIntersecting);},{rootMargin:"-70px 0px 0px 0px"}).observe(v);}
+var w=document.getElementById("wa-info");
+if(w){var f=function(){var h=new Date().getHours(),g=h>=5&&h<12?"buenos días":h>=12&&h<18?"buenas tardes":"buenas noches";
+w.href="https://wa.me/573113195427?text="+encodeURIComponent("Hola, "+g+". ¿Me podrían dar más información, por favor?");};
+f();w.addEventListener("click",f);w.addEventListener("touchstart",f,{passive:true});}
 })();
 </script>
 <script src="js/products.js"></script>
