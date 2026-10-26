@@ -15,15 +15,17 @@
 <header class="topbar">
   <img src="assets/logo.png" alt="El Grill House" class="topbar-logo">
   <span class="topbar-title">EL GRILL HOUSE</span>
+  <nav class="topbar-nav" aria-label="Principal">
+    <a href="#carta">Carta</a>
+    <a href="#quienes-somos">Quiénes somos</a>
+    <a href="#visitanos">Cómo llegar</a>
+    <a href="#contacto">Contacto</a>
+  </nav>
 </header>
 
 <section class="hero-text">
   <h1>Hamburguesas artesanales y parrilla en Itagüí</h1>
   <p>Pide por WhatsApp o ven a probarla</p>
-  <div class="hero-btns">
-    <a class="hero-btn hero-btn-map" href="https://www.google.com.co/maps/dir//El+Grill+House,+Dg.+42+%2336A-10,+La+Independencia,+Itag%C3%BC%C3%AD,+Itag%C3%BCi,+Antioquia/@6.16637,-75.616084,17z/data=!4m16!1m7!3m6!1s0x8e46833b61020721:0xf4124dfbcc72fc1e!2sEl+Grill+House!8m2!3d6.1664612!4d-75.6171581!16s%2Fg%2F11zxzwys0v!4m7!1m0!1m5!1m1!1s0x8e46833b61020721:0xf4124dfbcc72fc1e!2m2!1d-75.6171581!2d6.1664612?entry=ttu&g_ep=EgoyMDI2MTAyMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener">Cómo llegar</a>
-    <a class="hero-btn hero-btn-map" href="#contacto">Contacto</a>
-  </div>
 </section>
 
 <section class="promo-wrap">
@@ -33,6 +35,7 @@
   </div>
 </section>
 
+<div id="carta"></div>
 <nav class="chip-row" id="chip-row"></nav>
 
 <div class="view-toggle-bar">
@@ -141,6 +144,15 @@
 <!-- Confirmación después de enviar el pedido por WhatsApp -->
 <div class="pedido-modal" id="pedido-modal" hidden></div>
 
+<div id="info-web">
+<section class="quienes" id="quienes-somos">
+  <h2>Quiénes somos</h2>
+  <div class="quienes-card">
+    <img src="assets/05 Hamburguesa Americana.jpg" alt="Hamburguesa Americana de El Grill House" loading="lazy">
+    <p>En El Grill House preparamos hamburguesas artesanales y carnes a la parrilla en La Independencia, Itagüí. Ven a probarlas al local o pídelas a domicilio en Itagüí, La Estrella, Sabaneta y Envigado.</p>
+  </div>
+</section>
+
 <section class="visitanos" id="visitanos">
   <h2>Visítanos</h2>
   <div class="visit-grid">
@@ -175,6 +187,7 @@
     </div>
   </div>
 </section>
+</div>
 
 <footer class="site-footer">
   <p id="footer-direccion"></p>
@@ -184,7 +197,7 @@
 <script>window.MODO = "web";</script>
 <script>
 (function(){var h=document.querySelector('#horarios li[data-dia="'+new Date().getDay()+'"]');if(h)h.classList.add("hoy");
-var v=document.getElementById("visitanos"),c=document.getElementById("chip-row");
+var v=document.getElementById("info-web"),c=document.getElementById("chip-row");
 if(v&&c&&"IntersectionObserver"in window){new IntersectionObserver(function(e){c.classList.toggle("chip-oculto",e[0].isIntersecting);},{rootMargin:"-70px 0px 0px 0px"}).observe(v);}
 })();
 </script>
