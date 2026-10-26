@@ -1129,3 +1129,4 @@ html { scroll-behavior: smooth; }
 .redes-centro { justify-content: center; margin: 0 0 8px; }
 .visitanos { margin-top: 28px; }
 .redes-pagina { max-width: 720px; margin: 24px auto 0; }
+.site-footer .redes-centro { margin: 16px 0 0; }
