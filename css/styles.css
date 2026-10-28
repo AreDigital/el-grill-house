@@ -1176,3 +1176,11 @@ html { scroll-behavior: smooth; }
 
 /* Botón "Cómo llegar" (Contacto): acento dorado */
 .visit-btn-ruta { border-color: var(--gold); color: var(--gold); background: color-mix(in srgb, var(--gold) 12%, transparent); padding: 12px 22px; font-weight: 700; }
+
+/* Lista: cantidad rápida (− / +) junto a Modificar */
+.item-acciones { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+.item-acciones .edit-item { margin-top: 0; }
+.item-qty { display: inline-flex; align-items: center; border: 1px solid var(--border); border-radius: 999px; overflow: hidden; }
+.qty-mini { width: 30px; height: 28px; background: none; border: none; color: var(--text); font-size: 1.1rem; font-weight: 700; cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+.qty-mini:disabled { opacity: 0.3; cursor: default; }
+.qty-mini-valor { min-width: 22px; text-align: center; font-weight: 700; font-size: 0.88rem; }

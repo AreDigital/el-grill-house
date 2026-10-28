@@ -520,6 +520,17 @@ function modificarEnLista(indice) {
   abrirDetalle(prod.item, prod.permiteSalsas, prod.salsasExtra, { indice, linea });
 }
 
+function cambiarCantidadLista(indice, delta) {
+  const linea = state.lista[indice];
+  if (!linea) return;
+  const nueva = linea.cantidad + delta;
+  if (nueva < 1) return; // para quitar el producto se usa la X
+  linea.cantidad = nueva;
+  guardarLista();
+  renderCartBar();
+  renderListSheet();
+}
+
 function quitarDeLista(indice) {
   state.lista.splice(indice, 1);
   guardarLista();
@@ -960,7 +971,14 @@ function renderListSheet() {
           <h4>${titulos[i]}</h4>
           <span>x${l.cantidad}${lineasSalsas(l)[0] ? " · " + lineasSalsas(l)[0] : ""}</span>
           ${lineasSalsas(l)[1] ? `<span>${lineasSalsas(l)[1]}</span>` : ""}
-          <button class="edit-item" data-idx="${i}">Modificar</button>
+          <div class="item-acciones">
+            <button class="edit-item" data-idx="${i}">Modificar</button>
+            <div class="item-qty" role="group" aria-label="Cantidad">
+              <button class="qty-mini" data-idx="${i}" data-delta="-1" aria-label="Menos"${l.cantidad <= 1 ? " disabled" : ""}>&minus;</button>
+              <span class="qty-mini-valor">${l.cantidad}</span>
+              <button class="qty-mini" data-idx="${i}" data-delta="1" aria-label="Más">&plus;</button>
+            </div>
+          </div>
         </div>
         <div class="list-item-right">
           <span class="list-item-price">${formatoPrecio(l.precio * l.cantidad)}</span>
@@ -971,6 +989,9 @@ function renderListSheet() {
 
     cont.querySelectorAll(".edit-item").forEach(btn => {
       btn.addEventListener("click", () => modificarEnLista(Number(btn.dataset.idx)));
+    });
+    cont.querySelectorAll(".qty-mini").forEach(btn => {
+      btn.addEventListener("click", () => cambiarCantidadLista(Number(btn.dataset.idx), Number(btn.dataset.delta)));
     });
     cont.querySelectorAll(".remove-item").forEach(btn => {
       btn.addEventListener("click", () => quitarDeLista(Number(btn.dataset.idx)));
