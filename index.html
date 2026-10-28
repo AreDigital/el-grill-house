@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css">
-<script>if(/^#(carta|contacto)$/.test(location.hash)){document.documentElement.classList.add("saltando");setTimeout(function(){document.documentElement.classList.remove("saltando");},1500);}</script>
+<script>if(location.hash==="#contacto"){location.replace("/contacto/");}else if(location.hash==="#carta"){document.documentElement.classList.add("saltando");setTimeout(function(){document.documentElement.classList.remove("saltando");},1500);}</script>
 <style>.saltando body{visibility:hidden}</style>
 </head>
 <body>
@@ -22,7 +22,7 @@
   <nav class="topbar-nav" aria-label="Principal">
     <a href="#carta">Menú</a>
     <a href="/quienes-somos/">Nosotros</a>
-    <a href="#contacto">Contacto</a>
+    <a href="/contacto/">Contacto</a>
   </nav>
 </header>
 
@@ -147,76 +147,36 @@
 <!-- Confirmación después de enviar el pedido por WhatsApp -->
 <div class="pedido-modal" id="pedido-modal" hidden></div>
 
-<div id="info-web">
-<section class="visitanos" id="visitanos">
-  <div class="visit-grid">
-    <div class="visit-info">
-      <div class="visit-bloque" id="contacto">
-        <h3>Horario de atención</h3>
-        <p class="horarios-linea">Martes a jueves y domingos: 5 a 11&nbsp;p.&nbsp;m.<br>Viernes y sábados: 5&nbsp;p.&nbsp;m. a 12&nbsp;a.&nbsp;m.<br>Lunes: cerrado</p>
-        <p class="horarios-festivo">(Si el lunes es festivo: domingo hasta las&nbsp;12&nbsp;a.&nbsp;m., lunes abierto y martes cerrado)</p>
-      </div>
-      <div class="visit-bloque">
-        <a class="visit-btn visit-btn-wa visit-btn-full" id="wa-info" href="https://wa.me/573113195427" target="_blank" rel="noopener">Escríbenos por WhatsApp</a>
-      </div>
-      <div class="visit-bloque">
-        <h3>Dirección</h3>
-        <p>Diagonal 42 #36A 10, La Independencia, Itagüí</p>
-        <a class="visit-btn" href="https://www.google.com.co/maps/place/El+Grill+House/@6.16637,-75.616084,17z/data=!4m15!1m8!3m7!1s0x8e46833b61020721:0xf4124dfbcc72fc1e!2sEl+Grill+House!8m2!3d6.1664612!4d-75.6171581!10e5!16s%2Fg%2F11zxzwys0v!3m5!1s0x8e46833b61020721:0xf4124dfbcc72fc1e!8m2!3d6.1664612!4d-75.6171581!16s%2Fg%2F11zxzwys0v?entry=ttu&g_ep=EgoyMDI2MTAyMC4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener">Cómo llegar</a>
-      </div>
-    </div>
-    <div class="visit-mapa">
-      <iframe title="Mapa de El Grill House" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-        src="https://www.google.com/maps?q=6.1664612,-75.6171581&amp;z=17&amp;output=embed"></iframe>
-    </div>
-    <p class="visit-domicilios">Domicilios solo en Itagüí, La Estrella, Envigado y Sabaneta</p>
-    <div class="redes redes-centro">
+<footer class="site-footer">
+  <p id="footer-direccion"></p>
+  <p id="footer-domicilios"></p>
+<div class="redes redes-centro">
       <a class="red-btn" href="https://www.instagram.com/elgrillhouse/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
       <span class="red-btn" role="img" aria-label="Facebook"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg></span>
       <a class="red-btn" href="https://www.tiktok.com/@el.grill.house" target="_blank" rel="noopener" aria-label="TikTok"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></a>
     </div>
-  </div>
-</section>
-</div>
-
-<footer class="site-footer">
-  <p id="footer-direccion" hidden></p>
-  <p id="footer-domicilios" hidden></p>
 </footer>
 
 <script>window.MODO = "web";</script>
 <script>
-(function(){if(!location.hash){try{history.scrollRestoration="manual";}catch(x){}scrollTo(0,0);}
-var h=document.querySelector('#horarios li[data-dia="'+new Date().getDay()+'"]');if(h)h.classList.add("hoy");
-var v=document.getElementById("info-web"),c=document.getElementById("chip-row");
-var car=document.getElementById("carta"),nm=document.querySelector('.topbar-nav a[href="#carta"]'),nc=document.querySelector('.topbar-nav a[href="#contacto"]');
-var fijo=null,idle;
-var salto=function(){var id=location.hash.slice(1),t=document.getElementById(id);if(!t)return false;
-var off=id==="carta"?58:80;scrollTo({top:Math.max(0,t.getBoundingClientRect().top+scrollY-off),behavior:"instant"});return true;};
-var hashInicial=/^#(carta|contacto)$/.test(location.hash)?location.hash.slice(1):null;
-if(v&&c){var rev=function(){var lim=c.getBoundingClientRect().bottom,enInfo=v.getBoundingClientRect().top<=lim-1;
-c.classList.toggle("chip-oculto",enInfo);
-if(nm&&nc&&car){var alFinal=scrollY>0&&scrollY+innerHeight>=document.documentElement.scrollHeight-4;
-var enContacto=enInfo||alFinal,a=!enContacto&&scrollY>60,b=enContacto;
-if(fijo){a=fijo==="menu";b=fijo==="contacto";}
-nm.classList.toggle("activo",a);nc.classList.toggle("activo",b);}};
+(function(){
+if(location.hash==="#contacto")return;
+var hashCarta=location.hash==="#carta";
+if(!location.hash){try{history.scrollRestoration="manual";}catch(x){}scrollTo(0,0);}
+var nm=document.querySelector('.topbar-nav a[href="#carta"]'),fijo=null,idle;
+var rev=function(){var a=scrollY>60;if(fijo)a=fijo==="menu";if(nm)nm.classList.toggle("activo",a);};
 addEventListener("scroll",function(){rev();if(fijo){clearTimeout(idle);idle=setTimeout(function(){fijo=null;rev();},180);}},{passive:true});
 addEventListener("resize",rev);rev();
 var marcar=function(k){fijo=k;clearTimeout(idle);idle=setTimeout(function(){fijo=null;rev();},1500);rev();};
 if(nm)nm.addEventListener("click",function(){marcar("menu");});
-if(nc)nc.addEventListener("click",function(){marcar("contacto");});
-if(hashInicial){var movio=false;addEventListener("wheel",function(){movio=true;},{once:true,passive:true});addEventListener("touchstart",function(){movio=true;},{once:true,passive:true});
-var ir=function(){if(!movio){salto();}};
-var listo=function(){fijo=hashInicial==="carta"?"menu":"contacto";ir();rev();document.documentElement.classList.remove("saltando");try{history.replaceState(null,"",location.pathname);}catch(x){}
+if(hashCarta){var movio=false;addEventListener("wheel",function(){movio=true;},{once:true,passive:true});addEventListener("touchstart",function(){movio=true;},{once:true,passive:true});
+var ir=function(){var t=document.getElementById("carta");if(!movio&&t)scrollTo({top:Math.max(0,t.getBoundingClientRect().top+scrollY-58),behavior:"instant"});};
+var listo=function(){fijo="menu";ir();rev();document.documentElement.classList.remove("saltando");try{history.replaceState(null,"",location.pathname);}catch(x){}
 clearTimeout(idle);idle=setTimeout(function(){fijo=null;rev();},400);};
 if(document.readyState==="loading")addEventListener("DOMContentLoaded",listo);else listo();
-addEventListener("load",function(){ir();rev();});}
+addEventListener("load",ir);}
 var ini=document.getElementById("inicio");
-if(ini)ini.addEventListener("click",function(e){e.preventDefault();try{history.replaceState(null,"",location.pathname);}catch(x){}marcar("ninguno");scrollTo({top:0,behavior:"smooth"});});}
-var w=document.getElementById("wa-info");
-if(w){var f=function(){var h=new Date().getHours(),g=h>=5&&h<12?"buenos días":h>=12&&h<18?"buenas tardes":"buenas noches";
-w.href="https://wa.me/573113195427?text="+encodeURIComponent("Hola, "+g+". ¿Me podrían dar más información, por favor?");};
-f();w.addEventListener("click",f);w.addEventListener("touchstart",f,{passive:true});}
+if(ini)ini.addEventListener("click",function(e){e.preventDefault();try{history.replaceState(null,"",location.pathname);}catch(x){}marcar("ninguno");scrollTo({top:0,behavior:"smooth"});});
 })();
 </script>
 <script src="js/products.js"></script>
