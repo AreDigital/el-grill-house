@@ -1165,3 +1165,11 @@ html { scroll-behavior: smooth; }
 .topbar-menu { display: flex; flex-direction: column; line-height: 1.1; min-width: 0; }
 .topbar-menu-titulo { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 0.08em; }
 .topbar-menu-sub { font-size: 0.8125rem; color: var(--muted, #a8a8a8); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* Barra "Ver mi lista": pulso de brillo muy suave para recordar que hay una lista pendiente */
+@keyframes cart-pulso {
+  0%, 100% { box-shadow: 0 6px 24px var(--shadow), 0 0 0 0 rgba(255, 60, 60, 0); filter: brightness(1); }
+  50% { box-shadow: 0 6px 24px var(--shadow), 0 0 14px 3px rgba(255, 60, 60, 0.45); filter: brightness(1.08); }
+}
+.cart-bar:not([hidden]) { animation: cart-pulso 3.2s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .cart-bar:not([hidden]) { animation: none; } }
