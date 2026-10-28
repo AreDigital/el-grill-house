@@ -1160,3 +1160,8 @@ html { scroll-behavior: smooth; }
   .topbar-nav a + a { border-left: 1px solid var(--border); }
   .topbar-nav a:last-child { padding-right: 0; }
 }
+
+/* Encabezado del menú de mesa (/menu) */
+.topbar-menu { display: flex; flex-direction: column; line-height: 1.1; min-width: 0; }
+.topbar-menu-titulo { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 0.08em; }
+.topbar-menu-sub { font-size: 0.72rem; color: var(--muted, #a8a8a8); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
