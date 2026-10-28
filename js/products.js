@@ -21,8 +21,8 @@ const PRECIO_SALSA_EXTRA = 2000; // costo de cada salsa adicional
 
 const PRODUCTO_DEL_MES = {
   nombre: "Hamburguesa Americana",
-  descripcion: "Pan brioche, carne de hamburguesa, tocineta crocante, doble queso cheddar, cebolla caramelizada, pepinillos y sour cream.",
-  precio: 32000,
+  descripcion: "Pan brioche, salsa de la casa, lechuga, tomate, carne artesanal de res de 180 g, mozzarella, cheddar, cebolla caramelizada, pepinillos agridulces, tocineta y queso Philadelphia.",
+  precio: 34000,
   img: "assets/05 Hamburguesa Americana.jpg" // cambiar cada mes por la foto del producto destacado
 };
 
@@ -50,14 +50,14 @@ const MENU = {
     chipLabel: "Burguer",
     permiteSalsas: true,
     items: [
-      { nombre: "Costillera", precio: 35000, descripcion: "Pan brioche, carne de hamburguesa, costilla desmechada, salsa BBQ de la casa, queso mozzarella, cebolla crispy y lechuga.", img: "assets/01 Hamburguesa Costillera.jpg" },
-      { nombre: "Argentina", precio: 34000, descripcion: "Pan brioche con orégano y parmesano, carne de hamburguesa, chorizo, queso mozzarella, cebolla grillada, chimichurri y rúcula.", img: "assets/02 Hamburguesa Argentina.jpg" },
-      { nombre: "Italiana", precio: 35000, descripcion: "Pan brioche con orégano y parmesano, carne de hamburguesa, pesto de albahaca, queso mozzarella, queso provolone, tomate confitado, rúcula, aceite de oliva, bañado en reducción de vino tinto.", img: "assets/03 Hamburguesa Italiana.jpg" },
-      { nombre: "Mediterránea", precio: 40000, descripcion: "Pan brioche, carne de hamburguesa, camarón apanado, queso mozzarella, salsa alioli, cebolla morada, lechuga, tomate y miel picante.", img: "assets/04 Hamburguesa Mediterranea.jpg" },
-      { nombre: "Americana", precio: 32000, descripcion: "Pan brioche, carne de hamburguesa, tocineta crocante, doble queso cheddar, cebolla caramelizada, pepinillos y sour cream.", img: "assets/05 Hamburguesa Americana.jpg" },
-      { nombre: "Paisa", precio: 38000, descripcion: "Pan brioche, carne de hamburguesa, chicharrón, aguacate, hogao, maicitos, salsa BBQ y queso mozzarella.", img: "assets/06 Hamburguesa Paisa.jpg" },
-      { nombre: "Cheseburguer", precio: 30000, descripcion: "Pan brioche con orégano y parmesano, carne de hamburguesa, doble queso cheddar y mozzarella, cebolla caramelizada, pepinillos y salsa Grill House.", img: "assets/07 Cheseburguer.jpg" },
-      { nombre: "La de Pollo", precio: 30000, descripcion: "Pan brioche, pechuga de pollo a la parrilla, tocineta, queso mozzarella, cebolla caramelizada, miel mostaza, lechuga y tomate.", img: "assets/08 La de Pollo.jpg" }
+      { nombre: "Costillera", precio: 35000, descripcion: "Pan brioche, salsa BBQ Grill, lechuga, carne artesanal de res de 180 g, mozzarella, costilla desmechada bañada en BBQ Grill y cebolla crispy.", img: "assets/01 Hamburguesa Costillera.jpg" },
+      { nombre: "Argentina", precio: 34000, descripcion: "Pan de orégano y parmesano, chimichurri, lechuga, carne artesanal de res de 180 g, cebolla morada salteada al vino, chorizo argentino y reducción de vino tinto.", img: "assets/02 Hamburguesa Argentina.jpg" },
+      { nombre: "Italiana", precio: 35000, descripcion: "Pan de orégano y parmesano, pesto, lechuga, carne artesanal de res de 180 g, mozzarella, provolone, tomates cherry confitados y reducción de vino tinto.", img: "assets/03 Hamburguesa Italiana.jpg" },
+      { nombre: "Mediterránea", precio: 40000, descripcion: "Pan de orégano y parmesano, alioli, lechuga, carne artesanal de res de 180 g, cebolla morada salteada al vino, langostinos apanados y reducción de vino tinto.", img: "assets/04 Hamburguesa Mediterranea.jpg" },
+      { nombre: "Americana", precio: 34000, descripcion: "Pan brioche, salsa de la casa, lechuga, tomate, carne artesanal de res de 180 g, mozzarella, cheddar, cebolla caramelizada, pepinillos agridulces, tocineta y queso Philadelphia.", img: "assets/05 Hamburguesa Americana.jpg" },
+      { nombre: "Paisa", precio: 38000, descripcion: "Pan brioche, salsa BBQ Grill, lechuga, hogao, maicitos, carne artesanal de res de 180 g, mozzarella, guacamole y chicharrón.", img: "assets/06 Hamburguesa Paisa.jpg" },
+      { nombre: "Cheseburguer", precio: 30000, descripcion: "Pan brioche, salsa de la casa, carne artesanal de res de 180 g, mozzarella, cheddar, galleta de parmesano, cebolla caramelizada y pepinillos agridulces.", img: "assets/07 Cheseburguer.jpg" },
+      { nombre: "La de Pollo", precio: 30000, descripcion: "Pan brioche, miel mostaza, lechuga, tomate, pechuga de pollo a la parrilla, mozzarella, salsa de cheddar, cebolla caramelizada, tocineta y BBQ Grill.", img: "assets/08 La de Pollo.jpg" }
     ]
   },
   parrilla: {
