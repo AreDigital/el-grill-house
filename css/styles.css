@@ -1149,9 +1149,9 @@ html { scroll-behavior: smooth; }
 .quienes-card p { padding: 0; }
 .quienes-texto { padding: 20px 18px 22px; }
 .quienes-texto h2 { font-family: "Bebas Neue", sans-serif; font-weight: 400; font-size: 1.6rem; letter-spacing: 0.5px; margin-bottom: 10px; }
-.quienes-texto p { font-size: 0.95rem; line-height: 1.6; margin-bottom: 14px; text-align: justify; hyphens: auto; }
+.quienes-texto p { font-size: 0.95rem; line-height: 1.6; margin-bottom: 14px; text-align: justify; hyphens: none; }
 .quienes-texto .quienes-lead { font-weight: 600; }
-.quienes-texto .quienes-cierre { font-weight: 700; color: var(--gold); margin: 18px 0 0; text-align: left; hyphens: manual; }
+.quienes-texto .quienes-cierre { font-weight: 700; color: var(--gold); margin: 18px 0 0; text-align: left; hyphens: none; }
 .quienes-btn { display: block; margin-top: 18px; padding: 14px 16px; border-radius: 12px; background: var(--red); color: #fff; text-align: center; font-weight: 700; font-size: 0.95rem; text-decoration: none; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
 .quienes-card img { height: auto; aspect-ratio: 2 / 1; object-fit: cover; }
 @media (max-width: 640px) {
