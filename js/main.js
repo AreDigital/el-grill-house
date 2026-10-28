@@ -54,7 +54,7 @@ function renderPromo() {
       <div class="promo-overlay">
         <span class="promo-eyebrow">Recomendada del mes</span>
         <h2>${PRODUCTO_DEL_MES.nombre}</h2>
-        <span class="promo-price">Por solo ${formatoPrecio(PRODUCTO_DEL_MES.precio)}</span>
+        <span class="promo-price"><span class="promo-solo">Por solo</span> ${formatoPrecio(PRODUCTO_DEL_MES.precio)}</span>
       </div>`;
     } else if (b.frase) {
       overlay = `<div class="promo-phrase">${b.frase}</div>`;

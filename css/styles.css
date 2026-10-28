@@ -1184,3 +1184,6 @@ html { scroll-behavior: smooth; }
 .qty-mini { width: 30px; height: 28px; background: none; border: none; color: var(--text); font-size: 1.1rem; font-weight: 700; cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
 .qty-mini:disabled { opacity: 0.3; cursor: default; }
 .qty-mini-valor { min-width: 22px; text-align: center; font-weight: 700; font-size: 0.88rem; }
+
+/* Banner: "Por solo" más pequeño y en blanco, el precio queda dorado */
+.promo-solo { color: #fff; font-family: 'Inter', sans-serif; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; margin-right: 2px; }
