@@ -219,7 +219,7 @@ function configurarPromo() {
   track.addEventListener("click", (e) => {
     const slide = e.target.closest(".promo-slide");
     if (slide && slide.dataset.tipo === "producto") {
-      abrirDetalle(PRODUCTO_DEL_MES, true);
+      abrirDetalle(productoDelMesFicha(), true);
     }
   });
 }
@@ -496,13 +496,18 @@ function unirIguales() {
   state.lista = resultado;
 }
 
+// El producto del mes usa una foto distinta en la ficha y en Mi lista (más abierta que la del banner)
+function productoDelMesFicha() {
+  return { ...PRODUCTO_DEL_MES, img: PRODUCTO_DEL_MES.imgFicha || PRODUCTO_DEL_MES.img };
+}
+
 function buscarProducto(nombre) {
   for (const cat of Object.values(MENU)) {
     const item = cat.items.find(i => i.nombre === nombre);
     if (item) return { item, permiteSalsas: !!cat.permiteSalsas, salsasExtra: cat.salsasExtra || [] };
   }
   // El producto del mes no está en MENU: se resuelve aparte para que su foto y "Modificar" funcionen en Mi lista
-  if (nombre === PRODUCTO_DEL_MES.nombre) return { item: PRODUCTO_DEL_MES, permiteSalsas: true, salsasExtra: [] };
+  if (nombre === PRODUCTO_DEL_MES.nombre) return { item: productoDelMesFicha(), permiteSalsas: true, salsasExtra: [] };
   return null;
 }
 

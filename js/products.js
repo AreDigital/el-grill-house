@@ -23,7 +23,8 @@ const PRODUCTO_DEL_MES = {
   nombre: "Hamburguesa Transilvania",
   descripcion: "Pan brioche con ajonjolí negro, salsa alioli, lechuga fresca, tomate, carne de res de 180 g, queso cheddar, salsa cheddar y hongos de Drácula. Una combinación de sabores y texturas que convierte a Transilvania en la protagonista de octubre.",
   precio: 30000,
-  img: "assets/hamburguesa-transilvania.jpg" // cambiar cada mes por la foto del producto destacado
+  img: "assets/hamburguesa-transilvania.jpg",         // foto grande del banner (2:1)
+  imgFicha: "assets/hamburguesa-transilvania-ficha.jpg" // foto de la ficha al tocar el banner (4:3, más abierta) // cambiar cada mes por la foto del producto destacado
 };
 
 // Imágenes del banner principal (carrusel). Para agregar/quitar una,
