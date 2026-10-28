@@ -1187,3 +1187,12 @@ html { scroll-behavior: smooth; }
 
 /* Banner: "Por solo" más pequeño y en blanco, el precio queda dorado */
 .promo-solo { color: #fff; font-family: 'Inter', sans-serif; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.02em; margin-right: 2px; }
+
+/* Barra "Ver mi lista" en PC: respiración más suave (en celular queda como está) */
+@keyframes cart-pulso-pc {
+  0%, 100% { transform: scale(1); box-shadow: 0 6px 24px var(--shadow), 0 0 0 0 rgba(255, 70, 70, 0); filter: brightness(1); }
+  50% { transform: scale(1.015); box-shadow: 0 6px 24px var(--shadow), 0 0 14px 2px rgba(255, 70, 70, 0.35); filter: brightness(1.04); }
+}
+@media (hover: hover) and (pointer: fine) {
+  .cart-bar:not([hidden]) { animation-name: cart-pulso-pc; }
+}
