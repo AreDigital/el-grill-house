@@ -20,10 +20,10 @@ const SALSAS_INCLUIDAS = 2;      // salsas que van incluidas en el precio
 const PRECIO_SALSA_EXTRA = 2000; // costo de cada salsa adicional
 
 const PRODUCTO_DEL_MES = {
-  nombre: "Hamburguesa Americana",
-  descripcion: "Pan brioche, salsa de la casa, lechuga, tomate, carne artesanal de res de 180 g, mozzarella, cheddar, cebolla caramelizada, pepinillos agridulces, tocineta y queso Philadelphia.",
-  precio: 34000,
-  img: "assets/05 Hamburguesa Americana.jpg" // cambiar cada mes por la foto del producto destacado
+  nombre: "Hamburguesa Transilvania",
+  descripcion: "Pan brioche con ajonjolí negro, salsa alioli, lechuga fresca, tomate, carne de res de 180 g, queso cheddar, salsa cheddar y hongos de Drácula. Una combinación de sabores y texturas que convierte a Transilvania en la protagonista de octubre.",
+  precio: 30000,
+  img: "assets/hamburguesa-transilvania.jpg" // cambiar cada mes por la foto del producto destacado
 };
 
 // Imágenes del banner principal (carrusel). Para agregar/quitar una,

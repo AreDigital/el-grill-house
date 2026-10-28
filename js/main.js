@@ -54,7 +54,7 @@ function renderPromo() {
       <div class="promo-overlay">
         <span class="promo-eyebrow">Recomendada del mes</span>
         <h2>${PRODUCTO_DEL_MES.nombre}</h2>
-        <span class="promo-price">${formatoPrecio(PRODUCTO_DEL_MES.precio)}</span>
+        <span class="promo-price">Por solo ${formatoPrecio(PRODUCTO_DEL_MES.precio)}</span>
       </div>`;
     } else if (b.frase) {
       overlay = `<div class="promo-phrase">${b.frase}</div>`;
@@ -501,6 +501,8 @@ function buscarProducto(nombre) {
     const item = cat.items.find(i => i.nombre === nombre);
     if (item) return { item, permiteSalsas: !!cat.permiteSalsas, salsasExtra: cat.salsasExtra || [] };
   }
+  // El producto del mes no está en MENU: se resuelve aparte para que su foto y "Modificar" funcionen en Mi lista
+  if (nombre === PRODUCTO_DEL_MES.nombre) return { item: PRODUCTO_DEL_MES, permiteSalsas: true, salsasExtra: [] };
   return null;
 }
 
