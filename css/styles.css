@@ -1256,8 +1256,10 @@ html { scroll-behavior: smooth; }
   /* Nosotros: foto a la izquierda (fija al bajar), texto a la derecha */
   .pagina-nosotros .quienes { max-width: 1160px; }
   .pagina-nosotros .quienes h1 { font-size: 2.6rem; }
-  .pagina-nosotros .quienes-card { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 36px; padding: 26px; align-items: start; overflow: clip; }
-  .pagina-nosotros .quienes-card img { position: sticky; top: 82px; border-radius: 12px; }
+  .pagina-nosotros .quienes-card { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 36px; padding: 26px; align-items: stretch; overflow: clip; }
+  /* Foto vertical (assets/quienes-somos-pc.jpg) que ocupa todo el alto del texto */
+  .pagina-nosotros .quienes-card picture { display: block; min-height: 100%; position: relative; }
+  .pagina-nosotros .quienes-card img { position: absolute; inset: 0; width: 100%; height: 100%; aspect-ratio: auto; object-fit: cover; object-position: 50% 25%; border-radius: 12px; }
   .pagina-nosotros .quienes-texto { padding: 4px 6px 4px 0; }
   .pagina-nosotros .quienes-texto h2 { font-size: 2rem; }
   .pagina-nosotros .quienes-texto p { font-size: 1rem; }
