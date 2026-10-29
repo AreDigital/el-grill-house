@@ -1196,3 +1196,6 @@ html { scroll-behavior: smooth; }
 @media (hover: hover) and (pointer: fine) {
   .cart-bar:not([hidden]) { animation-name: cart-pulso-pc; }
 }
+
+/* Descripción del producto en la ficha: justificada, sin guiones (página y /menu) */
+.sheet-body #detail-desc { text-align: justify; hyphens: none; -webkit-hyphens: none; }
