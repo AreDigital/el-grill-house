@@ -1265,3 +1265,8 @@ html { scroll-behavior: smooth; }
   .pagina-nosotros .quienes-texto p { font-size: 1rem; }
   .pagina-nosotros .quienes-btn { display: inline-block; padding: 14px 40px; }
 }
+
+/* Contacto: bloque Domicilios con los municipios como etiquetas */
+.zonas-domicilio { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
+.zonas-domicilio li { padding: 7px 14px; border-radius: 999px; font-size: 0.88rem; font-weight: 600; color: var(--text); background: color-mix(in srgb, var(--gold) 14%, transparent); border: 1px solid color-mix(in srgb, var(--gold) 45%, transparent); }
+@media (max-width: 640px) { .zonas-domicilio { display: grid; grid-template-columns: 1fr 1fr; } .zonas-domicilio li { text-align: center; } }
