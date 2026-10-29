@@ -257,7 +257,7 @@ function renderLista() {
       <button class="grid-item" data-idx="${i}">
         <div class="grid-img ${item.img ? "" : "placeholder"}">
           ${item.nuevo ? '<span class="badge-new">Nuevo</span>' : ""}
-          ${item.img ? `<img src="${item.img}" alt="${item.nombre}">` : ""}
+          ${item.img ? `<img src="${item.img}" alt="${item.nombre}" loading="lazy" decoding="async">` : ""}
         </div>
         <h3>${item.nombre}</h3>
         <div class="grid-price">${formatoPrecio(item.precio)}</div>
@@ -273,7 +273,7 @@ function renderLista() {
       <button class="row-item" data-idx="${i}">
         <div class="row-img ${item.img ? "" : "placeholder"}">
           ${item.nuevo ? '<span class="badge-new">Nuevo</span>' : ""}
-          ${item.img ? `<img src="${item.img}" alt="${item.nombre}">` : ""}
+          ${item.img ? `<img src="${item.img}" alt="${item.nombre}" loading="lazy" decoding="async">` : ""}
         </div>
         <div class="row-text">
           <h3>${item.nombre}</h3>

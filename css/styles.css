@@ -1199,3 +1199,42 @@ html { scroll-behavior: smooth; }
 
 /* Descripción del producto en la ficha: justificada, sin guiones (página y /menu) */
 .sheet-body #detail-desc { text-align: justify; hyphens: none; -webkit-hyphens: none; }
+
+/* ============================================
+   Versión PC (nivel 1): solo la página web "/" (body.modo-web).
+   /menu, Nosotros y Contacto no cambian. Celular y tablet no cambian.
+   ============================================ */
+@media (min-width: 1024px) {
+  .modo-web .topbar { padding-left: max(16px, calc((100% - 1160px) / 2)); padding-right: max(16px, calc((100% - 1160px) / 2)); }
+  .modo-web .hero-text { max-width: 1160px; padding-top: 22px; }
+  .modo-web .hero-text h1 { font-size: 2.8rem; }
+  .modo-web .hero-text p { font-size: 1.05rem; }
+  .modo-web .promo-wrap { max-width: 820px; padding-top: 18px; }
+  .modo-web .promo-overlay { padding: 24px 28px; }
+  .modo-web .promo-overlay h2 { font-size: 2.2rem; }
+  .modo-web .promo-price { font-size: 1.5rem; }
+  .modo-web .promo-solo { font-size: 0.85rem; }
+  .modo-web .promo-eyebrow { font-size: 0.75rem; padding: 4px 12px; }
+  .modo-web .chip-row { max-width: 1160px; justify-content: center; gap: 10px; padding: 12px 14px; }
+  .modo-web .chip { flex: 0 1 200px; font-size: 0.82rem; padding: 11px 8px; }
+  .modo-web .view-toggle-bar { max-width: 1160px; padding-top: 14px; }
+  .modo-web .product-list { max-width: 1160px; padding-top: 14px; }
+  .modo-web .product-list.grid-view { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+  .modo-web .grid-item { gap: 8px; padding-bottom: 14px; border-radius: 14px; }
+  .modo-web .grid-item h3 { font-size: 1.02rem; padding: 0 10px; }
+  .modo-web .grid-price { font-size: 1.4rem; }
+  .modo-web .badge-new { font-size: 0.65rem; padding: 4px 8px; top: 8px; left: 8px; }
+  /* Vista en lista: dos columnas */
+  .modo-web .product-list:not(.grid-view) { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .modo-web .product-list:not(.grid-view) .group-header { grid-column: 1 / -1; }
+  .modo-web .row-img { width: 76px; height: 76px; }
+  .modo-web .group-header { font-size: 1.1rem; }
+}
+/* Con mouse: el producto reacciona al pasar el cursor */
+@media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
+  .modo-web .grid-item, .modo-web .row-item, .modo-web .chip { transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease; }
+  .modo-web .grid-item img { transition: transform 0.35s ease; }
+  .modo-web .grid-item:hover, .modo-web .row-item:hover { transform: translateY(-3px); border-color: color-mix(in srgb, var(--gold) 45%, transparent); box-shadow: 0 10px 26px var(--shadow); }
+  .modo-web .grid-item:hover img { transform: scale(1.05); }
+  .modo-web .chip:not(.active):hover { border-color: var(--gold); color: var(--text); }
+}
