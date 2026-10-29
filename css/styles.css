@@ -1209,14 +1209,14 @@ html { scroll-behavior: smooth; }
   .modo-web .hero-text { max-width: 1160px; padding-top: 22px; }
   .modo-web .hero-text h1 { font-size: 2.8rem; }
   .modo-web .hero-text p { font-size: 1.05rem; }
-  .modo-web .promo-wrap { max-width: 820px; padding-top: 18px; }
+  .modo-web .promo-wrap { max-width: 1160px; padding-top: 18px; }
   .modo-web .promo-overlay { padding: 24px 28px; }
   .modo-web .promo-overlay h2 { font-size: 2.2rem; }
   .modo-web .promo-price { font-size: 1.5rem; }
   .modo-web .promo-solo { font-size: 0.85rem; }
   .modo-web .promo-eyebrow { font-size: 0.75rem; padding: 4px 12px; }
   .modo-web .chip-row { max-width: 1160px; justify-content: center; gap: 10px; padding: 12px 14px; }
-  .modo-web .chip { flex: 0 1 200px; font-size: 0.82rem; padding: 11px 8px; }
+  .modo-web .chip { flex: 0 1 165px; font-size: 0.8rem; padding: 10px 8px; }
   .modo-web .view-toggle-bar { max-width: 1160px; padding-top: 14px; }
   .modo-web .product-list { max-width: 1160px; padding-top: 14px; }
   .modo-web .product-list.grid-view { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
