@@ -1238,3 +1238,28 @@ html { scroll-behavior: smooth; }
   .modo-web .grid-item:hover img { transform: scale(1.05); }
   .modo-web .chip:not(.active):hover { border-color: var(--gold); color: var(--text); }
 }
+
+/* ---------- PC: Contacto y Nosotros al mismo ancho del inicio ---------- */
+@media (min-width: 1024px) {
+  /* Contacto: info a la izquierda, mapa a la derecha */
+  .pagina-contacto .visitanos { max-width: 1160px; margin-top: 36px; }
+  .pagina-contacto .visitanos h1 { font-size: 2.6rem; text-align: center; margin-bottom: 18px; }
+  .pagina-contacto .visit-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 20px; align-items: stretch; }
+  .pagina-contacto .visit-info { padding: 10px 26px; }
+  .pagina-contacto .visit-mapa { min-height: 400px; }
+  .pagina-contacto .visit-mapa iframe { height: 100%; min-height: 400px; }
+  .pagina-contacto .visit-domicilios, .pagina-contacto .visit-grid > .redes { grid-column: 1 / -1; }
+  .pagina-contacto .visit-domicilios { font-size: 0.95rem; margin-top: 4px; }
+  .pagina-contacto .horarios-linea { font-size: 0.95rem; }
+  .pagina-contacto .horarios-festivo { font-size: 0.78rem; }
+
+  /* Nosotros: foto a la izquierda (fija al bajar), texto a la derecha */
+  .pagina-nosotros .quienes { max-width: 1160px; }
+  .pagina-nosotros .quienes h1 { font-size: 2.6rem; }
+  .pagina-nosotros .quienes-card { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 36px; padding: 26px; align-items: start; overflow: clip; }
+  .pagina-nosotros .quienes-card img { position: sticky; top: 82px; border-radius: 12px; }
+  .pagina-nosotros .quienes-texto { padding: 4px 6px 4px 0; }
+  .pagina-nosotros .quienes-texto h2 { font-size: 2rem; }
+  .pagina-nosotros .quienes-texto p { font-size: 1rem; }
+  .pagina-nosotros .quienes-btn { display: inline-block; padding: 14px 40px; }
+}
