@@ -21,10 +21,11 @@ const PRECIO_SALSA_EXTRA = 2000; // costo de cada salsa adicional
 
 const PRODUCTO_DEL_MES = {
   nombre: "Hamburguesa Transilvania",
-  descripcion: "Pan brioche con ajonjolí negro, salsa alioli, lechuga fresca, tomate, carne de res de 180 g, queso cheddar, salsa cheddar y hongos de Drácula. Una combinación de sabores y texturas que convierte a Transilvania en la protagonista de octubre.",
+  descripcion: "Pan brioche con ajonjolí negro, salsa alioli, lechuga fresca, tomate, carne de res de 180 g, queso cheddar, salsa cheddar y hongos de Drácula. Una combinación de sabores y texturas que convierte a Transilvania en la protagonista de octubre. Acompañada de papas a la francesa y dos salsas a elección.",
   precio: 30000,
   img: "assets/hamburguesa-transilvania.jpg",         // foto grande del banner (2:1)
   imgFicha: "assets/hamburguesa-transilvania-ficha.jpg" // foto de la ficha al tocar el banner (4:3, más abierta) // cambiar cada mes por la foto del producto destacado
+  // Al cambiar la descripción cada mes, mantener al final: "Acompañada de papas a la francesa y dos salsas a elección."
 };
 
 // Imágenes del banner principal (carrusel). Para agregar/quitar una,
@@ -51,14 +52,14 @@ const MENU = {
     chipLabel: "Burguer",
     permiteSalsas: true,
     items: [
-      { nombre: "Costillera", precio: 35000, descripcion: "Pan brioche, salsa BBQ Grill, lechuga, carne artesanal de res de 180 g, mozzarella, costilla desmechada bañada en BBQ Grill y cebolla crispy.", img: "assets/01 Hamburguesa Costillera.jpg" },
-      { nombre: "Argentina", precio: 34000, descripcion: "Pan de orégano y parmesano, chimichurri, lechuga, carne artesanal de res de 180 g, cebolla morada salteada al vino, chorizo argentino y reducción de vino tinto.", img: "assets/02 Hamburguesa Argentina.jpg" },
-      { nombre: "Italiana", precio: 35000, descripcion: "Pan de orégano y parmesano, pesto, lechuga, carne artesanal de res de 180 g, mozzarella, provolone, tomates cherry confitados y reducción de vino tinto.", img: "assets/03 Hamburguesa Italiana.jpg" },
-      { nombre: "Mediterránea", precio: 40000, descripcion: "Pan de orégano y parmesano, alioli, lechuga, carne artesanal de res de 180 g, cebolla morada salteada al vino, langostinos apanados y reducción de vino tinto.", img: "assets/04 Hamburguesa Mediterranea.jpg" },
-      { nombre: "Americana", precio: 34000, descripcion: "Pan brioche, salsa de la casa, lechuga, tomate, carne artesanal de res de 180 g, mozzarella, cheddar, cebolla caramelizada, pepinillos agridulces, tocineta y queso Philadelphia.", img: "assets/05 Hamburguesa Americana.jpg" },
-      { nombre: "Paisa", precio: 38000, descripcion: "Pan brioche, salsa BBQ Grill, lechuga, hogao, maicitos, carne artesanal de res de 180 g, mozzarella, guacamole y chicharrón.", img: "assets/06 Hamburguesa Paisa.jpg" },
-      { nombre: "Cheseburguer", precio: 30000, descripcion: "Pan brioche, salsa de la casa, carne artesanal de res de 180 g, mozzarella, cheddar, galleta de parmesano, cebolla caramelizada y pepinillos agridulces.", img: "assets/07 Cheseburguer.jpg" },
-      { nombre: "La de Pollo", precio: 30000, descripcion: "Pan brioche, miel mostaza, lechuga, tomate, pechuga de pollo a la parrilla, mozzarella, salsa de cheddar, cebolla caramelizada, tocineta y BBQ Grill.", img: "assets/08 La de Pollo.jpg" }
+      { nombre: "Costillera", precio: 35000, descripcion: "Pan brioche, salsa BBQ Grill, lechuga, carne artesanal de res de 180 g, mozzarella, costilla desmechada bañada en BBQ Grill y cebolla crispy. Acompañada de papas a la francesa y dos salsas a elección.", img: "assets/01 Hamburguesa Costillera.jpg" },
+      { nombre: "Argentina", precio: 34000, descripcion: "Pan de orégano y parmesano, chimichurri, lechuga, carne artesanal de res de 180 g, cebolla morada salteada al vino, chorizo argentino y reducción de vino tinto. Acompañada de papas a la francesa y dos salsas a elección.", img: "assets/02 Hamburguesa Argentina.jpg" },
+      { nombre: "Italiana", precio: 35000, descripcion: "Pan de orégano y parmesano, pesto, lechuga, carne artesanal de res de 180 g, mozzarella, provolone, tomates cherry confitados y reducción de vino tinto. Acompañada de papas a la francesa y dos salsas a elección.", img: "assets/03 Hamburguesa Italiana.jpg" },
+      { nombre: "Mediterránea", precio: 40000, descripcion: "Pan de orégano y parmesano, alioli, lechuga, carne artesanal de res de 180 g, cebolla morada salteada al vino, langostinos apanados y reducción de vino tinto. Acompañada de papas a la francesa y dos salsas a elección.", img: "assets/04 Hamburguesa Mediterranea.jpg" },
+      { nombre: "Americana", precio: 34000, descripcion: "Pan brioche, salsa de la casa, lechuga, tomate, carne artesanal de res de 180 g, mozzarella, cheddar, cebolla caramelizada, pepinillos agridulces, tocineta y queso Philadelphia. Acompañada de papas a la francesa y dos salsas a elección.", img: "assets/05 Hamburguesa Americana.jpg" },
+      { nombre: "Paisa", precio: 38000, descripcion: "Pan brioche, salsa BBQ Grill, lechuga, hogao, maicitos, carne artesanal de res de 180 g, mozzarella, guacamole y chicharrón. Acompañada de papas a la francesa y dos salsas a elección.", img: "assets/06 Hamburguesa Paisa.jpg" },
+      { nombre: "Cheseburguer", precio: 30000, descripcion: "Pan brioche, salsa de la casa, carne artesanal de res de 180 g, mozzarella, cheddar, galleta de parmesano, cebolla caramelizada y pepinillos agridulces. Acompañada de papas a la francesa y dos salsas a elección.", img: "assets/07 Cheseburguer.jpg" },
+      { nombre: "La de Pollo", precio: 30000, descripcion: "Pan brioche, miel mostaza, lechuga, tomate, pechuga de pollo a la parrilla, mozzarella, salsa de cheddar, cebolla caramelizada, tocineta y BBQ Grill. Acompañada de papas a la francesa y dos salsas a elección.", img: "assets/08 La de Pollo.jpg" }
     ]
   },
   parrilla: {
@@ -66,12 +67,12 @@ const MENU = {
     subtitulo: "Cortes certified Angus Beef. Incluyen ensalada de temporada, arepa con queso y papas a la francesa.",
     permiteSalsas: true,
     items: [
-      { nombre: "Punta de Anca", precio: 40000, descripcion: "Delicioso corte fino de picaña.", img: "assets/09 Punta de anca.jpg" },
-      { nombre: "Churrasco", precio: 40000, descripcion: "Delicioso corte de res, jugoso y tierno.", img: "assets/10 Churrasco.jpg" },
-      { nombre: "Medallones de Cerdo", precio: 35000, descripcion: "Medallones jugosos y llenos de sabor.", img: "assets/11 Medallones de Cerdo.jpg" },
-      { nombre: "Costillas a la BBQ", precio: 35000, descripcion: "Costillas de cerdo bañadas en nuestra salsa BBQ de la casa, llenas de tocineta.", img: "assets/12 Costillas a la BBQ.jpg" },
-      { nombre: "Pechuga de Pollo a la Parrilla", precio: 30000, descripcion: "Deliciosa pechuga asada a la parrilla, jugosa y llena de sabor.", img: "assets/13 Pechuga de pollo a la parrilla.jpg" },
-      { nombre: "Chuzos de Pollo", precio: 28000, descripcion: "Deliciosos trozos de pollo marinados, asados en brochetas.", img: "assets/14 Chuzos de pollo.jpg" }
+      { nombre: "Punta de Anca", precio: 40000, descripcion: "Delicioso corte fino de picaña. Acompañado de papas a la francesa, ensalada de temporada, arepa con queso y dos salsas a elección.", img: "assets/09 Punta de anca.jpg" },
+      { nombre: "Churrasco", precio: 40000, descripcion: "Delicioso corte de res, jugoso y tierno. Acompañado de papas a la francesa, ensalada de temporada, arepa con queso y dos salsas a elección.", img: "assets/10 Churrasco.jpg" },
+      { nombre: "Medallones de Cerdo", precio: 35000, descripcion: "Medallones jugosos y llenos de sabor. Acompañado de papas a la francesa, ensalada de temporada, arepa con queso y dos salsas a elección.", img: "assets/11 Medallones de Cerdo.jpg" },
+      { nombre: "Costillas a la BBQ", precio: 35000, descripcion: "Costillas de cerdo bañadas en nuestra salsa BBQ de la casa, llenas de tocineta. Acompañado de papas a la francesa, ensalada de temporada, arepa con queso y dos salsas a elección.", img: "assets/12 Costillas a la BBQ.jpg" },
+      { nombre: "Pechuga de Pollo a la Parrilla", precio: 30000, descripcion: "Deliciosa pechuga asada a la parrilla, jugosa y llena de sabor. Acompañado de papas a la francesa, ensalada de temporada, arepa con queso y dos salsas a elección.", img: "assets/13 Pechuga de pollo a la parrilla.jpg" },
+      { nombre: "Chuzos de Pollo", precio: 28000, descripcion: "Deliciosos trozos de pollo marinados, asados en brochetas. Acompañado de papas a la francesa, ensalada de temporada, arepa con queso y dos salsas a elección.", img: "assets/14 Chuzos de pollo.jpg" }
     ]
   },
   entradas: {
