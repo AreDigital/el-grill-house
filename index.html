@@ -186,45 +186,46 @@
   <div id="list-items" class="list-items"></div>
   <div class="list-total" id="list-total"></div>
   <section class="datos-entrega" id="datos-entrega" hidden>
-    <div class="entrega-encabezado">
-      <h3>Datos de entrega</h3>
-      <button type="button" class="btn-otra-direccion" id="otra-direccion" hidden>Usar otra dirección</button>
-    </div>
-    <p class="entrega-nota">Domicilios en Itagüí, La Estrella, Envigado y Sabaneta.</p>
-    <label>A nombre de
-      <input id="entrega-nombre" type="text" autocomplete="name" placeholder="Nombre de quien recibe">
-    </label>
-    <div class="entrega-telefono-wrap" id="entrega-telefono-wrap">
-      <label>Teléfono de contacto
-        <input id="entrega-telefono" type="tel" inputmode="tel" autocomplete="tel" placeholder="Ej: 300 123 4567">
+    <div class="entrega-bloque">
+      <div class="entrega-encabezado">
+        <h3>Datos de entrega</h3>
+        <button type="button" class="btn-otra-direccion" id="otra-direccion" hidden>Usar otra dirección</button>
+      </div>
+      <label>A nombre de
+        <input id="entrega-nombre" type="text" autocomplete="name" placeholder="Nombre de quien recibe">
+      </label>
+      <div class="entrega-telefono-wrap" id="entrega-telefono-wrap">
+        <label>Teléfono de contacto
+          <input id="entrega-telefono" type="tel" inputmode="tel" autocomplete="tel" placeholder="Ej: 300 123 4567">
+        </label>
+      </div>
+      <label class="entrega-check">
+        <input id="entrega-mismo-wa" type="checkbox">
+        <span>Usar el mismo número de este WhatsApp</span>
+      </label>
+      <label>Municipio
+        <select id="entrega-municipio">
+          <option value="">Selecciona</option>
+        </select>
+      </label>
+      <label>Dirección
+        <input id="entrega-direccion" type="text" autocomplete="street-address" placeholder="Ej: Calle 32A #44-45">
+      </label>
+      <label>Barrio
+        <input id="entrega-barrio" type="text" placeholder="Ej: San Pío">
+      </label>
+      <label>Referencia (opcional)
+        <input id="entrega-referencia" type="text" placeholder="Ej: Primer piso, reja gris">
       </label>
     </div>
-    <label class="entrega-check">
-      <input id="entrega-mismo-wa" type="checkbox">
-      <span>Usar el mismo número de este WhatsApp</span>
-    </label>
-    <label>Municipio
-      <select id="entrega-municipio">
-        <option value="">Selecciona</option>
-      </select>
-    </label>
-    <div class="entrega-pago">
-      <span class="entrega-pago-titulo">Forma de pago</span>
+    <div class="entrega-bloque entrega-pago">
+      <h3 class="entrega-pago-titulo">Forma de pago</h3>
       <div class="pago-opciones">
         <button type="button" class="pago-chip" id="pago-efectivo" data-pago="Efectivo">Efectivo</button>
         <button type="button" class="pago-chip" id="pago-transferencia" data-pago="Transferencia">Transferencia</button>
       </div>
       <p class="pago-nota" id="pago-nota" hidden></p>
     </div>
-    <label>Dirección
-      <input id="entrega-direccion" type="text" autocomplete="street-address" placeholder="Ej: Calle 32A #44-45">
-    </label>
-    <label>Barrio
-      <input id="entrega-barrio" type="text" placeholder="Ej: San Pío">
-    </label>
-    <label>Referencia (opcional)
-      <input id="entrega-referencia" type="text" placeholder="Ej: Primer piso, reja gris">
-    </label>
     <p class="entrega-aviso" id="entrega-aviso" hidden></p>
   </section>
   <div class="list-web-actions" id="list-web-actions" hidden>

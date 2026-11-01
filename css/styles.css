@@ -1315,3 +1315,16 @@ html { scroll-behavior: smooth; }
   .modo-web #list-sheet .btn-clear { margin-bottom: 16px; }
   .modo-web #list-sheet .btn-clear[hidden], .modo-web #list-sheet .list-total[hidden] { display: none; }
 }
+
+/* Mi lista (página web "/"): Datos de entrega y Forma de pago en bloques separados, con más aire. /menu no cambia. */
+.modo-web .datos-entrega { padding: 18px 20px 0; gap: 16px; }
+.modo-web .entrega-bloque { display: flex; flex-direction: column; gap: 14px; padding: 16px; border-radius: 16px; background: var(--card); border: 1px solid var(--border); }
+.modo-web .entrega-bloque .entrega-encabezado { margin-bottom: 2px; }
+.modo-web .datos-entrega .entrega-bloque h3 { font-family: 'Bebas Neue', sans-serif; font-weight: 400; font-size: 1.3rem; letter-spacing: 0.03em; color: var(--text); }
+.modo-web .datos-entrega .entrega-pago { gap: 12px; }
+.modo-web .entrega-bloque input,
+.modo-web .entrega-bloque select,
+.modo-web .entrega-bloque .pago-chip:not(.selected) { background: var(--bg); }
+.modo-web .datos-entrega label.entrega-check { margin-top: -4px; }
+.modo-web .list-web-actions { padding-top: 18px; }
+.modo-web .datos-entrega .entrega-encabezado h3 { white-space: nowrap; }
