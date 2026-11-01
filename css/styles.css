@@ -1275,3 +1275,14 @@ html { scroll-behavior: smooth; }
 .ruta-botones { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; }
 .ruta-botones .visit-btn-ruta { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 0; padding: 12px 10px; }
 .ruta-botones svg { flex: none; }
+
+/* Contacto: invitación a dejar una reseña en Google */
+.resena { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 22px 18px; text-align: center; }
+.resena-estrellas { display: flex; justify-content: center; gap: 4px; margin-bottom: 10px; }
+.resena-estrellas svg { fill: var(--gold); }
+.resena h2 { font-family: "Bebas Neue", sans-serif; font-weight: 400; font-size: 1.6rem; letter-spacing: 0.5px; margin-bottom: 4px; }
+.resena p { color: var(--muted); font-size: 0.92rem; margin-bottom: 14px; }
+.resena-btn { display: inline-block; padding: 13px 26px; border-radius: 12px; background: var(--gold); border: 1.5px solid var(--gold); color: #0a0a0a; font-weight: 700; font-size: 0.95rem; text-decoration: none; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+@media (min-width: 1024px) {
+  .pagina-contacto .visit-grid > .resena { grid-column: 1 / -1; justify-self: center; width: 100%; max-width: 560px; }
+}
