@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /menu
 
 Sitemap: https://www.elgrillhouse.com/sitemap.xml
