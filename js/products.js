@@ -21,6 +21,13 @@ const PRECIO_SALSA_EXTRA = 2000; // costo de cada salsa adicional
 
 const PRODUCTO_DEL_MES = {
   nombre: "Hamburguesa Transilvania",
+  // ETIQUETA TEMPORAL del botón rojo del banner (reemplaza a "Recomendada del mes"):
+  //   etiqueta:      el texto que se muestra.
+  //   etiquetaHasta: último día que se muestra, formato "AAAA-MM-DD" (hora de Colombia).
+  //                  Pasado ese día vuelve sola a "Recomendada del mes".
+  // Para usarla otra vez: cambiar el texto y la fecha. Para quitarla antes: borrar las dos líneas.
+  etiqueta: "Hasta el lunes 2 de nov",
+  etiquetaHasta: "2026-11-02",
   descripcion: "Pan brioche con ajonjolí negro, salsa alioli, lechuga fresca, tomate, carne de res de 180 g, queso cheddar, salsa cheddar y hongos de Drácula. Una combinación de sabores y texturas que convierte a Transilvania en la protagonista de octubre. Acompañada de papas a la francesa y dos salsas a elección.",
   precio: 30000,
   img: "assets/hamburguesa-transilvania.jpg",         // foto grande del banner (2:1)

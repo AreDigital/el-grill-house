@@ -42,6 +42,17 @@ function cargarLista() {
   } catch (e) {}
 }
 
+// Texto del botón rojo del banner: la etiqueta temporal de PRODUCTO_DEL_MES mientras no venza (hora de Colombia)
+function etiquetaBanner() {
+  const p = PRODUCTO_DEL_MES;
+  if (!p.etiqueta) return "Recomendada del mes";
+  if (!p.etiquetaHasta) return p.etiqueta;
+  let hoy;
+  try { hoy = new Date().toLocaleDateString("en-CA", { timeZone: "America/Bogota" }); }
+  catch (e) { const d = new Date(); hoy = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
+  return hoy <= p.etiquetaHasta ? p.etiqueta : "Recomendada del mes";
+}
+
 // ---------- render: banner promo (carrusel) ----------
 function renderPromo() {
   const track = document.getElementById("promo-track");
@@ -52,7 +63,7 @@ function renderPromo() {
     if (b.tipo === "producto") {
       overlay = `
       <div class="promo-overlay">
-        <span class="promo-eyebrow">Recomendada del mes</span>
+        <span class="promo-eyebrow">${etiquetaBanner()}</span>
         <h2>${PRODUCTO_DEL_MES.nombre}</h2>
         <span class="promo-price"><span class="promo-solo">Por solo</span> ${formatoPrecio(PRODUCTO_DEL_MES.precio)}</span>
       </div>`;
