@@ -570,6 +570,7 @@ function totalLista() {
 function renderCartBar() {
   const bar = document.getElementById("cart-bar");
   const count = state.lista.reduce((acc, l) => acc + l.cantidad, 0);
+  if (esPanelPC()) renderListSheet(); // en PC "Mi lista" está siempre visible a la derecha
 
   if (count === 0) {
     bar.hidden = true;
@@ -579,6 +580,12 @@ function renderCartBar() {
   bar.hidden = false;
   document.getElementById("cart-count").textContent = count;
   document.getElementById("cart-total").textContent = formatoPrecio(totalLista());
+}
+
+// PC (página web "/"): "Mi lista" va fija a la derecha. Celular, tablet y /menu no cambian.
+const MEDIA_PANEL_PC = window.matchMedia("(min-width: 1024px)");
+function esPanelPC() {
+  return window.MODO === "web" && MEDIA_PANEL_PC.matches;
 }
 
 // Si un mismo producto aparece en varias líneas (salsas distintas), se numera: "Costillera 1", "Costillera 2"
@@ -1018,6 +1025,10 @@ function renderListSheet() {
 
   configurarModoWeb();
   actualizarTotalLista();
+  if (esPanelPC()) {
+    document.getElementById("list-clear").hidden = state.lista.length === 0;
+    document.getElementById("list-total").hidden = state.lista.length === 0;
+  }
 }
 
 // ---------- footer ----------
@@ -1071,6 +1082,13 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   configurarFormularioEntrega();
+  renderCartBar(); // en PC pinta el panel "Mi lista" con el formulario ya listo
+  MEDIA_PANEL_PC.addEventListener("change", () => {
+    document.getElementById("list-clear").hidden = false;
+    document.getElementById("list-total").hidden = false;
+    cerrarSheet("list-sheet", "list-backdrop");
+    renderCartBar();
+  });
   revisarPedidoPendiente();
   window.addEventListener("pageshow", revisarPedidoPendiente);
   document.addEventListener("visibilitychange", () => { if (!document.hidden) revisarPedidoPendiente(); });

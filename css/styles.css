@@ -1286,3 +1286,32 @@ html { scroll-behavior: smooth; }
 @media (min-width: 1024px) {
   .pagina-contacto .visit-grid > .resena { grid-column: 1 / -1; justify-self: center; width: 100%; max-width: 560px; }
 }
+
+/* ============================================
+   Versión PC (nivel 2): "Mi lista" fija a la derecha, solo en la página "/".
+   Celular, tablet, /menu, Contacto y Nosotros no cambian.
+   ============================================ */
+@media (min-width: 1024px) {
+  body.modo-web:not(.pagina-contacto):not(.pagina-nosotros) { padding-right: 360px; }
+  .modo-web .cart-bar { display: none !important; }
+  .modo-web #list-backdrop { display: none; }
+  .modo-web #list-close { display: none; }
+  .modo-web #list-sheet {
+    top: 0; bottom: 0; right: 0; left: auto;
+    width: 360px; max-width: none; max-height: none; margin: 0;
+    transform: none; transition: none;
+    border-radius: 0; border-left: 1px solid var(--border);
+    box-shadow: none; z-index: 55;
+    padding-bottom: 0;
+  }
+  .modo-web #list-sheet .list-title { padding-top: 16px; }
+  /* Botones de pedir siempre visibles abajo mientras se llena el formulario */
+  .modo-web #list-sheet .list-web-actions {
+    position: sticky; bottom: 0; z-index: 1;
+    background: var(--bg-alt);
+    padding-bottom: 12px; margin-top: 4px;
+    border-top: 1px solid var(--border);
+  }
+  .modo-web #list-sheet .btn-clear { margin-bottom: 16px; }
+  .modo-web #list-sheet .btn-clear[hidden], .modo-web #list-sheet .list-total[hidden] { display: none; }
+}
