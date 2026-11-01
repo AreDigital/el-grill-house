@@ -41,8 +41,8 @@ const PRODUCTO_DEL_MES = {
 // banner libre (branding, promos de temporada) sin overlay ni acción.
 const BANNERS = [
   { tipo: "producto", img: PRODUCTO_DEL_MES.img },
-  { tipo: "imagen", img: "assets/banner-domicilios.jpg" },
-  { tipo: "imagen", img: "assets/banner-mas-alla.jpg" }
+  { tipo: "imagen", img: "assets/banner-mas-alla.jpg" },
+  { tipo: "imagen", img: "assets/banner-domicilios.jpg" }
 ];
 
 const RECOMENDADA = {
