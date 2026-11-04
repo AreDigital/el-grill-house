@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<base href="/">
+<meta name="robots" content="noindex">
+<title>Página no encontrada | El Grill House</title>
+<link rel="icon" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+<style>
+  body.pagina-404 { padding-bottom: 0; padding-right: 0 !important; min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; }
+  .e404 { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px 20px 60px; }
+  .e404-icono { width: min(230px, 58vw); height: auto; color: var(--text); margin-bottom: 26px; }
+  .e404-icono .chispa { color: var(--gold); }
+  .e404 h1 { font-family: 'Bebas Neue', sans-serif; font-weight: 400; font-size: clamp(2.2rem, 8vw, 3.4rem); line-height: 1; letter-spacing: 0.02em; }
+  .e404 p { color: var(--muted); font-size: clamp(1rem, 3.6vw, 1.2rem); margin-top: 10px; }
+  .e404-btn { display: inline-flex; align-items: center; gap: 12px; margin-top: 30px; padding: 14px 38px; border: 2.5px solid var(--red); border-radius: 999px; color: var(--text); text-decoration: none; font-weight: 700; font-size: 1rem; letter-spacing: 0.06em; text-transform: uppercase; touch-action: manipulation; -webkit-tap-highlight-color: transparent; transition: background .18s, color .18s; }
+  .e404-btn svg { transition: transform .18s; }
+  @media (hover: hover) and (pointer: fine) {
+    .e404-btn:hover { background: var(--red); color: #fff; }
+    .e404-btn:hover svg { transform: translateX(4px); }
+  }
+</style>
+</head>
+<body class="modo-web pagina-404">
+
+<header class="topbar">
+  <a href="/" class="topbar-home" aria-label="El Grill House, ir al inicio">
+    <img src="assets/logo.png" alt="" class="topbar-logo">
+    <span class="topbar-title">EL GRILL HOUSE</span>
+  </a>
+  <nav class="topbar-nav" aria-label="Principal">
+    <a href="/#carta">Menú</a>
+    <a href="/quienes-somos/">Nosotros</a>
+    <a href="/contacto/">Contacto</a>
+  </nav>
+</header>
+
+<main class="e404">
+  <svg class="e404-icono" viewBox="0 0 250 230" aria-hidden="true">
+    <g class="chispa" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round">
+      <line x1="206" y1="4" x2="209" y2="18"/>
+      <line x1="222" y1="24" x2="232" y2="14"/>
+      <line x1="228" y1="40" x2="242" y2="36"/>
+    </g>
+    <path d="M20 66 Q20 8 120 8 Q220 8 220 66 Q220 72 214 72 H26 Q20 72 20 66 Z" fill="none" stroke="currentColor" stroke-width="7" stroke-linejoin="round"/>
+    <text x="120" y="160" text-anchor="middle" fill="currentColor" font-family="'Bebas Neue', sans-serif" font-size="118" letter-spacing="2">404</text>
+    <path d="M20 180 H220 Q224 180 223 186 Q216 222 182 222 H58 Q24 222 17 186 Q16 180 20 180 Z" fill="none" stroke="currentColor" stroke-width="7" stroke-linejoin="round"/>
+  </svg>
+  <h1>¡Ups! Te saliste del menú.</h1>
+  <p>Vuelve a encontrar tu próximo antojo.</p>
+  <a class="e404-btn" href="/#carta">Ver menú
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
+  </a>
+</main>
+
+</body>
+</html>
