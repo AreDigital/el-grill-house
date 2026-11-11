@@ -26,6 +26,11 @@ const PRODUCTO_DEL_MES = {
   //   etiquetaHasta: último día que se muestra, formato "AAAA-MM-DD" (hora de Colombia).
   //                  Pasado ese día vuelve sola a "Recomendada del mes".
   // Para usarla otra vez: cambiar el texto y la fecha. Para quitarla antes: borrar las dos líneas.
+  // VIGENCIA DEL BANNER: último día que el banner de este producto aparece en el carrusel,
+  // formato "AAAA-MM-DD" (hora de Colombia). Pasado ese día se oculta solo; los datos quedan
+  // guardados. Cada mes: cambiar nombre, descripcion, imágenes y esta fecha (primera semana del mes siguiente).
+  // Para que no se oculte nunca: borrar la línea.
+  visibleHasta: "2026-11-07",
   etiqueta: "Hasta el lunes 2 de nov",
   etiquetaHasta: "2026-11-02",
   descripcion: "Pan brioche con ajonjolí negro, salsa alioli, lechuga fresca, tomate, carne de res de 180 g, queso cheddar, salsa cheddar y hongos de Drácula. Una combinación de sabores y texturas que convierte a Transilvania en la protagonista de octubre. Acompañada de papas a la francesa y dos salsas a elección.",

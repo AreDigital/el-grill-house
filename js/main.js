@@ -54,7 +54,22 @@ function etiquetaBanner() {
 }
 
 // ---------- render: banner promo (carrusel) ----------
+function hoyColombia() {
+  try { return new Date().toLocaleDateString("en-CA", { timeZone: "America/Bogota" }); }
+  catch (e) { const d = new Date(); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
+}
+
+// Quita del carrusel el banner del producto del mes cuando pasa su fecha visibleHasta
+function aplicarVigenciaBanners() {
+  const hasta = PRODUCTO_DEL_MES.visibleHasta;
+  if (!hasta || hoyColombia() <= hasta) return;
+  for (let i = BANNERS.length - 1; i >= 0; i--) {
+    if (BANNERS[i].tipo === "producto") BANNERS.splice(i, 1);
+  }
+}
+
 function renderPromo() {
+  aplicarVigenciaBanners();
   const track = document.getElementById("promo-track");
   const dots = document.getElementById("promo-dots");
 
